@@ -1,0 +1,177 @@
+using UnityEngine;
+
+public class AICarController : MonoBehaviour
+{
+    public float motorForce = 1500f;
+    public float brakeForce = 2000f;
+    public float maxSteerAngle = 30f;
+    public float waypointDistance = 5f;
+
+    public WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
+    public WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
+
+    public Transform frontLeftWheelTransform, frontRightWheelTransform;
+    public Transform rearLeftWheelTransform, rearRightWheelTransform;
+
+    private int currentWaypoint = 0;
+    private bool isGasPressed = false;
+
+    [Header("Score System")]
+    public int score = 0;
+
+    [Header("UI References")]
+    public GameObject questionPanel; // Assign in Inspector
+
+    [Header("Anti-Roll Settings")]
+    public float antiRoll = 5000.0f; // Strength of anti-roll
+    private Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center of mass for stability
+    }
+
+    private void FixedUpdate()
+    {
+        Steer();
+
+        if (isGasPressed)
+        {
+            ApplyMotorTorque(motorForce);
+            ApplyBrakeTorque(0f);
+        }
+        else
+        {
+            ApplyMotorTorque(0f);
+            ApplyBrakeTorque(brakeForce * 0.2f);
+        }
+
+        ApplyAntiRoll(frontLeftWheelCollider, frontRightWheelCollider);
+        ApplyAntiRoll(rearLeftWheelCollider, rearRightWheelCollider);
+
+        UpdateWheels();
+    }
+
+    private void ApplyAntiRoll(WheelCollider wheelL, WheelCollider wheelR)
+    {
+        WheelHit hit;
+        float travelL = 1.0f;
+        float travelR = 1.0f;
+
+        bool groundedL = wheelL.GetGroundHit(out hit);
+        if (groundedL)
+            travelL = (-wheelL.transform.InverseTransformPoint(hit.point).y - wheelL.radius) / wheelL.suspensionDistance;
+
+        bool groundedR = wheelR.GetGroundHit(out hit);
+        if (groundedR)
+            travelR = (-wheelR.transform.InverseTransformPoint(hit.point).y - wheelR.radius) / wheelR.suspensionDistance;
+
+        float antiRollForce = (travelL - travelR) * antiRoll;
+
+        if (groundedL)
+            rb.AddForceAtPosition(wheelL.transform.up * -antiRollForce, wheelL.transform.position);
+
+        if (groundedR)
+            rb.AddForceAtPosition(wheelR.transform.up * antiRollForce, wheelR.transform.position);
+    }
+
+    private void Steer()
+    {
+        if (WaypointManager.waypoints.Count == 0) return;
+
+        Vector3 relativeVector = transform.InverseTransformPoint(
+            WaypointManager.waypoints[currentWaypoint].position
+        );
+
+        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
+        frontLeftWheelCollider.steerAngle = newSteer;
+        frontRightWheelCollider.steerAngle = newSteer;
+
+        if (relativeVector.magnitude < waypointDistance)
+        {
+            currentWaypoint = (currentWaypoint + 1) % WaypointManager.waypoints.Count;
+        }
+    }
+
+    private void ApplyMotorTorque(float torque)
+    {
+        frontLeftWheelCollider.motorTorque = torque;
+        frontRightWheelCollider.motorTorque = torque;
+        rearLeftWheelCollider.motorTorque = torque;
+        rearRightWheelCollider.motorTorque = torque;
+    }
+
+    private void ApplyBrakeTorque(float torque)
+    {
+        frontLeftWheelCollider.brakeTorque = torque;
+        frontRightWheelCollider.brakeTorque = torque;
+        rearLeftWheelCollider.brakeTorque = torque;
+        rearRightWheelCollider.brakeTorque = torque;
+    }
+
+    private void UpdateWheels()
+    {
+        UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
+        UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
+        UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
+        UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
+    }
+
+    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
+    {
+        Vector3 pos;
+        Quaternion rot;
+        wheelCollider.GetWorldPose(out pos, out rot);
+        wheelTransform.position = pos;
+        wheelTransform.rotation = rot;
+    }
+
+    // UI Button Methods
+    public void GasPressed()
+    {
+        isGasPressed = true;
+    }
+
+    public void GasReleased()
+    {
+        isGasPressed = false;
+    }
+
+    // Trigger on hitting collectible cube
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Collectible"))
+        {
+            score++;
+            Destroy(other.gameObject);
+
+            ShowQuestion();
+        }
+    }
+
+    // Show question panel & pause
+    private void ShowQuestion()
+    {
+        if (questionPanel != null)
+        {
+            questionPanel.SetActive(true);
+            Time.timeScale = 0f; // Freeze game
+        }
+    }
+
+    // Call this when Correct button is pressed
+    public void OnCorrectAnswer()
+    {
+        if (questionPanel != null)
+        {
+            questionPanel.SetActive(false);
+            Time.timeScale = 1f; // Resume game
+
+
+
+
+        }
+    }
+}
+
