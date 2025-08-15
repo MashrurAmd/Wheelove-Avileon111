@@ -168,16 +168,6 @@ public class AICarController : MonoBehaviour
             questionPanel.SetActive(false);
             Time.timeScale = 1f; // Resume game
 
-
-
-
-
-        //            // Optionally, you can add logic to spawn a new collectible or update the score
-            Debug.Log("Correct Answer! Score: " + score);
-
-
-
-
         }
     }
 }
