@@ -171,6 +171,13 @@ public class AICarController : MonoBehaviour
 
 
 
+
+        //            // Optionally, you can add logic to spawn a new collectible or update the score
+            Debug.Log("Correct Answer! Score: " + score);
+
+
+
+
         }
     }
 }
