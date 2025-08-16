@@ -1,5 +1,6 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -29,18 +30,9 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        if (/*string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedRegion) ||
-            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedLanguage) ||
-            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedMode)*/
-            PlayerSettingsManager.Instance.IsFirstLaunch() )
+        if (PlayerSettingsManager.Instance.IsFirstLaunch())
         {
             ShowChooseRegion(false); // first launch, no back button
-        }
-        else if (string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedRegion) ||
-            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedLanguage) ||
-            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedMode))
-        {
-            ShowMainMenu();
         }
         else
         {
@@ -48,9 +40,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // ======================
     // REGION + LANGUAGE
-    // ======================
     public void ShowChooseRegion(bool fromMainMenu)
     {
         HideAll();
@@ -127,9 +117,7 @@ public class MenuManager : MonoBehaviour
             ShowChooseMode(false);
     }
 
-    // ======================
     // MODE
-    // ======================
     public void SetMode(int modeIndex)
     {
         PlayerSettingsManager.Instance.selectedMode = settingsData.modes[modeIndex];
@@ -151,9 +139,7 @@ public class MenuManager : MonoBehaviour
         modeBackButton.gameObject.SetActive(fromMainMenu);
     }
 
-    // ======================
     // MAIN MENU
-    // ======================
     public void ShowMainMenu()
     {
         HideAll();
@@ -181,5 +167,9 @@ public class MenuManager : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();
+    }
+    public void SwitchScreen(int screenId)
+    {
+        SceneManager.LoadScene(screenId);
     }
 }

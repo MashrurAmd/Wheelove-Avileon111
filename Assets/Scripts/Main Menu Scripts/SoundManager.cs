@@ -53,6 +53,7 @@ public class SoundManager : MonoBehaviour
 
         UpdateMusicButtonIcon();
         UpdateSoundEffectButtonIcon();
+        PlayerSettingsManager.Instance.Load();
     }
 
     void OnVolumeChanged(float value)
