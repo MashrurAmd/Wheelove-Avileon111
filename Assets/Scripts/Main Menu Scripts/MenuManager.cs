@@ -1,91 +1,167 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [Header("Config")]
-    public GameConfig config;
+    [Header("Config Data")]
+    public GameSettingsData settingsData; // ScriptableObject reference
 
     [Header("Panels")]
-
     public GameObject chooseRegionPanel;
     public GameObject chooseModePanel;
     public GameObject mainMenuPanel;
     public GameObject settingsPanel;
 
-    [Header("Main Menu UI")]
+    [Header("UI References")]
+    public TMP_Dropdown regionDropdown;
+    public TMP_Dropdown languageDropdown;
     public TMP_Text modeText;
     public TMP_Text regionText;
+    public TMP_Text languageText;
+
+    [Header("Back Buttons")]
+    public Button regionBackButton;
+    public Button modeBackButton;
+
+    private int currentRegionIndex = -1;
+    private bool comingFromMainMenu = false;
 
     private void Start()
     {
-        config.Load();
-
-        if (config.IsFirstLaunch())
+        if (/*string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedRegion) ||
+            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedLanguage) ||
+            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedMode)*/
+            PlayerSettingsManager.Instance.IsFirstLaunch() )
+        {
+            ShowChooseRegion(false); // first launch, no back button
+        }
+        else if (string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedRegion) ||
+            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedLanguage) ||
+            string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedMode))
         {
             ShowMainMenu();
-            //ShowChooseRegion();
         }
-        //else
-        //{
-            
-        //}
+        else
+        {
+            ShowMainMenu();
+        }
     }
 
-    // REGION SELECTION
-
-    public void SetRegion(int regionIndex)
+    // ======================
+    // REGION + LANGUAGE
+    // ======================
+    public void ShowChooseRegion(bool fromMainMenu)
     {
-        config.currentRegion = (GameRegion)regionIndex;
+        HideAll();
+        chooseRegionPanel.SetActive(true);
+        comingFromMainMenu = fromMainMenu;
+
+        // Show or hide back button
+        regionBackButton.gameObject.SetActive(fromMainMenu);
+
+        // Populate regions dropdown
+        regionDropdown.ClearOptions();
+        var regionNames = settingsData.regions.ConvertAll(r => r.regionName);
+        regionDropdown.AddOptions(regionNames);
+
+        // Listen for region change
+        regionDropdown.onValueChanged.RemoveAllListeners();
+        regionDropdown.onValueChanged.AddListener(OnRegionChanged);
+
+        // Preselect saved region if coming from main menu
+        if (fromMainMenu)
+        {
+            int savedRegionIndex = settingsData.regions.FindIndex(r => r.regionName == PlayerSettingsManager.Instance.selectedRegion);
+            if (savedRegionIndex >= 0)
+                regionDropdown.value = savedRegionIndex;
+            else
+                regionDropdown.value = 0;
+        }
+        else
+        {
+            regionDropdown.value = 0;
+        }
+
+        OnRegionChanged(regionDropdown.value);
     }
 
-    public void SetLanguage(string lang)
+    private void OnRegionChanged(int regionIndex)
     {
-        config.language = lang;
+        currentRegionIndex = regionIndex;
+        PlayerSettingsManager.Instance.selectedRegion = settingsData.regions[regionIndex].regionName;
+
+        // Update languages based on region
+        languageDropdown.ClearOptions();
+        languageDropdown.AddOptions(settingsData.regions[regionIndex].languages);
+
+        // Listen for language change
+        languageDropdown.onValueChanged.RemoveAllListeners();
+        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
+
+        // Preselect saved language if coming from main menu
+        if (comingFromMainMenu)
+        {
+            int savedLangIndex = settingsData.regions[regionIndex].languages.FindIndex(l => l == PlayerSettingsManager.Instance.selectedLanguage);
+            languageDropdown.value = savedLangIndex >= 0 ? savedLangIndex : 0;
+        }
+        else
+        {
+            languageDropdown.value = 0;
+            PlayerSettingsManager.Instance.selectedLanguage = settingsData.regions[regionIndex].languages[0];
+        }
+    }
+
+    private void OnLanguageChanged(int languageIndex)
+    {
+        PlayerSettingsManager.Instance.selectedLanguage =
+            settingsData.regions[currentRegionIndex].languages[languageIndex];
     }
 
     public void ConfirmRegionAndLanguage()
     {
-        ShowChooseMode();
+        PlayerSettingsManager.Instance.Save();
+        if (comingFromMainMenu)
+            ShowMainMenu();
+        else
+            ShowChooseMode(false);
     }
 
-    
-    // MODE SELECTION
-    
+    // ======================
+    // MODE
+    // ======================
     public void SetMode(int modeIndex)
     {
-        config.currentMode = (GameMode)modeIndex;
-        config.Save();
-        ShowMainMenu();
+        PlayerSettingsManager.Instance.selectedMode = settingsData.modes[modeIndex];
+        PlayerSettingsManager.Instance.Save();
+
+        if (comingFromMainMenu)
+            ShowMainMenu();
+        else
+            ShowMainMenu();
     }
 
-    // UI NAVIGATION
-
-    public void ShowChooseRegion()
-    {
-        HideAll();
-        chooseRegionPanel.SetActive(true);
-    }
-
-    public void ShowChooseMode()
+    public void ShowChooseMode(bool fromMainMenu)
     {
         HideAll();
         chooseModePanel.SetActive(true);
+        comingFromMainMenu = fromMainMenu;
+
+        // Show or hide back button
+        modeBackButton.gameObject.SetActive(fromMainMenu);
     }
 
+    // ======================
+    // MAIN MENU
+    // ======================
     public void ShowMainMenu()
     {
         HideAll();
         mainMenuPanel.SetActive(true);
-        modeText.text = $"Current Mode: {config.currentMode}";
-        regionText.text = $"Current Region: {config.currentRegion}";
-    }
 
-    public void PlayGame(int sceneIndex)
-    {
-        HideAll();
-        SceneManager.LoadScene(sceneIndex);
+        regionText.text = $"Region: {PlayerSettingsManager.Instance.selectedRegion}";
+        modeText.text = $"Mode: {PlayerSettingsManager.Instance.selectedMode}";
+        languageText.text = $"Language: {PlayerSettingsManager.Instance.selectedLanguage}";
     }
 
     public void ShowSettings()
