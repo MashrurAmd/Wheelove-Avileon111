@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ public class SoundManager : MonoBehaviour
     public Image musicOffIcon;
     public Image soundEffectOnIcon;
     public Image soundEffectOffIcon;
+
+    [Header("Button Texts")]
+    public TMP_Text musicButtonText;
+    public TMP_Text soundEffectButtonText;
 
     private bool muted = false;
     private bool soundMuted = false;
@@ -74,6 +79,9 @@ public class SoundManager : MonoBehaviour
     {
         musicOnIcon.enabled = !muted;
         musicOffIcon.enabled = muted;
+
+        if (musicButtonText != null)
+            musicButtonText.text = muted ? "OFF" : "ON";
     }
 
     public void OnSoundEffectButtonPrees()
@@ -88,6 +96,11 @@ public class SoundManager : MonoBehaviour
     {
         soundEffectOnIcon.enabled = !soundMuted;
         soundEffectOffIcon.enabled = soundMuted;
+
+        if (soundEffectButtonText != null)
+        {
+            soundEffectButtonText.text = soundMuted ? "Off" : "ON";
+        }
     }
 
     public void SoundEffectButton()

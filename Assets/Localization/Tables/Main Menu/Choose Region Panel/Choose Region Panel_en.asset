@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Choose Region Panel_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: dd0ef75b035c43849bcea24894d737d3, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 16854065152
+    m_Localized: Choose the Region
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517947564032
+    m_Localized: Choose the Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1114478256128
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1172422565888
+    m_Localized: Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1853715947520
+    m_Localized: Israel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1859755745280
+    m_Localized: USA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2462120714240
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2497461919744
+    m_Localized: Hebrew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2531045711872
+    m_Localized: Arabic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2536045322240
+    m_Localized: Amharic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2538494795776
+    m_Localized: Simplified Chinese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2604089516032
+    m_Localized: Russian
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2819982925824
+    m_Localized: Latin American Spanish
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

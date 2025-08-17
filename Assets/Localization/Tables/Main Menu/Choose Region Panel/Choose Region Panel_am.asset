@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Choose Region Panel_am
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: am
+  m_SharedData: {fileID: 11400000, guid: dd0ef75b035c43849bcea24894d737d3, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 16854065152
+    m_Localized: "\u12AD\u120D\u120D \u12ED\u121D\u1228\u1321"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517947564032
+    m_Localized: "\u124B\u1295\u124B\u12CD\u1295 \u12ED\u121D\u1228\u1321"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1114478256128
+    m_Localized: "\u1270\u1218\u1208\u1235"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1172422565888
+    m_Localized: "\u12A0\u1228\u130B\u130D\u1325"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1859755745280
+    m_Localized: "\u12A0\u121C\u122A\u12AB"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1853715947520
+    m_Localized: "\u12A5\u1235\u122B\u12A4\u120D"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2462120714240
+    m_Localized: "\u12A5\u1295\u130D\u120A\u12DD\u129B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2497461919744
+    m_Localized: "\u1202\u1265\u1229"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2531045711872
+    m_Localized: "\u12A0\u1228\u1265\u129B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2536045322240
+    m_Localized: "\u12A0\u121B\u122D\u129B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2538494795776
+    m_Localized: "\u1240\u120B\u120D \u127B\u12ED\u1295\u129B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2604089516032
+    m_Localized: "\u122B\u123A\u12EB\u129B"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2819982925824
+    m_Localized: "\u12E8\u120B\u1272\u1295 \u12A0\u121C\u122A\u12AB \u1235\u1353\u1292\u123D"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

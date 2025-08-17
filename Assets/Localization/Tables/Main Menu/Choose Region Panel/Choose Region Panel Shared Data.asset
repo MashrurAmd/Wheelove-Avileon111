@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Choose Region Panel Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Choose Region Panel
+  m_TableCollectionNameGuidString: dd0ef75b035c43849bcea24894d737d3
+  m_Entries:
+  - m_Id: 16854065152
+    m_Key: Region.ChooseRegionText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 517947564032
+    m_Key: Region.ChooseLanguageText
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1114478256128
+    m_Key: Region.Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1172422565888
+    m_Key: Region.Confirm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1853715947520
+    m_Key: Region.Israel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1859755745280
+    m_Key: Region.USA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2462120714240
+    m_Key: Region.English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2497461919744
+    m_Key: Region.Hebrew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2531045711872
+    m_Key: Region.Arabic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2536045322240
+    m_Key: Region.Amharic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2538494795776
+    m_Key: Region.SimChinese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2604089516032
+    m_Key: Region.Russian
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2819982925824
+    m_Key: Region.LASpanish
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3276570330998767666
+  references:
+    version: 2
+    RefIds:
+    - rid: 3276570330998767666
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1755429990981
