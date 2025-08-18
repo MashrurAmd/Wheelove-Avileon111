@@ -145,9 +145,9 @@ public class MenuManager : MonoBehaviour
         HideAll();
         mainMenuPanel.SetActive(true);
 
-        regionText.text = $"Region: {PlayerSettingsManager.Instance.selectedRegion}";
-        modeText.text = $"Mode: {PlayerSettingsManager.Instance.selectedMode}";
-        languageText.text = $"Language: {PlayerSettingsManager.Instance.selectedLanguage}";
+        regionText.text = $"Current Region: {PlayerSettingsManager.Instance.selectedRegion}";
+        modeText.text = $"Current Mode: {PlayerSettingsManager.Instance.selectedMode}";
+        languageText.text = $"Current Language: {PlayerSettingsManager.Instance.selectedLanguage}";
     }
 
     public void ShowSettings()
