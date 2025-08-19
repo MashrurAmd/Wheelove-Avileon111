@@ -26,10 +26,16 @@ public class AICarController : MonoBehaviour
     public float antiRoll = 5000.0f; // Strength of anti-roll
     private Rigidbody rb;
 
+    public static bool isCarMoving = false; // New flag
+    private GasBar gasBar; // Reference to GasBar
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center of mass for stability
+        rb.centerOfMass = new Vector3(0, -0.5f, 0);
+
+        gasBar = FindObjectOfType<GasBar>(); // Get reference automatically
     }
 
     private void FixedUpdate()
@@ -38,11 +44,13 @@ public class AICarController : MonoBehaviour
 
         if (isGasPressed)
         {
+            isCarMoving = true;
             ApplyMotorTorque(motorForce);
             ApplyBrakeTorque(0f);
         }
         else
         {
+            isCarMoving = false;
             ApplyMotorTorque(0f);
             ApplyBrakeTorque(brakeForce * 0.2f);
         }
@@ -51,6 +59,11 @@ public class AICarController : MonoBehaviour
         ApplyAntiRoll(rearLeftWheelCollider, rearRightWheelCollider);
 
         UpdateWheels();
+
+
+
+
+
     }
 
     private void ApplyAntiRoll(WheelCollider wheelL, WheelCollider wheelR)
@@ -168,8 +181,10 @@ public class AICarController : MonoBehaviour
         if (questionPanel != null)
         {
             questionPanel.SetActive(false);
-            Time.timeScale = 1f; // Resume game
+            Time.timeScale = 1f;
 
+            if (gasBar != null)
+                gasBar.AddGas(0.1f); // Add 10% fuel
         }
     }
 }
