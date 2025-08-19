@@ -17,14 +17,9 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 89d68552ddd1f05479596ccae0b581be
   m_SerializeEntries:
-  - m_GUID: 84818e83e3e0b4649a754ed203440d8a
-    m_Address: Assets/Localization/Tables/Menu Labels Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd0ef75b035c43849bcea24894d737d3
-    m_Address: Assets/Localization/Tables/Main Menu/Choose Region Panel/Choose Region
-      Panel Shared Data.asset
+    m_Address: ' Panel Shared Data.assetation/Tables/Main Menu/Choose Region Panel/Choose
+      Region Panel Shared Data.asset'
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

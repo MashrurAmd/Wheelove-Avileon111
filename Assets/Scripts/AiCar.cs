@@ -144,7 +144,9 @@ public class AICarController : MonoBehaviour
         if (other.CompareTag("Collectible"))
         {
             score++;
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
+            //other.gameObject.GetComponentInChildren<GameObject>().SetActive(false);
 
             ShowQuestion();
         }

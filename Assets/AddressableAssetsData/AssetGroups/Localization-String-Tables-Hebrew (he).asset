@@ -17,13 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c0e90203b66c6bc4f80f3728a73cc2b0
   m_SerializeEntries:
-  - m_GUID: 00e023a2eef872f498855293e10e8a20
-    m_Address: Menu Panel_he
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-he
-    - Preload
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6b5d29e207de2f14482720311012baf4
     m_Address: Choose Region Panel_he
     m_ReadOnly: 1
