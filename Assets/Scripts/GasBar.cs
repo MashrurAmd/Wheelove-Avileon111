@@ -6,7 +6,8 @@ public class GasBar : MonoBehaviour
     public Image gasFill;         // Assign your GasBar image here in Inspector
     public float maxGas = 1f;     // Full tank = 1 (100%)
     public float currentGas = 1f; // Start with full gas
-    public float gasConsumptionRate = 0.05f; // Per second when moving
+    public float gasConsumptionRate = 0.00001f; // Per second when moving
+    public float refilAmount = 0.3f;
 
 
 

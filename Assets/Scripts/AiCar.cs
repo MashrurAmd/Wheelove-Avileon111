@@ -13,6 +13,8 @@ public class AICarController : MonoBehaviour
     public Transform frontLeftWheelTransform, frontRightWheelTransform;
     public Transform rearLeftWheelTransform, rearRightWheelTransform;
 
+    //public float refilAmount = 0.3f;
+
     private int currentWaypoint = 0;
     private bool isGasPressed = false;
 
@@ -184,7 +186,7 @@ public class AICarController : MonoBehaviour
             Time.timeScale = 1f;
 
             if (gasBar != null)
-                gasBar.AddGas(0.1f); // Add 10% fuel
+                gasBar.AddGas(gasBar.refilAmount); // Add 10% fuel
         }
     }
 }
