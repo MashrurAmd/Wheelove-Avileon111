@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AnswerManager : MonoBehaviour
 {
@@ -16,13 +16,16 @@ public class AnswerManager : MonoBehaviour
     // Call this from your "Correct" button
     public void OnCorrectAnswer()
     {
-        //wrongAnswerCount = 0; // reset for next question
-
         if (gasBar != null)
             gasBar.AddGas(0.1f); // reward fuel
 
         if (car != null)
-            car.ResumeDriving(); // close question panel & continue
+        {
+            car.DismissCollectible();   
+            car.ResumeDriving();        
+        }
+
+        
     }
 
     // Call this from your "Wrong" button

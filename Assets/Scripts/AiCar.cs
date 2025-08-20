@@ -7,6 +7,8 @@ public class AICarController : MonoBehaviour
     public float maxSteerAngle = 30f;
     public float waypointDistance = 5f;
 
+    private GameObject currentCollectible;
+
     public WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     public WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
 
@@ -144,8 +146,18 @@ public class AICarController : MonoBehaviour
         if (other.CompareTag("Collectible"))
         {
             score++;
-            other.gameObject.SetActive(false);
+            currentCollectible = other.gameObject; // store collectible
             ShowQuestion();
+        }
+    }
+
+    // Add helper for AnswerManager
+    public void DismissCollectible()
+    {
+        if (currentCollectible != null)
+        {
+            currentCollectible.SetActive(false);
+            currentCollectible = null;
         }
     }
 
@@ -158,18 +170,6 @@ public class AICarController : MonoBehaviour
         }
     }
 
-    // ✅ Correct Answer → add fuel
-    public void OnCorrectAnswer()
-    {
-        if (questionPanel != null)
-        {
-            questionPanel.SetActive(false);
-            Time.timeScale = 1f;
-
-            if (gasBar != null)
-                gasBar.AddGas(0.1f);
-        }
-    }
 
 
     // Add these inside AICarController class
