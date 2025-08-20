@@ -14,13 +14,12 @@ public class QuestionManager : MonoBehaviour
     public List<Toggle> optionToggles; // 3 toggles
     public List<Text> optionLabels; // option texts
     public Button confirmButton;
-    public ToggleGroup toggleGroup;
 
     [Header("Gameplay References")]
     private AICarController car;
     private GasBar gasBar;
 
-    private int currentQuestionIndex = -1;
+    private int currentQuestionIndex = 0;
     private int wrongAnswerCount = 0;
 
     private void Start()
@@ -39,7 +38,7 @@ public class QuestionManager : MonoBehaviour
 
         if (currentQuestionIndex >= questionData.questionAnswers.Count)
         {
-            Debug.Log("All questions completed!");
+            //Debug.Log("All questions completed!");
             return;
         }
 
@@ -80,6 +79,7 @@ public class QuestionManager : MonoBehaviour
                 break;
             }
         }
+        
 
         if (selected == null)
         {
@@ -91,9 +91,16 @@ public class QuestionManager : MonoBehaviour
         string correctAnswer = questionData.questionAnswers[currentQuestionIndex].answers;
 
         if (selectedAnswer == correctAnswer)
+        {
             OnCorrectAnswer();
+            Debug.Log("Currect Answer!");
+        }
+            
         else
+        {
             OnWrongAnswer();
+            Debug.Log("Wrong Answer!");
+        }
     }
 
     private void OnCorrectAnswer()
@@ -104,25 +111,45 @@ public class QuestionManager : MonoBehaviour
         if (car != null)
             car.ResumeDriving();
 
-        questionPanel.SetActive(false);
+        //questionPanel.SetActive(false);
     }
 
     private void OnWrongAnswer()
     {
+        //wrongAnswerCount++;
+
+        //if (car == null) return;
+
+        //if (wrongAnswerCount == 1)
+        //    car.MoveBackWaypoints(1);
+        //else if (wrongAnswerCount == 2)
+        //    car.MoveBackWaypoints(2);
+        //else if (wrongAnswerCount >= 3)
+        //{
+        //    car.RespawnAtStart();
+        //    wrongAnswerCount = 0;
+        //}
+
+        //questionPanel.SetActive(false);
+
         wrongAnswerCount++;
 
         if (car == null) return;
 
         if (wrongAnswerCount == 1)
+        {
             car.MoveBackWaypoints(1);
+        }
         else if (wrongAnswerCount == 2)
+        {
             car.MoveBackWaypoints(2);
+        }
         else if (wrongAnswerCount >= 3)
         {
             car.RespawnAtStart();
             wrongAnswerCount = 0;
         }
 
-        questionPanel.SetActive(false);
+
     }
 }

@@ -15,8 +15,6 @@ public class AnswerManager : MonoBehaviour
     {
         car = FindObjectOfType<AICarController>();
         gasBar = FindObjectOfType<GasBar>();
-
-
     }
 
     // Call this from your "Correct" button
