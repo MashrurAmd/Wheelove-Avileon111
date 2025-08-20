@@ -170,5 +170,59 @@ public class AICarController : MonoBehaviour
                 gasBar.AddGas(0.1f);
         }
     }
+
+
+    // Add these inside AICarController class
+    public void ResumeDriving()
+    {
+        if (questionPanel != null)
+        {
+            questionPanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void MoveBackWaypoints(int steps)
+    {
+        currentWaypoint = Mathf.Max(0, currentWaypoint - steps);
+
+        // Snap car to that waypoint
+        Transform target = WaypointManager.waypoints[currentWaypoint];
+        transform.position = target.position;
+        transform.rotation = target.rotation;
+
+        // Reset car velocity
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        ResumeDriving();
+    }
+
+    public void RespawnAtStart()
+    {
+        if (gasBar != null && gasBar.startPoint != null)
+        {
+            transform.position = gasBar.startPoint.position;
+            transform.rotation = gasBar.startPoint.rotation;
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            ResumeDriving();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
