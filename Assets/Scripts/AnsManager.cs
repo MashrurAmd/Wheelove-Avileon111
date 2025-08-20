@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class AnswerManager : MonoBehaviour
 {
     public QuestionData questionData; // Reference to your QuestionData scriptable object
-    public Toggle optionsToggleGroup; // Reference to the ToggleGroup containing answer options
+    public ToggleGroup optionsToggleGroup; // Reference to the ToggleGroup containing answer options
 
     private AICarController car;
     private GasBar gasBar;

@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: QuestionData
   m_EditorClassIdentifier: 
   questionAnswers:
+  - questions: What should you do at a pedestrian crossing?
+    options:
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
   - questions: What does a red traffic light mean?
     options:
     - Slow down
     - Go
     - Stop
     answers: Go
-  - questions: What should you do at a pedestrian crossing?
-    options:
-    - Speed up
-    - Stop for pedestrians
-    - Honk and continue
-    answers: 
   - questions: What is the maximum speed in a school zone?
     options:
     - 30 km/h
