@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd4f41b48b288441aed01330a53bd97, type: 3}
+  m_Name: QuestionData
+  m_EditorClassIdentifier: 
+  questionAnswers:
+  - questions: What does a red traffic light mean?
+    options:
+    - Slow down
+    - Go
+    - Stop
+    answers: Go
+  - questions: What should you do at a pedestrian crossing?
+    options:
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: 
+  - questions: What is the maximum speed in a school zone?
+    options:
+    - 30 km/h
+    - 50 km/h
+    - 80 km/h
+    answers: 30 km/h
