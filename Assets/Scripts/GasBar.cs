@@ -1,31 +1,62 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GasBar : MonoBehaviour
 {
-    public Image gasFill;         // Assign your GasBar image here in Inspector
-    public float maxGas = 1f;     // Full tank = 1 (100%)
-    public float currentGas = 1f; // Start with full gas
-    public float gasConsumptionRate = 0.00001f; // Per second when moving
-    public float refilAmount = 0.3f;
+    public Image gasFill;          // Drag your UI Image (Gas Bar) here
+    public float maxGas = 1f;      // 1 = full tank
+    public float currentGas = 1f;  // starts full
+    public float gasConsumptionRate = 0.01f; // decrease speed per sec
 
+    [Header("Respawn Settings")]
+    public Transform startPoint;   // Drag an Empty GameObject at start
+    private AICarController car;   // Reference to car
 
+    void Start()
+    {
+        car = FindObjectOfType<AICarController>();
+        gasFill.fillAmount = currentGas;
+    }
 
     void Update()
     {
-        // Reduce gas if car is moving
         if (AICarController.isCarMoving)
         {
             currentGas -= gasConsumptionRate * Time.deltaTime;
             currentGas = Mathf.Clamp01(currentGas);
             gasFill.fillAmount = currentGas;
+
+            // 🚨 Out of gas → respawn
+            if (currentGas <= 0f)
+            {
+                RespawnCar();
+            }
         }
     }
 
-    // Called from AICarController when correct answer is confirmed
     public void AddGas(float amount)
     {
         currentGas = Mathf.Clamp01(currentGas + amount);
         gasFill.fillAmount = currentGas;
     }
+
+    private void RespawnCar()
+    {
+        if (startPoint != null && car != null)
+        {
+            // Reset car position + rotation
+            car.transform.position = startPoint.position;
+            car.transform.rotation = startPoint.rotation;
+
+            // Reset physics
+            Rigidbody rb = car.GetComponent<Rigidbody>();
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            // Refill gas
+            currentGas = maxGas;
+            gasFill.fillAmount = currentGas;
+        }
+    }
 }
+

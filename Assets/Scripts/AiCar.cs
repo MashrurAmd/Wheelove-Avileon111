@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AICarController : MonoBehaviour
 {
@@ -13,8 +13,6 @@ public class AICarController : MonoBehaviour
     public Transform frontLeftWheelTransform, frontRightWheelTransform;
     public Transform rearLeftWheelTransform, rearRightWheelTransform;
 
-    //public float refilAmount = 0.3f;
-
     private int currentWaypoint = 0;
     private bool isGasPressed = false;
 
@@ -25,19 +23,19 @@ public class AICarController : MonoBehaviour
     public GameObject questionPanel; // Assign in Inspector
 
     [Header("Anti-Roll Settings")]
-    public float antiRoll = 5000.0f; // Strength of anti-roll
+    public float antiRoll = 5000.0f;
     private Rigidbody rb;
 
-    public static bool isCarMoving = false; // New flag
-    private GasBar gasBar; // Reference to GasBar
-
+    // 🔹 Gas system
+    public static bool isCarMoving = false;
+    private GasBar gasBar;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
 
-        gasBar = FindObjectOfType<GasBar>(); // Get reference automatically
+        gasBar = FindObjectOfType<GasBar>();
     }
 
     private void FixedUpdate()
@@ -61,11 +59,6 @@ public class AICarController : MonoBehaviour
         ApplyAntiRoll(rearLeftWheelCollider, rearRightWheelCollider);
 
         UpdateWheels();
-
-
-
-
-
     }
 
     private void ApplyAntiRoll(WheelCollider wheelL, WheelCollider wheelR)
@@ -143,41 +136,29 @@ public class AICarController : MonoBehaviour
     }
 
     // UI Button Methods
-    public void GasPressed()
-    {
-        isGasPressed = true;
-    }
+    public void GasPressed() => isGasPressed = true;
+    public void GasReleased() => isGasPressed = false;
 
-    public void GasReleased()
-    {
-        isGasPressed = false;
-    }
-
-    // Trigger on hitting collectible cube
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Collectible"))
         {
             score++;
-            //Destroy(other.gameObject);
             other.gameObject.SetActive(false);
-            //other.gameObject.GetComponentInChildren<GameObject>().SetActive(false);
-
             ShowQuestion();
         }
     }
 
-    // Show question panel & pause
     private void ShowQuestion()
     {
         if (questionPanel != null)
         {
             questionPanel.SetActive(true);
-            Time.timeScale = 0f; // Freeze game
+            Time.timeScale = 0f;
         }
     }
 
-    // Call this when Correct button is pressed
+    // ✅ Correct Answer → add fuel
     public void OnCorrectAnswer()
     {
         if (questionPanel != null)
@@ -186,7 +167,7 @@ public class AICarController : MonoBehaviour
             Time.timeScale = 1f;
 
             if (gasBar != null)
-                gasBar.AddGas(gasBar.refilAmount); // Add 10% fuel
+                gasBar.AddGas(0.1f);
         }
     }
 }
