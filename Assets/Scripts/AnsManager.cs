@@ -29,7 +29,7 @@ public class AnswerManager : MonoBehaviour
 
         if (car != null)
         {
-            car.DismissCollectible();  // ✅ remove collectible only if correct
+            car.DismissCollectible();  // remove collectible only if correct
             car.ResumeDriving();       // close question panel & continue
         }
     }
