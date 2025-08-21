@@ -19,6 +19,9 @@ public class QuestionManager : MonoBehaviour
     private int currentQuestionIndex = -1;
     private int activeCheckpointIndex = -1;
 
+    private AICarController car;
+    private GasBar gasBar;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -27,6 +30,9 @@ public class QuestionManager : MonoBehaviour
     private void Start()
     {
         confirmButton.onClick.AddListener(CheckAnswer);
+
+        car = FindObjectOfType<AICarController>();
+        gasBar = FindObjectOfType<GasBar>();
     }
 
     public void ShowQuestion(int index)
@@ -78,17 +84,21 @@ public class QuestionManager : MonoBehaviour
         }
         if (selectedOption == qa.answers)
         {
-            Debug.Log("✅ Correct Answer!");
+            Debug.Log("Correct Answer!");
             questionPanel.SetActive(false);
 
+            if (gasBar != null) 
+                gasBar.AddGas(gasBar.gasFillAmount); // reward fuel
+
             // Resume car
-            AICarController car = FindObjectOfType<AICarController>();
-            if (car != null) car.ResumeDriving();
+            //AICarController car = FindObjectOfType<AICarController>();
+            if (car != null) 
+                car.ResumeDriving();
 
             // Disable collectible/checkpoint
-            if (car != null) car.DismissCollectible();
+            if (car != null) 
+                car.DismissCollectible();
         }
-
         else
         {
             Debug.Log("❌ Wrong Answer! Try again.");

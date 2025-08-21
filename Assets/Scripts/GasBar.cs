@@ -3,10 +3,11 @@ using UnityEngine.UI;
 
 public class GasBar : MonoBehaviour
 {
-    public Image gasFill;          // Drag your UI Image (Gas Bar) here
+    public Image gasBarImage;          // Drag your UI Image (Gas Bar) here
     public float maxGas = 1f;      // 1 = full tank
     public float currentGas = 1f;  // starts full
     public float gasConsumptionRate = 0.01f; // decrease speed per sec
+    public float gasFillAmount;
 
     [Header("Respawn Settings")]
     public Transform startPoint;   // Drag an Empty GameObject at start
@@ -15,7 +16,7 @@ public class GasBar : MonoBehaviour
     void Start()
     {
         car = FindObjectOfType<AICarController>();
-        gasFill.fillAmount = currentGas;
+        gasBarImage.fillAmount = currentGas;
     }
 
     void Update()
@@ -24,7 +25,7 @@ public class GasBar : MonoBehaviour
         {
             currentGas -= gasConsumptionRate * Time.deltaTime;
             currentGas = Mathf.Clamp01(currentGas);
-            gasFill.fillAmount = currentGas;
+            gasBarImage.fillAmount = currentGas;
 
             // 🚨 Out of gas → respawn
             if (currentGas <= 0f)
@@ -37,7 +38,7 @@ public class GasBar : MonoBehaviour
     public void AddGas(float amount)
     {
         currentGas = Mathf.Clamp01(currentGas + amount);
-        gasFill.fillAmount = currentGas;
+        gasBarImage.fillAmount = currentGas;
     }
 
     private void RespawnCar()
@@ -55,7 +56,7 @@ public class GasBar : MonoBehaviour
 
             // Refill gas
             currentGas = maxGas;
-            gasFill.fillAmount = currentGas;
+            gasBarImage.fillAmount = currentGas;
         }
     }
 }
