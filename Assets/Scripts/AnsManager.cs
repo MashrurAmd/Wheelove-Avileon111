@@ -5,6 +5,9 @@ public class AnswerManager : MonoBehaviour
 {
     public QuestionData questionData; // Reference to your QuestionData scriptable object
     public ToggleGroup optionsToggleGroup; // Reference to the ToggleGroup containing answer options
+    public Toggle Toggle;
+
+
 
     private AICarController car;
     private GasBar gasBar;

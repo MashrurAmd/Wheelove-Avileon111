@@ -18,6 +18,11 @@ public class AICarController : MonoBehaviour
     private int currentWaypoint = 0;
     private bool isGasPressed = false;
 
+    //added new
+    private QuestionManager questionManager;
+    private int currentQuestionIndex = 0;
+
+
     [Header("Score System")]
     public int score = 0;
 
@@ -38,6 +43,7 @@ public class AICarController : MonoBehaviour
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
 
         gasBar = FindObjectOfType<GasBar>();
+        questionManager = FindObjectOfType<QuestionManager>();
     }
 
     private void FixedUpdate()
@@ -147,7 +153,20 @@ public class AICarController : MonoBehaviour
         {
             score++;
             currentCollectible = other.gameObject; // store collectible
-            ShowQuestion();
+            //ShowQuestion();
+
+            //added new
+            if (questionManager != null)
+            {
+                questionManager.ShowQuestion(currentQuestionIndex);
+
+                // Stop car & freeze game until answered
+                isGasPressed = false;
+                rb.velocity = Vector3.zero;
+                Time.timeScale = 0f;
+            }
+
+            currentQuestionIndex++;
         }
     }
 
@@ -161,14 +180,14 @@ public class AICarController : MonoBehaviour
         }
     }
 
-    private void ShowQuestion()
-    {
-        if (questionPanel != null)
-        {
-            questionPanel.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
+    //private void ShowQuestion()
+    //{
+    //    if (questionPanel != null)
+    //    {
+    //        questionPanel.SetActive(true);
+    //        Time.timeScale = 0f;
+    //    }
+    //}
 
 
 
@@ -211,18 +230,5 @@ public class AICarController : MonoBehaviour
             ResumeDriving();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

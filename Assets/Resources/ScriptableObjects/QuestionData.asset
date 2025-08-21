@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: QuestionData
   m_EditorClassIdentifier: 
   questionAnswers:
+  - questions: What is the maximum speed in a school zone?
+    options:
+    - 30 km/h
+    - 50 km/h
+    - 80 km/h
+    answers: 30 km/h
   - questions: What should you do at a pedestrian crossing?
     options:
     - Speed up
@@ -24,10 +30,58 @@ MonoBehaviour:
     - Slow down
     - Go
     - Stop
-    answers: Go
+    answers: Stop
+  - questions: What should you do at a pedestrian crossing?
+    options:
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
   - questions: What is the maximum speed in a school zone?
     options:
+    - 80 km/h
     - 30 km/h
     - 50 km/h
-    - 80 km/h
     answers: 30 km/h
+  - questions: What does a red traffic light mean?
+    options:
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
+  - questions: What is the maximum speed in a school zone?
+    options:
+    - 80 km/h
+    - 30 km/h
+    - 50 km/h
+    answers: 30 km/h
+  - questions: What should you do at a pedestrian crossing?
+    options:
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
+  - questions: What is the maximum speed in a school zone?
+    options:
+    - 80 km/h
+    - 50 km/h
+    - 30 km/h
+    answers: 30 km/h
+  - questions: What does a red traffic light mean?
+    options:
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
+  - questions: What should you do at a pedestrian crossing?
+    options:
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
+  - questions: What does a red traffic light mean?
+    options:
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
