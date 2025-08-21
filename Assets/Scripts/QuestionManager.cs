@@ -19,6 +19,8 @@ public class QuestionManager : MonoBehaviour
     private int currentQuestionIndex = -1;
     private int activeCheckpointIndex = -1;
 
+    [SerializeField] private int wrongAnswerCount = 0;
+
     private AICarController car;
     private GasBar gasBar;
 
@@ -101,7 +103,25 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("❌ Wrong Answer! Try again.");
+            wrongAnswerCount++;
+
+            if (car == null) return;
+
+            if (wrongAnswerCount == 1)
+            {
+                car.MoveBackWaypoints(1);
+            }
+            else if (wrongAnswerCount == 2)
+            {
+                car.MoveBackWaypoints(2);
+            }
+            else if (wrongAnswerCount >= 3)
+            {
+                car.RespawnAtStart();
+                wrongAnswerCount = 0;
+            }
+
+            Debug.Log("Wrong Answer!");
         }
     }
 }
