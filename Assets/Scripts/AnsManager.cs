@@ -7,8 +7,6 @@ public class AnswerManager : MonoBehaviour
     public ToggleGroup optionsToggleGroup; // Reference to the ToggleGroup containing answer options
     public Toggle Toggle;
 
-
-
     private AICarController car;
     private GasBar gasBar;
 
