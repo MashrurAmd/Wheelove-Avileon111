@@ -18,22 +18,17 @@ public class AICarController : MonoBehaviour
     private int currentWaypoint = 0;
     private bool isGasPressed = false;
 
-    //added new
-    private QuestionManager questionManager;
-    private int currentQuestionIndex = 0;
-
-
     [Header("Score System")]
     public int score = 0;
 
     [Header("UI References")]
-    public GameObject questionPanel; // Assign in Inspector
+    public GameObject questionPanel;
 
     [Header("Anti-Roll Settings")]
     public float antiRoll = 5000.0f;
     private Rigidbody rb;
 
-    // 🔹 Gas system
+    // Gas system
     public static bool isCarMoving = false;
     private GasBar gasBar;
 
@@ -43,7 +38,6 @@ public class AICarController : MonoBehaviour
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
 
         gasBar = FindObjectOfType<GasBar>();
-        questionManager = FindObjectOfType<QuestionManager>();
     }
 
     private void FixedUpdate()
@@ -151,22 +145,21 @@ public class AICarController : MonoBehaviour
     {
         if (other.CompareTag("Collectible"))
         {
+            if (questionPanel != null && questionPanel.activeSelf) return;
+
             score++;
-            currentCollectible = other.gameObject; // store collectible
-            //ShowQuestion();
+            currentCollectible = other.gameObject;
 
-            //added new
-            if (questionManager != null)
+            // Show next question in sequence from ScriptableObject
+            if (QuestionManager.Instance != null)
             {
-                questionManager.ShowQuestion(currentQuestionIndex);
+                QuestionManager.Instance.ShowNextQuestion();
 
-                // Stop car & freeze game until answered
+                // Pause car/game until answered
                 isGasPressed = false;
-                rb.velocity = Vector3.zero;
+                //rb.velocity = Vector3.zero;
                 Time.timeScale = 0f;
             }
-
-            currentQuestionIndex++;
         }
     }
 
@@ -179,17 +172,6 @@ public class AICarController : MonoBehaviour
             currentCollectible = null;
         }
     }
-
-    //private void ShowQuestion()
-    //{
-    //    if (questionPanel != null)
-    //    {
-    //        questionPanel.SetActive(true);
-    //        Time.timeScale = 0f;
-    //    }
-    //}
-
-
 
     // Add these inside AICarController class
     public void ResumeDriving()

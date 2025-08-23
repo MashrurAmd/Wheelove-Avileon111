@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems; // optional
 
 public class QuestionManager : MonoBehaviour
 {
-    public static QuestionManager Instance;   
+    public static QuestionManager Instance;
 
     [Header("Data")]
     public QuestionData questionData;
@@ -15,26 +17,30 @@ public class QuestionManager : MonoBehaviour
     public List<Toggle> optionToggles;
     public List<Text> optionLabels;
     public Button confirmButton;
+    public ToggleGroup toggleGroup; 
 
     private int currentQuestionIndex = -1;
+    private int nextQuestionIndex = 0;       
     private int activeCheckpointIndex = -1;
 
-    [SerializeField] private int wrongAnswerCount = 0;
+    public int wrongAnswerCount = 0;
 
     private AICarController car;
     private GasBar gasBar;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-    }
+    void Awake() { if (Instance == null) Instance = this; }
 
-    private void Start()
+    void Start()
     {
         confirmButton.onClick.AddListener(CheckAnswer);
-
         car = FindObjectOfType<AICarController>();
         gasBar = FindObjectOfType<GasBar>();
+    }
+
+    // Called by the car when it hits a checkpoint
+    public void ShowNextQuestion()
+    {
+        ShowQuestion(nextQuestionIndex);
     }
 
     public void ShowQuestion(int index)
@@ -51,11 +57,10 @@ public class QuestionManager : MonoBehaviour
 
         questionPanel.SetActive(true);
 
-        // Load Question
-        QuestionAnswer qa = questionData.questionAnswers[index];
+        // Load Question + Options
+        var qa = questionData.questionAnswers[index];
         questionText.text = qa.questions;
 
-        // Load Options
         for (int i = 0; i < optionLabels.Count; i++)
         {
             if (i < qa.options.Count)
@@ -63,43 +68,51 @@ public class QuestionManager : MonoBehaviour
                 optionLabels[i].text = qa.options[i];
                 optionToggles[i].gameObject.SetActive(true);
                 optionToggles[i].isOn = false;
+                if (toggleGroup) optionToggles[i].group = toggleGroup;  
             }
             else
             {
                 optionToggles[i].gameObject.SetActive(false);
             }
         }
+
+        if (toggleGroup) toggleGroup.SetAllTogglesOff(true);
     }
 
     void CheckAnswer()
     {
-        QuestionAnswer qa = questionData.questionAnswers[currentQuestionIndex];
-        string selectedOption = "";
+        var qa = questionData.questionAnswers[currentQuestionIndex];
 
+        // Find selected option
+        string selectedOption = "";
         for (int i = 0; i < optionToggles.Count; i++)
+            if (optionToggles[i].isOn) { selectedOption = optionLabels[i].text; break; }
+
+        if (string.IsNullOrWhiteSpace(selectedOption))
         {
-            if (optionToggles[i].isOn)
-            {
-                selectedOption = optionLabels[i].text;
-                break;
-            }
+            Debug.Log("No option selected!");
+            return;
         }
-        if (selectedOption == qa.answers)
+
+        bool isCorrect = string.Equals(
+            selectedOption.Trim(), qa.answers.Trim(),
+            StringComparison.OrdinalIgnoreCase);
+
+        if (isCorrect)
         {
             Debug.Log("Correct Answer!");
             questionPanel.SetActive(false);
 
-            if (gasBar != null) 
-                gasBar.AddGas(gasBar.gasFillAmount); // reward fuel
+            if (gasBar != null) gasBar.AddGas(gasBar.gasFillAmount);
 
-            // Resume car
-            //AICarController car = FindObjectOfType<AICarController>();
-            if (car != null) 
-                car.ResumeDriving();
+            // move to the next question ONLY on correct
+            nextQuestionIndex++;
 
-            // Disable collectible/checkpoint
-            if (car != null) 
+            if (car != null)
+            {
                 car.DismissCollectible();
+                car.ResumeDriving();
+            }
         }
         else
         {
@@ -107,19 +120,10 @@ public class QuestionManager : MonoBehaviour
 
             if (car == null) return;
 
-            if (wrongAnswerCount == 1)
-            {
-                car.MoveBackWaypoints(1);
-            }
-            else if (wrongAnswerCount == 2)
-            {
-                car.MoveBackWaypoints(2);
-            }
-            else if (wrongAnswerCount >= 3)
-            {
-                car.RespawnAtStart();
-                wrongAnswerCount = 0;
-            }
+            // Move back, then ResumeDriving() is called by those methods
+            if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
+            else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
+            else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
 
             Debug.Log("Wrong Answer!");
         }
