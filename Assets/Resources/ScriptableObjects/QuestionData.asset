@@ -31,88 +31,57 @@ MonoBehaviour:
     - Go
     - Stop
     answers: Stop
-  - questions: What shape is a stop sign?
+  - questions: What should you do at a pedestrian crossing?
     options:
-    - Triangle
-    - ' Circle '
-    - Octagon
-    - Square
-    answers: Octagon
-  - questions: What does a flashing yellow traffic light mean?
-    options:
-    - Stop completely
-    - Proceed with caution
     - Speed up
-    - Stop then go
-    answers: Proceed with caution
-  - questions: 'When approaching a pedestrian crossing, drivers should:'
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
+  - questions: What is the maximum speed in a school zone?
     options:
-    - Honk and keep going
-    - Speed up to pass quickly
-    - Slow down and yield to pedestrians
-    - Ignore pedestrians
-    answers: Slow down and yield to pedestrians
-  - questions: What does a broken white line on the road mean?
+    - 80 km/h
+    - 30 km/h
+    - 50 km/h
+    answers: 30 km/h
+  - questions: What does a red traffic light mean?
     options:
-    - Overtaking is not allowed
-    - Lane changing is permitted
-    - Road closed ahead
-    - Stop immediately
-    answers: Lane changing is permitted
-  - questions: What does a triangular road sign usually indicate?
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
+  - questions: What is the maximum speed in a school zone?
     options:
-    - Information
-    - Prohibition
-    - Warning
-    - Mandatory rule
-    answers: Warning
-  - questions: What should you do if an emergency vehicle is approaching with sirens
-      on?
+    - 80 km/h
+    - 30 km/h
+    - 50 km/h
+    answers: 30 km/h
+  - questions: What should you do at a pedestrian crossing?
     options:
-    - Stop in the middle of the road
-    - Pull over and give way
-    - Speed up to move ahead
-    - Ignore it
-    answers: Pull over and give way
-  - questions: What does a solid yellow line mean?
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
+  - questions: What is the maximum speed in a school zone?
     options:
-    - Passing is allowed
-    - No passing allowed
-    - Stop immediately
-    - Parking only
-    answers: No passing allowed
-  - questions: 'When driving in heavy rain, you should:'
+    - 80 km/h
+    - 50 km/h
+    - 30 km/h
+    answers: 30 km/h
+  - questions: What does a red traffic light mean?
     options:
-    - Turn off headlights
-    - Drive at normal speed
-    - Use headlights and slow down
-    - Use high beams always
-    answers: Use headlights and slow down
-  - questions: What does a blue road sign usually indicate?
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
+  - questions: What should you do at a pedestrian crossing?
     options:
-    - Services or information
-    - Warnings
-    - Stop immediately
-    - Danger ahead
-    answers: Services or information
-  - questions: 'A roundabout sign indicates:'
+    - Speed up
+    - Stop for pedestrians
+    - Honk and continue
+    answers: Stop for pedestrians
+  - questions: What does a red traffic light mean?
     options:
-    - 'U-turn only '
-    - Circular intersection ahead
-    - No entry
-    - Highway merging
-    answers: Circular intersection ahead
-  - questions: When should you use your seatbelt?
-    options:
-    - Only on highways
-    - Only at night
-    - At all times when driving
-    - Only in bad weather
-    answers: At all times when driving
-  - questions: What does a double solid white line mean?
-    options:
-    - Lane change allowed
-    - No lane changing
-    - Pedestrian crossing
-    - Overtaking allowed
-    answers: No lane changing
+    - Slow down
+    - Go
+    - Stop
+    answers: Stop
