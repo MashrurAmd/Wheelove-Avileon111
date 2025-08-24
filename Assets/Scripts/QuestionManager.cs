@@ -94,6 +94,7 @@ public class QuestionManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
             Debug.Log("No option selected!");
+            answerText.text = "No option selected!";
             return;
         }
 
@@ -136,7 +137,7 @@ public class QuestionManager : MonoBehaviour
 
     private IEnumerator WaitQuestionPanelDisableSeq()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(1);
         questionPanel.SetActive(false);
     }
 }

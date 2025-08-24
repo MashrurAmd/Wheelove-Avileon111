@@ -151,6 +151,8 @@ public class AICarController : MonoBehaviour
             score++;
             currentCollectible = other.gameObject;
 
+            QuestionManager.Instance.answerText.text = string.Empty;
+
             // Show next question in sequence from ScriptableObject
             if (QuestionManager.Instance != null)
             {
