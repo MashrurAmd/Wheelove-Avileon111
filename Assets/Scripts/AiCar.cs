@@ -49,6 +49,7 @@ public class AICarController : MonoBehaviour
             isCarMoving = true;
             ApplyMotorTorque(motorForce);
             ApplyBrakeTorque(0f);
+            rb.constraints = RigidbodyConstraints.None;
         }
         else
         {
@@ -158,6 +159,7 @@ public class AICarController : MonoBehaviour
                 // Pause car/game until answered
                 isGasPressed = false;
                 //rb.velocity = Vector3.zero;
+                rb.constraints = RigidbodyConstraints.FreezeAll;
                 Time.timeScale = 0f;
             }
         }
