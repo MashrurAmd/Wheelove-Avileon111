@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems; // optional
+using UnityEngine.EventSystems;
+using System.Collections;
+using TMPro; // optional
 
 public class QuestionManager : MonoBehaviour
 {
@@ -24,6 +26,7 @@ public class QuestionManager : MonoBehaviour
     private int activeCheckpointIndex = -1;
 
     public int wrongAnswerCount = 0;
+    public TMP_Text answerText;
 
     private AICarController car;
     private GasBar gasBar;
@@ -32,7 +35,7 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        confirmButton.onClick.AddListener(CheckAnswer);
+        //confirmButton.onClick.AddListener(CheckAnswer);
         car = FindObjectOfType<AICarController>();
         gasBar = FindObjectOfType<GasBar>();
     }
@@ -51,7 +54,7 @@ public class QuestionManager : MonoBehaviour
         if (index >= questionData.questionAnswers.Count)
         {
             Debug.Log("No more questions!");
-            questionPanel.SetActive(false);
+            //questionPanel.SetActive(false);
             return;
         }
 
@@ -79,7 +82,7 @@ public class QuestionManager : MonoBehaviour
         if (toggleGroup) toggleGroup.SetAllTogglesOff(true);
     }
 
-    void CheckAnswer()
+    public void CheckAnswer()
     {
         var qa = questionData.questionAnswers[currentQuestionIndex];
 
@@ -101,7 +104,7 @@ public class QuestionManager : MonoBehaviour
         if (isCorrect)
         {
             Debug.Log("Correct Answer!");
-            questionPanel.SetActive(false);
+            answerText.text = "Correct Answer!";
 
             if (gasBar != null) gasBar.AddGas(gasBar.gasFillAmount);
 
@@ -124,8 +127,16 @@ public class QuestionManager : MonoBehaviour
             if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
             else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
             else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
-
+            answerText.text = "Wrong Answer!";
             Debug.Log("Wrong Answer!");
         }
+
+        StartCoroutine(WaitQuestionPanelDisableSeq());
+    }
+
+    private IEnumerator WaitQuestionPanelDisableSeq()
+    {
+        yield return new WaitForSeconds(5);
+        questionPanel.SetActive(false);
     }
 }

@@ -180,7 +180,7 @@ public class AICarController : MonoBehaviour
     {
         if (questionPanel != null)
         {
-            questionPanel.SetActive(false);
+            //questionPanel.SetActive(false);
             Time.timeScale = 1f;
         }
     }
