@@ -31,6 +31,14 @@ public class QuestionManager : MonoBehaviour
     private AICarController car;
     private GasBar gasBar;
 
+    public int score = 0;
+    public Text Scoretext;
+
+    public int life = 3;
+    public Text wrongAnswersText;
+
+
+
     void Awake() { if (Instance == null) Instance = this; }
 
     void Start()
@@ -117,6 +125,12 @@ public class QuestionManager : MonoBehaviour
                 car.DismissCollectible();
                 car.ResumeDriving();
             }
+            //if correct answer, score ++
+            score++;
+            UpdateScoreUI();
+
+
+
         }
         else
         {
@@ -130,6 +144,10 @@ public class QuestionManager : MonoBehaviour
             else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
             answerText.text = "Wrong Answer!";
             Debug.Log("Wrong Answer!");
+
+            life--;
+            UpdateWrongAnswersUI();
+
         }
 
         StartCoroutine(WaitQuestionPanelDisableSeq());
@@ -140,4 +158,31 @@ public class QuestionManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         questionPanel.SetActive(false);
     }
+
+
+    public void UpdateScoreUI()
+    {
+        if (Scoretext != null)
+        {
+            Scoretext.text = "Score : " + score.ToString();
+        }
+    }
+
+    public void UpdateWrongAnswersUI()
+    {
+        if (wrongAnswersText != null)
+        {
+            wrongAnswersText.text = "Life : " + life.ToString();
+        }
+
+        if (life <= 0)
+        {
+            // if needed is will add restart here
+            Debug.Log("Game Over!");
+
+        }
+    }
+
+
+
 }
