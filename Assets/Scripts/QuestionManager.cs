@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+
 public class QuestionManager : MonoBehaviour
 {
     public static QuestionManager Instance;
@@ -38,6 +40,8 @@ public class QuestionManager : MonoBehaviour
 
     public int life = 3;
     public Text wrongAnswersText;
+
+    public GameObject Gameover;
 
 
 
@@ -183,12 +187,14 @@ public class QuestionManager : MonoBehaviour
             Debug.Log("Game Over!");
 
 
-            BackToMainMenu(0);
+            //LoadScene(0);
+
+            Gameover.SetActive(true);
 
         }
     }
 
-    public void BackToMainMenu(int sceneIndex)
+    public void LoadScene(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
     }
