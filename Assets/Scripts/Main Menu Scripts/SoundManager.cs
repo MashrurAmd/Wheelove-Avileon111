@@ -64,6 +64,7 @@ public class SoundManager : MonoBehaviour
     void OnVolumeChanged(float value)
     {
         audioSource.volume = value;
+        soundEffectSource.volume = value;
         PlayerPrefs.SetFloat("Volume", value);
     }
 
@@ -80,8 +81,8 @@ public class SoundManager : MonoBehaviour
         musicOnIcon.enabled = !muted;
         musicOffIcon.enabled = muted;
 
-        //if (musicButtonText != null)
-        //    musicButtonText.text = muted ? "OFF" : "ON";
+        if (musicButtonText != null)
+            musicButtonText.text = muted ? "OFF" : "ON";
     }
 
     public void OnSoundEffectButtonPrees()
@@ -97,10 +98,10 @@ public class SoundManager : MonoBehaviour
         soundEffectOnIcon.enabled = !soundMuted;
         soundEffectOffIcon.enabled = soundMuted;
 
-        //if (soundEffectButtonText != null)
-        //{
-        //    soundEffectButtonText.text = soundMuted ? "OFF" : "ON";
-        //}
+        if (soundEffectButtonText != null)
+        {
+            soundEffectButtonText.text = soundMuted ? "OFF" : "ON";
+        }
     }
 
     public void SoundEffectButton()
