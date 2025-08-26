@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections;
-using TMPro; // optional
+using System.Collections.Generic;
+using TMPro;
+using UnityEditor.SearchService; // optional
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class QuestionManager : MonoBehaviour
 {
@@ -177,12 +179,19 @@ public class QuestionManager : MonoBehaviour
 
         if (life <= 0)
         {
-            // if needed is will add restart here
+            //This wll be a pannel where 2 buttons will be there - Retry and Main Menu
             Debug.Log("Game Over!");
+
+
+            BackToMainMenu(0);
 
         }
     }
 
+    public void BackToMainMenu(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
 
 
 }
