@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SearchService; // optional
+//using UnityEditor.SearchService; // optional
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -190,6 +190,9 @@ public class QuestionManager : MonoBehaviour
             //LoadScene(0);
 
             Gameover.SetActive(true);
+
+
+
 
         }
     }
