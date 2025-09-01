@@ -235,5 +235,4 @@ public class QuestionManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-
 }
