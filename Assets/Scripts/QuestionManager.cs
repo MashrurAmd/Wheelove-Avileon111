@@ -62,37 +62,32 @@ public class QuestionManager : MonoBehaviour
         gasBar = FindObjectOfType<GasBar>();
     }
 
-    //void Update()
-    //{
-    //    // Timer countdown logic
-    //    if (isCountingDown)
-    //    {
-    //        currentTime -= Time.deltaTime;
-    //        if (currentTime <= 0f)
-    //        {
-    //            currentTime = 0f;
-    //            isCountingDown = false;
-    //            CheckAnswer(); 
-    //        }
-    //        UpdateTimerUI();
-    //    }
-    //}
+    void Update()
+    {
+        // Timer countdown logic
+        if (isCountingDown)
+        {
+            currentTime -= Time.deltaTime;
+            if (currentTime <= 0f)
+            {
+                currentTime = 0f;
+                isCountingDown = false;
+                CheckAnswer();
+            }
+            UpdateTimerUI();
+        }
+    }
 
-    //void UpdateTimerUI()
-    //{
-    //    if (timerText != null)
-    //    {
-    //        timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
-    //    }
-    //}
-
-
+    void UpdateTimerUI()
+    {
+        if (timerText != null)
+        {
+            timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
+        }
+    }
 
 
 
-
-
-  
     public void ShowNextQuestion()
     {
         ShowQuestion(nextQuestionIndex);
