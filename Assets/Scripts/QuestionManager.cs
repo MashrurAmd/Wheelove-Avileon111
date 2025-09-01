@@ -29,6 +29,14 @@ public class QuestionManager : MonoBehaviour
     private int nextQuestionIndex = 0;       
     private int activeCheckpointIndex = -1;
 
+
+    [Header("Timer")]
+    public TMP_Text timerText;
+    public float questionTime = 10f;
+    private float currentTime;
+    private bool isCountingDown = false;
+
+
     public int wrongAnswerCount = 0;
     public TMP_Text answerText;
 
@@ -54,7 +62,37 @@ public class QuestionManager : MonoBehaviour
         gasBar = FindObjectOfType<GasBar>();
     }
 
-    // Called by the car when it hits a checkpoint
+    //void Update()
+    //{
+    //    // Timer countdown logic
+    //    if (isCountingDown)
+    //    {
+    //        currentTime -= Time.deltaTime;
+    //        if (currentTime <= 0f)
+    //        {
+    //            currentTime = 0f;
+    //            isCountingDown = false;
+    //            CheckAnswer(); 
+    //        }
+    //        UpdateTimerUI();
+    //    }
+    //}
+
+    //void UpdateTimerUI()
+    //{
+    //    if (timerText != null)
+    //    {
+    //        timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
+    //    }
+    //}
+
+
+
+
+
+
+
+  
     public void ShowNextQuestion()
     {
         ShowQuestion(nextQuestionIndex);
