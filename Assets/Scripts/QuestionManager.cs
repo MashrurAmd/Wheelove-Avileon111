@@ -66,7 +66,7 @@ public class QuestionManager : MonoBehaviour
             {
                 currentTime = 0f;
                 isCountingDown = false;
-                CheckAnswer(); // Auto check when timer ends
+                CheckAnswer(); 
             }
             UpdateTimerUI();
         }
@@ -98,7 +98,7 @@ public class QuestionManager : MonoBehaviour
 
         questionPanel.SetActive(true);
 
-        // 🔑 Start the countdown whenever the panel shows
+        
         currentTime = questionTime;
         isCountingDown = true;
         UpdateTimerUI();
