@@ -2,13 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-//using UnityEditor.SearchService; // optional
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
-
 
 public class QuestionManager : MonoBehaviour
 {
@@ -23,19 +20,17 @@ public class QuestionManager : MonoBehaviour
     public List<Toggle> optionToggles;
     public List<Text> optionLabels;
     public Button confirmButton;
-    public ToggleGroup toggleGroup; 
+    public ToggleGroup toggleGroup;
 
     private int currentQuestionIndex = -1;
-    private int nextQuestionIndex = 0;       
+    private int nextQuestionIndex = 0;
     private int activeCheckpointIndex = -1;
-
 
     [Header("Timer")]
     public TMP_Text timerText;
     public float questionTime = 10f;
     private float currentTime;
     private bool isCountingDown = false;
-
 
     public int wrongAnswerCount = 0;
     public TMP_Text answerText;
@@ -51,20 +46,19 @@ public class QuestionManager : MonoBehaviour
 
     public GameObject Gameover;
 
-
-
-    void Awake() { if (Instance == null) Instance = this; }
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     void Start()
     {
-        //confirmButton.onClick.AddListener(CheckAnswer);
         car = FindObjectOfType<AICarController>();
         gasBar = FindObjectOfType<GasBar>();
     }
 
     void Update()
     {
-        // Timer countdown logic
         if (isCountingDown)
         {
             currentTime -= Time.deltaTime;
@@ -72,7 +66,7 @@ public class QuestionManager : MonoBehaviour
             {
                 currentTime = 0f;
                 isCountingDown = false;
-                CheckAnswer();
+                CheckAnswer(); // Auto check when timer ends
             }
             UpdateTimerUI();
         }
@@ -82,11 +76,9 @@ public class QuestionManager : MonoBehaviour
     {
         if (timerText != null)
         {
-            timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
+            timerText.text =  Mathf.CeilToInt(currentTime).ToString();
         }
     }
-
-
 
     public void ShowNextQuestion()
     {
@@ -101,11 +93,15 @@ public class QuestionManager : MonoBehaviour
         if (index >= questionData.questionAnswers.Count)
         {
             Debug.Log("No more questions!");
-            //questionPanel.SetActive(false);
             return;
         }
 
         questionPanel.SetActive(true);
+
+        // 🔑 Start the countdown whenever the panel shows
+        currentTime = questionTime;
+        isCountingDown = true;
+        UpdateTimerUI();
 
         // Load Question + Options
         var qa = questionData.questionAnswers[index];
@@ -118,7 +114,7 @@ public class QuestionManager : MonoBehaviour
                 optionLabels[i].text = qa.options[i];
                 optionToggles[i].gameObject.SetActive(true);
                 optionToggles[i].isOn = false;
-                if (toggleGroup) optionToggles[i].group = toggleGroup;  
+                if (toggleGroup) optionToggles[i].group = toggleGroup;
             }
             else
             {
@@ -131,12 +127,19 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
+        isCountingDown = false; // 🛑 stop timer once answer is checked
+
         var qa = questionData.questionAnswers[currentQuestionIndex];
 
-        // Find selected option
         string selectedOption = "";
         for (int i = 0; i < optionToggles.Count; i++)
-            if (optionToggles[i].isOn) { selectedOption = optionLabels[i].text; break; }
+        {
+            if (optionToggles[i].isOn)
+            {
+                selectedOption = optionLabels[i].text;
+                break;
+            }
+        }
 
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
@@ -145,8 +148,7 @@ public class QuestionManager : MonoBehaviour
             return;
         }
 
-        bool isCorrect = string.Equals(
-            selectedOption.Trim(), qa.answers.Trim(),
+        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(),
             StringComparison.OrdinalIgnoreCase);
 
         if (isCorrect)
@@ -155,8 +157,6 @@ public class QuestionManager : MonoBehaviour
             answerText.text = "Correct Answer!";
 
             if (gasBar != null) gasBar.AddGas(gasBar.gasFillAmount);
-
-            // move to the next question ONLY on correct
             nextQuestionIndex++;
 
             if (car != null)
@@ -164,29 +164,26 @@ public class QuestionManager : MonoBehaviour
                 car.DismissCollectible();
                 car.ResumeDriving();
             }
-            //if correct answer, score ++
+
             score++;
             UpdateScoreUI();
-
-
-
         }
         else
         {
             wrongAnswerCount++;
 
-            if (car == null) return;
+            if (car != null)
+            {
+                if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
+                else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
+                else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
+            }
 
-            // Move back, then ResumeDriving() is called by those methods
-            if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
-            else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
-            else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
             answerText.text = "Wrong Answer!";
             Debug.Log("Wrong Answer!");
 
             life--;
             UpdateWrongAnswersUI();
-
         }
 
         StartCoroutine(WaitQuestionPanelDisableSeq());
@@ -197,7 +194,6 @@ public class QuestionManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         questionPanel.SetActive(false);
     }
-
 
     public void UpdateScoreUI()
     {
@@ -216,17 +212,8 @@ public class QuestionManager : MonoBehaviour
 
         if (life <= 0)
         {
-            //This wll be a pannel where 2 buttons will be there - Retry and Main Menu
             Debug.Log("Game Over!");
-
-
-            //LoadScene(0);
-
             Gameover.SetActive(true);
-
-
-
-
         }
     }
 
@@ -234,5 +221,4 @@ public class QuestionManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
-
 }
