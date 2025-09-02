@@ -162,7 +162,7 @@ public class AICarController : MonoBehaviour
                 isGasPressed = false;
                 //rb.velocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.FreezeAll;
-                Time.timeScale = 0f;
+                //Time.timeScale = 0f;
             }
         }
     }
@@ -183,7 +183,7 @@ public class AICarController : MonoBehaviour
         if (questionPanel != null)
         {
             //questionPanel.SetActive(false);
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
     }
 
