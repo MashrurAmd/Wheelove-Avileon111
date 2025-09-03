@@ -177,7 +177,9 @@ public class AICarController : MonoBehaviour
         if (other.CompareTag("traffic"))
         {
             isInsideStopZone = true;
-            hasPrintedStopMessage = false; 
+            hasPrintedStopMessage = false;
+
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
         }
     }
 
@@ -187,6 +189,8 @@ public class AICarController : MonoBehaviour
         {
             isInsideStopZone = false;
             hasPrintedStopMessage = false;
+
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficNormalMat;
         }
     }
 
