@@ -67,11 +67,11 @@ public class AICarController : MonoBehaviour
 
         UpdateWheels();
 
-        // ✅ Check if car has fully stopped inside traffic block (print once)
+        
         if (isInsideStopZone && !isGasPressed && rb.velocity.magnitude < 0.1f && !hasPrintedStopMessage)
         {
             hasPrintedStopMessage = true;
-            Debug.Log("🚗 Car has stopped inside traffic block!");
+            Debug.Log(" Car has stopped inside traffic block!");
         }
     }
 
