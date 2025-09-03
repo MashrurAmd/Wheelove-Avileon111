@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class AICarController : MonoBehaviour
 {
@@ -32,9 +33,12 @@ public class AICarController : MonoBehaviour
     public static bool isCarMoving = false;
     private GasBar gasBar;
 
-    // ✅ Stop-zone detection
+    // Stop-zone detection
     private bool isInsideStopZone = false;
     private bool hasPrintedStopMessage = false;
+
+    // Store coroutine so we can cancel if needed
+    private Coroutine greenLightCoroutine;
 
     private void Start()
     {
@@ -67,11 +71,10 @@ public class AICarController : MonoBehaviour
 
         UpdateWheels();
 
-        
         if (isInsideStopZone && !isGasPressed && rb.velocity.magnitude < 0.1f && !hasPrintedStopMessage)
         {
             hasPrintedStopMessage = true;
-            Debug.Log(" Car has stopped inside traffic block!");
+            Debug.Log("Car has stopped inside traffic block!");
         }
     }
 
@@ -155,7 +158,6 @@ public class AICarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
         if (other.CompareTag("Collectible"))
         {
             if (questionPanel != null && questionPanel.activeSelf) return;
@@ -173,13 +175,20 @@ public class AICarController : MonoBehaviour
             }
         }
 
-        
         if (other.CompareTag("traffic"))
         {
             isInsideStopZone = true;
             hasPrintedStopMessage = false;
 
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
+            // Turn RED immediately
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
+                GamePlayManager.instance.trafficAlertMat;
+
+            // Start delayed green light
+            if (greenLightCoroutine != null)
+                StopCoroutine(greenLightCoroutine);
+
+            greenLightCoroutine = StartCoroutine(ChangeTrafficLightToGreenAfterDelay(2f));
         }
     }
 
@@ -190,8 +199,27 @@ public class AICarController : MonoBehaviour
             isInsideStopZone = false;
             hasPrintedStopMessage = false;
 
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficNormalMat;
+            // Stop any running coroutine so it won't turn green after exit
+            if (greenLightCoroutine != null)
+            {
+                StopCoroutine(greenLightCoroutine);
+                greenLightCoroutine = null;
+            }
+
+            // Ensure light goes back to normal
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
+                GamePlayManager.instance.trafficNormalMat;
         }
+    }
+
+    private IEnumerator ChangeTrafficLightToGreenAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
+            GamePlayManager.instance.trafficNormalMat;
+
+        greenLightCoroutine = null; // reset reference
     }
 
     // Collectible helper

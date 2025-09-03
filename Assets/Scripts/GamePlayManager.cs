@@ -22,4 +22,14 @@ public class GamePlayManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
+
+    private System.Collections.IEnumerator ChangeTrafficLightToGreenAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Switch to green light (normal mat)
+        GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
+            GamePlayManager.instance.trafficNormalMat;
+    }
+
 }
