@@ -181,8 +181,7 @@ public class AICarController : MonoBehaviour
             hasPrintedStopMessage = false;
 
             // Turn RED immediately
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
-                GamePlayManager.instance.trafficAlertMat;
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
 
             // Start delayed green light
             if (greenLightCoroutine != null)
@@ -199,16 +198,15 @@ public class AICarController : MonoBehaviour
             isInsideStopZone = false;
             hasPrintedStopMessage = false;
 
-            // Stop any running coroutine so it won't turn green after exit
+           
             if (greenLightCoroutine != null)
             {
                 StopCoroutine(greenLightCoroutine);
                 greenLightCoroutine = null;
             }
 
-            // Ensure light goes back to normal
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
-                GamePlayManager.instance.trafficNormalMat;
+            
+            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
         }
     }
 
@@ -222,7 +220,7 @@ public class AICarController : MonoBehaviour
         greenLightCoroutine = null; // reset reference
     }
 
-    // Collectible helper
+    
     public void DismissCollectible()
     {
         if (currentCollectible != null)
