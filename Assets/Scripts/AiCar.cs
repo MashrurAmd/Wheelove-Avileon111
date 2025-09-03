@@ -32,6 +32,10 @@ public class AICarController : MonoBehaviour
     public static bool isCarMoving = false;
     private GasBar gasBar;
 
+    // ✅ Stop-zone detection
+    private bool isInsideStopZone = false;
+    private bool hasPrintedStopMessage = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -62,6 +66,13 @@ public class AICarController : MonoBehaviour
         ApplyAntiRoll(rearLeftWheelCollider, rearRightWheelCollider);
 
         UpdateWheels();
+
+        // ✅ Check if car has fully stopped inside traffic block (print once)
+        if (isInsideStopZone && !isGasPressed && rb.velocity.magnitude < 0.1f && !hasPrintedStopMessage)
+        {
+            hasPrintedStopMessage = true;
+            Debug.Log("🚗 Car has stopped inside traffic block!");
+        }
     }
 
     private void ApplyAntiRoll(WheelCollider wheelL, WheelCollider wheelR)
@@ -144,6 +155,7 @@ public class AICarController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.CompareTag("Collectible"))
         {
             if (questionPanel != null && questionPanel.activeSelf) return;
@@ -153,21 +165,32 @@ public class AICarController : MonoBehaviour
 
             QuestionManager.Instance.answerText.text = string.Empty;
 
-            // Show next question in sequence from ScriptableObject
             if (QuestionManager.Instance != null)
             {
                 QuestionManager.Instance.ShowNextQuestion();
-
-                // Pause car/game until answered
                 isGasPressed = false;
-                //rb.velocity = Vector3.zero;
                 rb.constraints = RigidbodyConstraints.FreezeAll;
-                //Time.timeScale = 0f;
             }
+        }
+
+        
+        if (other.CompareTag("traffic"))
+        {
+            isInsideStopZone = true;
+            hasPrintedStopMessage = false; 
         }
     }
 
-    // Add helper for AnswerManager
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("traffic"))
+        {
+            isInsideStopZone = false;
+            hasPrintedStopMessage = false;
+        }
+    }
+
+    // Collectible helper
     public void DismissCollectible()
     {
         if (currentCollectible != null)
@@ -177,26 +200,21 @@ public class AICarController : MonoBehaviour
         }
     }
 
-    // Add these inside AICarController class
     public void ResumeDriving()
     {
         if (questionPanel != null)
         {
             //questionPanel.SetActive(false);
-            //Time.timeScale = 1f;
         }
     }
 
     public void MoveBackWaypoints(int steps)
     {
         currentWaypoint = Mathf.Max(0, currentWaypoint - steps);
-
-        // Snap car to that waypoint
         Transform target = WaypointManager.waypoints[currentWaypoint];
         transform.position = target.position;
         transform.rotation = target.rotation;
 
-        // Reset car velocity
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
@@ -217,4 +235,3 @@ public class AICarController : MonoBehaviour
         }
     }
 }
-
