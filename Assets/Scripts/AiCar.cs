@@ -266,4 +266,8 @@ public class AICarController : MonoBehaviour
             ResumeDriving();
         }
     }
+
+
+    //this is to reset the car's position and gas level
+     
 }
