@@ -26,6 +26,9 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ENVIRONMENTREFLECTIONS_OFF
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  - _PARALLAXMAP
   m_InvalidKeywords:
   - _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 4
@@ -40,11 +43,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2cded8e5e72905c4888211f4f71cdc0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: faaace2a00fa5bf45a2eebd152521415, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -64,11 +67,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2cded8e5e72905c4888211f4f71cdc0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e9bb3567e21969043acf703b20f99b33, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -76,7 +79,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 79f6ba60e77103d40ae1e7ef1ca2aa15, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -114,7 +117,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Metallic: 0
+    - _Metallic: 0.542
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OutlineWidth: 0
@@ -125,7 +128,7 @@ Material:
     - _RimStepSmooth: 0.347
     - _ShadowStep: 0.534
     - _ShadowStepSmooth: 0.232
-    - _Smoothness: 0
+    - _Smoothness: 0.125
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularStep: 0.6
@@ -137,8 +140,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.6509804, g: 0.3529412, b: 0.37199214, a: 1}
-    - _Color: {r: 0.6509804, g: 0.35294116, b: 0.37199208, a: 1}
+    - _BaseColor: {r: 0.6981132, g: 0.33917767, b: 0.35654548, a: 1}
+    - _Color: {r: 0.6981132, g: 0.33917764, b: 0.35654545, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 0.9716981, g: 0.40792987, b: 0.40792987, a: 1}
