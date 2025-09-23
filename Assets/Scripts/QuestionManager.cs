@@ -224,5 +224,5 @@ public class QuestionManager : MonoBehaviour
 
 
 
-    //This is not anything important
+
 }
