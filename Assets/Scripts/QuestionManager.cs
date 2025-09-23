@@ -172,12 +172,12 @@ public class QuestionManager : MonoBehaviour
         {
             wrongAnswerCount++;
 
-            if (car != null)
-            {
-                if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
-                else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
-                else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
-            }
+            //if (car != null)
+            //{
+            //    if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
+            //    else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
+            //    else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
+            //}
 
             answerText.text = "Wrong Answer!";
             Debug.Log("Wrong Answer!");

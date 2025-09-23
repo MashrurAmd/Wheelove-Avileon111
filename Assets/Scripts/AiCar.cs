@@ -1,23 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Cinemachine;
 
 public class AICarController : MonoBehaviour
 {
-    public float motorForce = 1500f;
-    public float brakeForce = 2000f;
-    public float maxSteerAngle = 30f;
-    public float waypointDistance = 5f;
+    [Header("Movement Settings")]
+    public CinemachinePathBase roadPath;   // Drag your RoadPath here
+    public float moveSpeed = 10f;          // forward speed
+    public float deceleration = 5f;        // slows down when gas is released
 
-    private GameObject currentCollectible;
-
-    public WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
-    public WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
-
-    public Transform frontLeftWheelTransform, frontRightWheelTransform;
-    public Transform rearLeftWheelTransform, rearRightWheelTransform;
-
-    private int currentWaypoint = 0;
-    private bool isGasPressed = false;
+    private float pathPosition = 0f;       // current distance along path
+    private float currentSpeed = 0f;
 
     [Header("Score System")]
     public int score = 0;
@@ -25,8 +18,7 @@ public class AICarController : MonoBehaviour
     [Header("UI References")]
     public GameObject questionPanel;
 
-    [Header("Anti-Roll Settings")]
-    public float antiRoll = 5000.0f;
+    private GameObject currentCollectible;
     private Rigidbody rb;
 
     // Gas system
@@ -43,116 +35,39 @@ public class AICarController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0, -0.5f, 0);
-
+        rb.isKinematic = true; // car is fully path-controlled now
         gasBar = FindObjectOfType<GasBar>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Steer();
-
+        // Gas input (from button or touch events)
         if (isGasPressed)
-        {
-            isCarMoving = true;
-            ApplyMotorTorque(motorForce);
-            ApplyBrakeTorque(0f);
-            rb.constraints = RigidbodyConstraints.None;
-        }
+            currentSpeed = moveSpeed;
         else
-        {
-            isCarMoving = false;
-            ApplyMotorTorque(0f);
-            ApplyBrakeTorque(brakeForce * 0.2f);
-        }
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
 
-        ApplyAntiRoll(frontLeftWheelCollider, frontRightWheelCollider);
-        ApplyAntiRoll(rearLeftWheelCollider, rearRightWheelCollider);
+        // Move along the path
+        pathPosition += currentSpeed * Time.deltaTime;
+        pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
-        UpdateWheels();
+        // Update car transform
+        transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
 
-        if (isInsideStopZone && !isGasPressed && rb.velocity.magnitude < 0.1f && !hasPrintedStopMessage)
+        // Stop detection in traffic zone
+        if (isInsideStopZone && !isGasPressed && currentSpeed <= 0.01f && !hasPrintedStopMessage)
         {
             hasPrintedStopMessage = true;
             Debug.Log("Car has stopped inside traffic block!");
         }
     }
 
-    private void ApplyAntiRoll(WheelCollider wheelL, WheelCollider wheelR)
-    {
-        WheelHit hit;
-        float travelL = 1.0f;
-        float travelR = 1.0f;
+    // =============================
+    //  Collectibles + Traffic Logic
+    // =============================
 
-        bool groundedL = wheelL.GetGroundHit(out hit);
-        if (groundedL)
-            travelL = (-wheelL.transform.InverseTransformPoint(hit.point).y - wheelL.radius) / wheelL.suspensionDistance;
-
-        bool groundedR = wheelR.GetGroundHit(out hit);
-        if (groundedR)
-            travelR = (-wheelR.transform.InverseTransformPoint(hit.point).y - wheelR.radius) / wheelR.suspensionDistance;
-
-        float antiRollForce = (travelL - travelR) * antiRoll;
-
-        if (groundedL)
-            rb.AddForceAtPosition(wheelL.transform.up * -antiRollForce, wheelL.transform.position);
-
-        if (groundedR)
-            rb.AddForceAtPosition(wheelR.transform.up * antiRollForce, wheelR.transform.position);
-    }
-
-    private void Steer()
-    {
-        if (WaypointManager.waypoints.Count == 0) return;
-
-        Vector3 relativeVector = transform.InverseTransformPoint(
-            WaypointManager.waypoints[currentWaypoint].position
-        );
-
-        float newSteer = (relativeVector.x / relativeVector.magnitude) * maxSteerAngle;
-        frontLeftWheelCollider.steerAngle = newSteer;
-        frontRightWheelCollider.steerAngle = newSteer;
-
-        if (relativeVector.magnitude < waypointDistance)
-        {
-            currentWaypoint = (currentWaypoint + 1) % WaypointManager.waypoints.Count;
-        }
-    }
-
-    private void ApplyMotorTorque(float torque)
-    {
-        frontLeftWheelCollider.motorTorque = torque;
-        frontRightWheelCollider.motorTorque = torque;
-        rearLeftWheelCollider.motorTorque = torque;
-        rearRightWheelCollider.motorTorque = torque;
-    }
-
-    private void ApplyBrakeTorque(float torque)
-    {
-        frontLeftWheelCollider.brakeTorque = torque;
-        frontRightWheelCollider.brakeTorque = torque;
-        rearLeftWheelCollider.brakeTorque = torque;
-        rearRightWheelCollider.brakeTorque = torque;
-    }
-
-    private void UpdateWheels()
-    {
-        UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
-        UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
-        UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
-        UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
-    }
-
-    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
-    {
-        Vector3 pos;
-        Quaternion rot;
-        wheelCollider.GetWorldPose(out pos, out rot);
-        wheelTransform.position = pos;
-        wheelTransform.rotation = rot;
-    }
-
-    // UI Button Methods
+    private bool isGasPressed = false;
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
 
@@ -171,7 +86,6 @@ public class AICarController : MonoBehaviour
             {
                 QuestionManager.Instance.ShowNextQuestion();
                 isGasPressed = false;
-                rb.constraints = RigidbodyConstraints.FreezeAll;
             }
         }
 
@@ -180,18 +94,14 @@ public class AICarController : MonoBehaviour
             isInsideStopZone = true;
             hasPrintedStopMessage = false;
 
-            
             GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
 
-            
             if (greenLightCoroutine != null)
                 StopCoroutine(greenLightCoroutine);
 
             greenLightCoroutine = StartCoroutine(ChangeTrafficLightToGreenAfterDelay(5f));
         }
     }
-
-
 
     private void OnTriggerExit(Collider other)
     {
@@ -200,14 +110,12 @@ public class AICarController : MonoBehaviour
             isInsideStopZone = false;
             hasPrintedStopMessage = false;
 
-           
             if (greenLightCoroutine != null)
             {
                 StopCoroutine(greenLightCoroutine);
                 greenLightCoroutine = null;
             }
 
-            
             GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
         }
     }
@@ -219,10 +127,9 @@ public class AICarController : MonoBehaviour
         GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
             GamePlayManager.instance.trafficNormalMat;
 
-        greenLightCoroutine = null; // reset reference
+        greenLightCoroutine = null;
     }
 
-    
     public void DismissCollectible()
     {
         if (currentCollectible != null)
@@ -240,34 +147,13 @@ public class AICarController : MonoBehaviour
         }
     }
 
-    public void MoveBackWaypoints(int steps)
-    {
-        currentWaypoint = Mathf.Max(0, currentWaypoint - steps);
-        Transform target = WaypointManager.waypoints[currentWaypoint];
-        transform.position = target.position;
-        transform.rotation = target.rotation;
-
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-
-        ResumeDriving();
-    }
-
     public void RespawnAtStart()
     {
         if (gasBar != null && gasBar.startPoint != null)
         {
-            transform.position = gasBar.startPoint.position;
-            transform.rotation = gasBar.startPoint.rotation;
-
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            ResumeDriving();
+            pathPosition = 0f; // reset to beginning of road
+            transform.position = roadPath.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
+            transform.rotation = roadPath.EvaluateOrientationAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
         }
     }
-
-
-    //this is to reset the car's position and gas level
-     
 }
