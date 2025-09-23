@@ -217,8 +217,8 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    public void LoadScene(int sceneIndex)
-    {
-        SceneManager.LoadScene(sceneIndex);
-    }
+    //public void LoadScene(int sceneIndex)
+    //{
+    //    SceneManager.LoadScene(sceneIndex);
+    //}
 }
