@@ -29,6 +29,8 @@ public class AICarController : MonoBehaviour
     private bool isInsideStopZone = false;
     private bool hasPrintedStopMessage = false;
 
+
+
     // Store coroutine so we can cancel if needed
     private Coroutine greenLightCoroutine;
 
