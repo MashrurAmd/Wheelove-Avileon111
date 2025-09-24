@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -19,32 +18,27 @@ public class QuestionManager : MonoBehaviour
     public Text questionText;
     public List<Toggle> optionToggles;
     public List<Text> optionLabels;
-    public Button confirmButton;
     public ToggleGroup toggleGroup;
+    public TMP_Text timerText;
+    public TMP_Text answerText;
+    public Text Scoretext;
+    public Text wrongAnswersText;
+    public GameObject Gameover;
+
+    [Header("Timer")]
+    public float questionTime = 10f;
 
     private int currentQuestionIndex = -1;
     private int nextQuestionIndex = 0;
-    private int activeCheckpointIndex = -1;
-
-    [Header("Timer")]
-    public TMP_Text timerText;
-    public float questionTime = 10f;
     private float currentTime;
     private bool isCountingDown = false;
 
-    public int wrongAnswerCount = 0;
-    public TMP_Text answerText;
+    [Header("Game Data")]
+    public int score = 0;
+    public int life = 3;
 
     private AICarController car;
     private GasBar gasBar;
-
-    public int score = 0;
-    public Text Scoretext;
-
-    public int life = 3;
-    public Text wrongAnswersText;
-
-    public GameObject Gameover;
 
     void Awake()
     {
@@ -55,6 +49,8 @@ public class QuestionManager : MonoBehaviour
     {
         car = FindObjectOfType<AICarController>();
         gasBar = FindObjectOfType<GasBar>();
+        UpdateScoreUI();
+        UpdateWrongAnswersUI();
     }
 
     void Update()
@@ -66,7 +62,7 @@ public class QuestionManager : MonoBehaviour
             {
                 currentTime = 0f;
                 isCountingDown = false;
-                CheckAnswer(); 
+                CheckAnswer();
             }
             UpdateTimerUI();
         }
@@ -76,7 +72,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (timerText != null)
         {
-            timerText.text =  Mathf.CeilToInt(currentTime).ToString();
+            timerText.text = Mathf.CeilToInt(currentTime).ToString();
         }
     }
 
@@ -87,7 +83,6 @@ public class QuestionManager : MonoBehaviour
 
     public void ShowQuestion(int index)
     {
-        activeCheckpointIndex = index;
         currentQuestionIndex = index;
 
         if (index >= questionData.questionAnswers.Count)
@@ -97,8 +92,6 @@ public class QuestionManager : MonoBehaviour
         }
 
         questionPanel.SetActive(true);
-
-        
         currentTime = questionTime;
         isCountingDown = true;
         UpdateTimerUI();
@@ -127,11 +120,11 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
-        isCountingDown = false; // 🛑 stop timer once answer is checked
+        isCountingDown = false;
 
         var qa = questionData.questionAnswers[currentQuestionIndex];
-
         string selectedOption = "";
+
         for (int i = 0; i < optionToggles.Count; i++)
         {
             if (optionToggles[i].isOn)
@@ -141,74 +134,66 @@ public class QuestionManager : MonoBehaviour
             }
         }
 
+        // No option selected
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
-            Debug.Log("No option selected!");
             answerText.text = "No option selected!";
             return;
         }
 
-        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(),
-            StringComparison.OrdinalIgnoreCase);
+        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(), StringComparison.OrdinalIgnoreCase);
 
         if (isCorrect)
         {
-            Debug.Log("Correct Answer!");
             answerText.text = "Correct Answer!";
-
-            if (gasBar != null) gasBar.AddGas(gasBar.gasFillAmount);
             nextQuestionIndex++;
+            score++;
+            UpdateScoreUI();
+
+            if (gasBar != null) gasBar.AddGas(0.2f); // refill some gas
 
             if (car != null)
             {
-                car.DismissCollectible();
-                car.ResumeDriving();
+                car.ResumeDriving(); // just resume car movement
             }
-
-            score++;
-            UpdateScoreUI();
         }
         else
         {
-            wrongAnswerCount++;
-
-            //if (car != null)
-            //{
-            //    if (wrongAnswerCount == 1) car.MoveBackWaypoints(1);
-            //    else if (wrongAnswerCount == 2) car.MoveBackWaypoints(2);
-            //    else if (wrongAnswerCount >= 3) { car.RespawnAtStart(); wrongAnswerCount = 0; }
-            //}
-
             answerText.text = "Wrong Answer!";
             Debug.Log("Wrong Answer!");
 
             life--;
             UpdateWrongAnswersUI();
+
+            // Move car back based on wrong answers
+            if (car != null)
+            {
+                if (life == 2) car.TeleportBackWaypoints(1);
+                else if (life == 1) car.TeleportBackWaypoints(2);
+                else if (life <= 0) car.RespawnAtStart();
+            }
+
         }
 
-        StartCoroutine(WaitQuestionPanelDisableSeq());
+        StartCoroutine(HideQuestionPanelAfterDelay());
     }
 
-    private IEnumerator WaitQuestionPanelDisableSeq()
+    private IEnumerator HideQuestionPanelAfterDelay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         questionPanel.SetActive(false);
     }
 
     public void UpdateScoreUI()
     {
         if (Scoretext != null)
-        {
-            Scoretext.text = "Score : " + score.ToString();
-        }
+            Scoretext.text = "Score: " + score;
     }
 
     public void UpdateWrongAnswersUI()
     {
         if (wrongAnswersText != null)
-        {
-            wrongAnswersText.text = "Life : " + life.ToString();
-        }
+            wrongAnswersText.text = "Life: " + life;
 
         if (life <= 0)
         {
@@ -221,8 +206,4 @@ public class QuestionManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
-
-
-
-
 }

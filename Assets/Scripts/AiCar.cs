@@ -5,157 +5,188 @@ using Cinemachine;
 public class AICarController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public CinemachinePathBase roadPath;   // Drag your RoadPath here
-    public float moveSpeed = 10f;          // forward speed
-    public float deceleration = 5f;        // slows down when gas is released
+    public CinemachinePathBase roadPath;    // Drag your Cinemachine Path here
+    public float moveSpeed = 10f;           // Forward speed
+    public float deceleration = 5f;         // Slows down when gas is released
 
-    private float pathPosition = 0f;       // current distance along path
-    private float currentSpeed = 0f;
+    private float pathPosition = 0f;        // Current distance along path
+    private float currentSpeed = 0f;        // Current movement speed
 
     [Header("Score System")]
     public int score = 0;
 
     [Header("UI References")]
-    public GameObject questionPanel;
+    public GameObject questionPanel;        // Optional panel to pause car
 
     private GameObject currentCollectible;
     private Rigidbody rb;
 
-    // Gas system
     private bool isGasPressed = false;
-    private GasBar gasBar;
-
-    // Stop-zone detection
-    private bool isInsideStopZone = false;
-    private bool hasPrintedStopMessage = false;
-
-    // Store coroutine so we can cancel if needed
-    private Coroutine greenLightCoroutine;
+    public static bool isCarMoving = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true; // car is fully path-controlled now
-        gasBar = FindObjectOfType<GasBar>();
+        rb.isKinematic = true;               // Fully path-controlled
     }
 
     private void Update()
     {
-        // Gas input (from button or touch events)
+        // -------------------------
+        // Gas Input Movement
+        // -------------------------
         if (isGasPressed)
+        {
             currentSpeed = moveSpeed;
+            isCarMoving = true;
+        }
         else
+        {
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
+            if (currentSpeed <= 0.01f) isCarMoving = false;
+        }
 
-        // Move along the path
+        // -------------------------
+        // Move Along Path
+        // -------------------------
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
-        // Update car transform
+        transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+    }
+
+    // -------------------------
+    // Gas Controls
+    // -------------------------
+    public void GasPressed() => isGasPressed = true;
+    public void GasReleased() => isGasPressed = false;
+    public bool IsGasPressed() => isGasPressed;
+
+    // -------------------------
+    // Path Info
+    // -------------------------
+    public float GetPathPosition() => pathPosition;
+
+    // -------------------------
+    // Teleport / Respawn
+    // -------------------------
+    public void TeleportTo(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+
+        // Reset car's progress along path
+        pathPosition = roadPath.FindClosestPoint(position, 0, -1, 10);
+        currentSpeed = 0f;
+        isGasPressed = false;
+        isCarMoving = false;
+    }
+
+    public void TeleportBackWaypoints(int steps)
+    {
+        if (WaypointManager.waypoints.Count == 0)
+        {
+            Debug.LogWarning("No waypoints found!");
+            return;
+        }
+
+        // Find closest waypoint to car
+        int closestIndex = 0;
+        float minDistance = float.MaxValue;
+
+        for (int i = 0; i < WaypointManager.waypoints.Count; i++)
+        {
+            float dist = Vector3.Distance(transform.position, WaypointManager.waypoints[i].position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closestIndex = i;
+            }
+        }
+
+        // Calculate new waypoint index
+        int newIndex = Mathf.Max(closestIndex - steps, 0);
+
+        // Teleport to that waypoint
+        transform.position = WaypointManager.waypoints[newIndex].position;
+        transform.rotation = WaypointManager.waypoints[newIndex].rotation;
+
+        // Reset path position along Cinemachine Path
+        pathPosition = roadPath.FindClosestPoint(transform.position, 0, -1, 10);
+        currentSpeed = 0f;
+        isGasPressed = false;
+        isCarMoving = false;
+
+        Debug.Log($"Car moved back {steps} waypoint(s) to waypoint {newIndex}");
+    }
+
+    public void RespawnAtStart()
+    {
+        pathPosition = 0f;
+        transform.position = roadPath.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
+
+        currentSpeed = 0f;
+        isGasPressed = false;
+        isCarMoving = false;
+    }
+
+    // -------------------------
+    // Move Back Along Path
+    // -------------------------
+    public void MoveBackOnPath(float distanceBack)
+    {
+        pathPosition -= distanceBack;
+        if (pathPosition < 0f) pathPosition = 0f;
+
         transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
         transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
 
-        // Stop detection in traffic zone
-        if (isInsideStopZone && !isGasPressed && currentSpeed <= 0.01f && !hasPrintedStopMessage)
-        {
-            hasPrintedStopMessage = true;
-            Debug.Log("Car has stopped inside traffic block!");
-        }
+        currentSpeed = 0f;
+        isGasPressed = false;
+        isCarMoving = false;
     }
 
-    // =============================
-    //  Collectibles + Traffic Logic
-    // =============================
+    public void PauseCar()
+    {
+        isGasPressed = false;
+        isCarMoving = false;
+        currentSpeed = 0f;
+    }
 
-    public void GasPressed() => isGasPressed = true;
-    public void GasReleased() => isGasPressed = false;
+    public void ResumeDriving()
+    {
+        // Car can resume movement if gas is pressed
+        isCarMoving = isGasPressed;
+    }
 
-    // ✅ Public getter for GasBar
-    public bool IsGasPressed() => isGasPressed;
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Collectible"))
         {
-            if (questionPanel != null && questionPanel.activeSelf) return;
+            // Stop the car
+            PauseCar();
 
-            score++;
-            currentCollectible = other.gameObject;
-
-            QuestionManager.Instance.answerText.text = string.Empty;
-
+            // Show the question
             if (QuestionManager.Instance != null)
             {
                 QuestionManager.Instance.ShowNextQuestion();
-                isGasPressed = false;
-            }
-        }
-
-        if (other.CompareTag("traffic"))
-        {
-            isInsideStopZone = true;
-            hasPrintedStopMessage = false;
-
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
-
-            if (greenLightCoroutine != null)
-                StopCoroutine(greenLightCoroutine);
-
-            greenLightCoroutine = StartCoroutine(ChangeTrafficLightToGreenAfterDelay(5f));
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("traffic"))
-        {
-            isInsideStopZone = false;
-            hasPrintedStopMessage = false;
-
-            if (greenLightCoroutine != null)
-            {
-                StopCoroutine(greenLightCoroutine);
-                greenLightCoroutine = null;
             }
 
-            GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material = GamePlayManager.instance.trafficAlertMat;
+            // Optionally disable collectible
+            other.gameObject.SetActive(false);
         }
     }
 
-    private IEnumerator ChangeTrafficLightToGreenAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
 
-        GamePlayManager.instance.trafficlight.GetComponent<MeshRenderer>().material =
-            GamePlayManager.instance.trafficNormalMat;
 
-        greenLightCoroutine = null;
-    }
 
-    public void DismissCollectible()
-    {
-        if (currentCollectible != null)
-        {
-            currentCollectible.SetActive(false);
-            currentCollectible = null;
-        }
-    }
 
-    public void ResumeDriving()
-    {
-        if (questionPanel != null)
-        {
-            //questionPanel.SetActive(false);
-        }
-    }
 
-    public void RespawnAtStart()
-    {
-        if (gasBar != null && gasBar.startPoint != null)
-        {
-            pathPosition = 0f; // reset to beginning of road
-            transform.position = roadPath.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
-            transform.rotation = roadPath.EvaluateOrientationAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
-        }
-    }
+
+
+
 }
