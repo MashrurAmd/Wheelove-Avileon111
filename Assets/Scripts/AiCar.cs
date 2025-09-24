@@ -135,18 +135,18 @@ public class AICarController : MonoBehaviour
     // -------------------------
     // Move Back Along Path
     // -------------------------
-    public void MoveBackOnPath(float distanceBack)
-    {
-        pathPosition -= distanceBack;
-        if (pathPosition < 0f) pathPosition = 0f;
+    //public void MoveBackOnPath(float distanceBack)
+    //{
+    //    pathPosition -= distanceBack;
+    //    if (pathPosition < 0f) pathPosition = 0f;
 
-        transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+    //    transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+    //    transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
 
-        currentSpeed = 0f;
-        isGasPressed = false;
-        isCarMoving = false;
-    }
+    //    currentSpeed = 0f;
+    //    isGasPressed = false;
+    //    isCarMoving = false;
+    //}
 
     public void PauseCar()
     {

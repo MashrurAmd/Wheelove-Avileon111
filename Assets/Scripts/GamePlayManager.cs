@@ -17,8 +17,7 @@ public class GameManager : MonoBehaviour
         if (wrongAnswers >= 3)
         {
             // 3 wrong answers → go back to start
-            car.TeleportTo(WaypointManager.waypoints[0].position,
-                           WaypointManager.waypoints[0].rotation);
+            car.TeleportTo(WaypointManager.waypoints[0].position,WaypointManager.waypoints[0].rotation);
             wrongAnswers = 0;
             Debug.Log("3 wrong answers! Car reset to start.");
             return;
