@@ -9,12 +9,12 @@ public class GasBar : MonoBehaviour
     public float maxGas = 1f;          // 1 = full tank
     public float currentGas = 1f;      // starts full
     public float gasConsumptionRate = 0.01f; // decrease speed per sec
-    public float gasFillAmount;
 
     [Header("Respawn Settings")]
     public Transform startPoint;   // Drag an Empty GameObject at start
     private AICarController car;   // Reference to car
 
+    public float gasFillAmount; // legacy variable for other scripts
     void Start()
     {
         car = FindObjectOfType<AICarController>();
@@ -24,15 +24,16 @@ public class GasBar : MonoBehaviour
 
     void Update()
     {
-        if (AICarController.isCarMoving)
+        if (car != null && car.IsGasPressed())
         {
             currentGas -= gasConsumptionRate * Time.deltaTime;
             currentGas = Mathf.Clamp01(currentGas);
             gasBarImage.fillAmount = currentGas;
 
+            gasFillAmount = currentGas;   // ✅ keep in sync
+
             UpdateGasText();
 
-            // 🚨 Out of gas → respawn
             if (currentGas <= 0f)
             {
                 RespawnCar();
@@ -61,6 +62,8 @@ public class GasBar : MonoBehaviour
             currentGas = maxGas;
             gasBarImage.fillAmount = currentGas;
             UpdateGasText();
+
+            car.RespawnAtStart(); // reset along path
         }
     }
 
@@ -73,5 +76,6 @@ public class GasBar : MonoBehaviour
         }
     }
 }
+
 
 

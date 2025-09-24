@@ -22,14 +22,12 @@ public class AICarController : MonoBehaviour
     private Rigidbody rb;
 
     // Gas system
-    public static bool isCarMoving = false;
+    private bool isGasPressed = false;
     private GasBar gasBar;
 
     // Stop-zone detection
     private bool isInsideStopZone = false;
     private bool hasPrintedStopMessage = false;
-
-
 
     // Store coroutine so we can cancel if needed
     private Coroutine greenLightCoroutine;
@@ -69,9 +67,11 @@ public class AICarController : MonoBehaviour
     //  Collectibles + Traffic Logic
     // =============================
 
-    private bool isGasPressed = false;
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
+
+    // ✅ Public getter for GasBar
+    public bool IsGasPressed() => isGasPressed;
 
     private void OnTriggerEnter(Collider other)
     {
