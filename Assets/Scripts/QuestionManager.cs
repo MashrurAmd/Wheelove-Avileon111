@@ -168,9 +168,19 @@ public class QuestionManager : MonoBehaviour
             // Move car back based on wrong answers
             if (car != null)
             {
-                if (life == 2) car.TeleportBackWaypoints(1);
-                else if (life == 1) car.TeleportBackWaypoints(2);
-                else if (life <= 0) car.RespawnAtStart();
+                if (life == 2)
+                {
+                    car.TeleportBackWaypoints(1); // 1st wrong → 1 waypoint back
+                }
+                else if (life == 1)
+                {
+                    car.TeleportBackWaypoints(2); // 2nd wrong → 2 waypoints back
+                }
+                else if (life <= 0)
+                {
+                    car.RespawnAtStart(); // 3rd wrong → move to startsss
+                    
+                }
             }
 
         }
