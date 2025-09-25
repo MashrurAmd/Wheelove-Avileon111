@@ -176,10 +176,13 @@ public class QuestionManager : MonoBehaviour
                 {
                     car.TeleportBackWaypoints(2); // 2nd wrong → 2 waypoints back
                 }
-                else if (life <= 0)
+                //else if (life == 0)
+                //{
+                //    car.RespawnAtStart(); // 3rd wrong → back to start
+                //}
+                else if (life < 0)
                 {
-                    car.RespawnAtStart(); // 3rd wrong → move to startsss
-                    
+                    Gameover.SetActive(true); // after start, next wrong → Game Over
                 }
             }
 
