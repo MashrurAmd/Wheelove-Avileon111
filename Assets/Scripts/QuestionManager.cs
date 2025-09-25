@@ -156,6 +156,9 @@ public class QuestionManager : MonoBehaviour
             answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
+
+            GameManager.instance.car.RespawnAtStart();
+            //RespawnAtStart()
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
