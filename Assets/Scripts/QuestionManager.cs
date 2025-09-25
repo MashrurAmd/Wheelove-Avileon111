@@ -96,7 +96,6 @@ public class QuestionManager : MonoBehaviour
         isCountingDown = true;
         UpdateTimerUI();
 
-        // Load Question + Options
         var qa = questionData.questionAnswers[index];
         questionText.text = qa.questions;
 
@@ -134,7 +133,6 @@ public class QuestionManager : MonoBehaviour
             }
         }
 
-        // No option selected
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
             answerText.text = "No option selected!";
@@ -150,12 +148,9 @@ public class QuestionManager : MonoBehaviour
             score++;
             UpdateScoreUI();
 
-            if (gasBar != null) gasBar.AddGas(0.2f); // refill some gas
+            if (gasBar != null) gasBar.AddGas(0.2f);
 
-            if (car != null)
-            {
-                car.ResumeDriving(); // just resume car movement
-            }
+            if (car != null) car.ResumeDriving();
         }
         else
         {
@@ -165,7 +160,6 @@ public class QuestionManager : MonoBehaviour
             life--;
             UpdateWrongAnswersUI();
 
-            // Move car back based on wrong answers
             if (car != null)
             {
                 if (life == 2)
@@ -176,16 +170,16 @@ public class QuestionManager : MonoBehaviour
                 {
                     car.TeleportBackWaypoints(2); // 2nd wrong → 2 waypoints back
                 }
-                //else if (life == 0)
-                //{
-                //    car.RespawnAtStart(); // 3rd wrong → back to start
-                //}
+                else if (life == 0)
+                {
+                    car.RespawnAtStart(); // 3rd wrong → back to start
+                }
                 else if (life < 0)
                 {
                     Gameover.SetActive(true); // after start, next wrong → Game Over
+                    Debug.Log("Game Over!");
                 }
             }
-
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
@@ -206,12 +200,12 @@ public class QuestionManager : MonoBehaviour
     public void UpdateWrongAnswersUI()
     {
         if (wrongAnswersText != null)
-            wrongAnswersText.text = "Life: " + life;
+            wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
 
-        if (life <= 0)
+        if (life < 0)
         {
             Debug.Log("Game Over!");
-            Gameover.SetActive(true);
+            if (Gameover != null) Gameover.SetActive(true);
         }
     }
 
@@ -220,3 +214,4 @@ public class QuestionManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 }
+

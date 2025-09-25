@@ -15,26 +15,19 @@ public class AICarController : MonoBehaviour
     [Header("Score System")]
     public int score = 0;
 
-    [Header("UI References")]
-    public GameObject questionPanel;        // Optional panel to pause car
-
-    private GameObject currentCollectible;
     private Rigidbody rb;
-
     private bool isGasPressed = false;
     public static bool isCarMoving = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;               // Fully path-controlled
+        rb.isKinematic = true; // fully path-controlled
     }
 
     private void Update()
     {
-        // -------------------------
-        // Gas Input Movement
-        // -------------------------
+        // Gas input
         if (isGasPressed)
         {
             currentSpeed = moveSpeed;
@@ -46,9 +39,7 @@ public class AICarController : MonoBehaviour
             if (currentSpeed <= 0.01f) isCarMoving = false;
         }
 
-        // -------------------------
-        // Move Along Path
-        // -------------------------
+        // Move along path
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
@@ -56,33 +47,15 @@ public class AICarController : MonoBehaviour
         transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
     }
 
-    // -------------------------
-    // Gas Controls
-    // -------------------------
+    // Gas controls
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
     public bool IsGasPressed() => isGasPressed;
 
-    // -------------------------
-    // Path Info
-    // -------------------------
+    // Path info
     public float GetPathPosition() => pathPosition;
 
-    // -------------------------
-    // Teleport / Respawn
-    // -------------------------
-    public void TeleportTo(Vector3 position, Quaternion rotation)
-    {
-        transform.position = position;
-        transform.rotation = rotation;
-
-        // Reset car's progress along path
-        pathPosition = roadPath.FindClosestPoint(position, 0, -1, 10);
-        currentSpeed = 0f;
-        isGasPressed = false;
-        isCarMoving = false;
-    }
-
+    // Teleport helpers
     public void TeleportBackWaypoints(int steps)
     {
         if (WaypointManager.waypoints.Count == 0)
@@ -130,22 +103,8 @@ public class AICarController : MonoBehaviour
         currentSpeed = 0f;
         isGasPressed = false;
         isCarMoving = false;
-    }
 
-    // -------------------------
-    // Move Back Along Path
-    // -------------------------
-    public void MoveBackOnPath(float distanceBack)
-    {
-        pathPosition -= distanceBack;
-        if (pathPosition < 0f) pathPosition = 0f;
-
-        transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
-
-        currentSpeed = 0f;
-        isGasPressed = false;
-        isCarMoving = false;
+        Debug.Log("Car respawned at start.");
     }
 
     public void PauseCar()
@@ -157,11 +116,8 @@ public class AICarController : MonoBehaviour
 
     public void ResumeDriving()
     {
-        // Car can resume movement if gas is pressed
         isCarMoving = isGasPressed;
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -176,13 +132,8 @@ public class AICarController : MonoBehaviour
                 QuestionManager.Instance.ShowNextQuestion();
             }
 
-            // Optionally disable collectible
+            // Disable collectible
             other.gameObject.SetActive(false);
         }
     }
-
-
-
-
-
 }
