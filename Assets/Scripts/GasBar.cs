@@ -3,21 +3,22 @@ using UnityEngine.UI;
 
 public class GasBar : MonoBehaviour
 {
-    public Image gasBarImage;          // Drag your UI Image (Gas Bar) here
-    public Text gasText;               // Drag your UI Text here (for % display)
+    public Image gasBarImage;
+    public Text gasText;
 
-    public float maxGas = 1f;          // 1 = full tank
-    public float currentGas = 1f;      // starts full
-    public float gasConsumptionRate = 0.01f; // decrease speed per sec
+    public float maxGas = 1f;
+    public float currentGas = 1f;
+    public float gasConsumptionRate = 0.01f;
 
     [Header("Respawn Settings")]
-    public Transform startPoint;   // Drag an Empty GameObject at start
-    private AICarController car;   // Reference to car
+    public Transform startPoint;
+    private Car car;
 
-    public float gasFillAmount; // legacy variable for other scripts
+    public float gasFillAmount;
+
     void Start()
     {
-        car = FindObjectOfType<AICarController>();
+        car = FindObjectOfType<Car>();
         gasBarImage.fillAmount = currentGas;
         UpdateGasText();
     }
@@ -29,9 +30,7 @@ public class GasBar : MonoBehaviour
             currentGas -= gasConsumptionRate * Time.deltaTime;
             currentGas = Mathf.Clamp01(currentGas);
             gasBarImage.fillAmount = currentGas;
-
-            gasFillAmount = currentGas;   // ✅ keep in sync
-
+            gasFillAmount = currentGas;
             UpdateGasText();
 
             if (currentGas <= 0f)
@@ -63,7 +62,7 @@ public class GasBar : MonoBehaviour
             gasBarImage.fillAmount = currentGas;
             UpdateGasText();
 
-            car.RespawnAtStart(); // reset along path
+            car.RespawnAtStart();
         }
     }
 
@@ -76,6 +75,7 @@ public class GasBar : MonoBehaviour
         }
     }
 }
+
 
 
 

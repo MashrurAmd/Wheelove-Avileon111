@@ -9,13 +9,13 @@ public class CameraZoomController : MonoBehaviour
     public float zoomSpeed = 3f;
 
     private Cinemachine3rdPersonFollow follow;
-    private AICarController carController;
+    private Car carController;
     private bool hasStartedDriving = false;
 
     void Start()
     {
         follow = virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
-        carController = FindObjectOfType<AICarController>(); // find your car
+        carController = FindObjectOfType<Car>(); // find your car
         follow.ShoulderOffset = zoomOutOffset; // start zoomed out
     }
 

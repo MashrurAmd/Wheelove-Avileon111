@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -37,7 +36,7 @@ public class QuestionManager : MonoBehaviour
     public int score = 0;
     public int life = 3;
 
-    private AICarController car;
+    private Car car;
     private GasBar gasBar;
 
     void Awake()
@@ -47,7 +46,7 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        car = FindObjectOfType<AICarController>();
+        car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
         UpdateScoreUI();
         UpdateWrongAnswersUI();
@@ -139,7 +138,7 @@ public class QuestionManager : MonoBehaviour
             return;
         }
 
-        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(), StringComparison.OrdinalIgnoreCase);
+        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(), System.StringComparison.OrdinalIgnoreCase);
 
         if (isCorrect)
         {
@@ -155,31 +154,8 @@ public class QuestionManager : MonoBehaviour
         else
         {
             answerText.text = "Wrong Answer!";
-            Debug.Log("Wrong Answer!");
-
             life--;
             UpdateWrongAnswersUI();
-
-            if (car != null)
-            {
-                if (life == 2)
-                {
-                    car.TeleportBackWaypoints(1); // 1st wrong → 1 waypoint back
-                }
-                else if (life == 1)
-                {
-                    car.TeleportBackWaypoints(2); // 2nd wrong → 2 waypoints back
-                }
-                else if (life == 0)
-                {
-                    car.RespawnAtStart(); // 3rd wrong → back to start
-                }
-                else if (life < 0)
-                {
-                    Gameover.SetActive(true); // after start, next wrong → Game Over
-                    Debug.Log("Game Over!");
-                }
-            }
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
@@ -202,9 +178,8 @@ public class QuestionManager : MonoBehaviour
         if (wrongAnswersText != null)
             wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
 
-        if (life < 0)
+        if (life <= 0)
         {
-            Debug.Log("Game Over!");
             if (Gameover != null) Gameover.SetActive(true);
         }
     }
@@ -214,4 +189,3 @@ public class QuestionManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 }
-
