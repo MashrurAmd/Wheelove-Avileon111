@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class SimpleCarGas : MonoBehaviour
 {
     [Header("Wheel Colliders")]
@@ -13,12 +14,39 @@ public class SimpleCarGas : MonoBehaviour
     public float acceleration = 800f;
     public float deceleration = 1200f;
 
+    [Header("Speed Limit")]
+    public float maxSpeed = 20f; // meters per second
+
+    private Rigidbody rb;
     private float currentTorque = 0f;
     private bool isGasPressed = false;
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+    }
+
+    void Update()
+    {
+        // OPTIONAL: Keyboard support (PC testing)
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+            GasDown();
+
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.Space))
+            GasUp();
+    }
+
     void FixedUpdate()
     {
-        // Smooth acceleration & deceleration
+        HandleMotor();
+        LimitSpeed();
+    }
+
+    void HandleMotor()
+    {
+        // Smooth acceleration / deceleration
         if (isGasPressed)
         {
             currentTorque = Mathf.MoveTowards(
@@ -47,7 +75,18 @@ public class SimpleCarGas : MonoBehaviour
         rearRight.motorTorque = torque;
     }
 
-    // --- CALL THESE FROM UI BUTTON OR INPUT ---
+    void LimitSpeed()
+    {
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
+        }
+    }
+
+    // =============================
+    // UI BUTTON EVENTS (IMPORTANT)
+    // =============================
+
     public void GasDown()
     {
         isGasPressed = true;
@@ -58,4 +97,3 @@ public class SimpleCarGas : MonoBehaviour
         isGasPressed = false;
     }
 }
-
