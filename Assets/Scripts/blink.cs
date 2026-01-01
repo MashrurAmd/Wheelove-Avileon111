@@ -2,38 +2,70 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class ImageColorCycle : MonoBehaviour
+public class GasButtonBlink : MonoBehaviour
 {
-    [Header("Image Settings")]
+    [Header("References")]
     public Image targetImage;
     public Sprite greenSprite;
     public Sprite redSprite;
+    public TriggerZone carTriggerZone; // SAME zone used in SimulationManager
 
-    [Header("Timing Settings")]
-    public float delayBeforeRed = 4f;
-    public float redDuration = 10f;
+    [Header("Blink Settings")]
+    public float blinkSpeed = 0.5f;   // Lower = faster blink
+    public float dimAlpha = 0.3f;
+    public float brightAlpha = 1f;
 
-    private void Start()
+    private Coroutine blinkRoutine;
+    private bool isBlinking = false;
+
+    void Update()
     {
-        // Start with green image
-        targetImage.sprite = greenSprite;
-
-        // Start cycle
-        StartCoroutine(ColorCycle());
+        if (carTriggerZone.isTriggered)
+        {
+            if (!isBlinking)
+            {
+                StartRedBlink();
+            }
+        }
+        else
+        {
+            StopRedBlink();
+        }
     }
 
-    IEnumerator ColorCycle()
+    void StartRedBlink()
     {
-        // Wait before switching to red
-        yield return new WaitForSeconds(delayBeforeRed);
-
-        // Switch to red
+        isBlinking = true;
         targetImage.sprite = redSprite;
 
-        // Stay red for 10 seconds
-        yield return new WaitForSeconds(redDuration);
+        blinkRoutine = StartCoroutine(BlinkEffect());
+    }
 
-        // Switch back to green
+    void StopRedBlink()
+    {
+        if (!isBlinking) return;
+
+        isBlinking = false;
+
+        if (blinkRoutine != null)
+            StopCoroutine(blinkRoutine);
+
+        // Reset to green
         targetImage.sprite = greenSprite;
+        targetImage.color = new Color(1f, 1f, 1f, 1f);
+    }
+
+    IEnumerator BlinkEffect()
+    {
+        while (true)
+        {
+            // Bright
+            targetImage.color = new Color(1f, 1f, 1f, brightAlpha);
+            yield return new WaitForSeconds(blinkSpeed);
+
+            // Dim
+            targetImage.color = new Color(1f, 1f, 1f, dimAlpha);
+            yield return new WaitForSeconds(blinkSpeed);
+        }
     }
 }
