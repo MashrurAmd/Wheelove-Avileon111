@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -8,64 +8,71 @@ public class GasButtonBlink : MonoBehaviour
     public Image targetImage;
     public Sprite greenSprite;
     public Sprite redSprite;
-    public TriggerZone carTriggerZone; // SAME zone used in SimulationManager
+    public TriggerZone carTriggerZone;
 
     [Header("Blink Settings")]
-    public float blinkSpeed = 0.5f;   // Lower = faster blink
+    public float blinkSpeed = 0.5f;
     public float dimAlpha = 0.3f;
     public float brightAlpha = 1f;
+    public float blinkDuration = 5f;
 
     private Coroutine blinkRoutine;
     private bool isBlinking = false;
+    private bool hasBlinkedThisEntry = false; // ⭐ KEY FIX
 
     void Update()
     {
         if (carTriggerZone.isTriggered)
         {
-            if (!isBlinking)
+            targetImage.sprite = redSprite;
+
+            if (!hasBlinkedThisEntry)
             {
                 StartRedBlink();
             }
         }
         else
         {
-            StopRedBlink();
+            ResetState();
         }
     }
 
     void StartRedBlink()
     {
         isBlinking = true;
-        targetImage.sprite = redSprite;
-
+        hasBlinkedThisEntry = true;
         blinkRoutine = StartCoroutine(BlinkEffect());
     }
 
-    void StopRedBlink()
+    void ResetState()
     {
-        if (!isBlinking) return;
-
-        isBlinking = false;
-
         if (blinkRoutine != null)
             StopCoroutine(blinkRoutine);
 
-        // Reset to green
+        isBlinking = false;
+        hasBlinkedThisEntry = false;
+
         targetImage.sprite = greenSprite;
-        targetImage.color = new Color(1f, 1f, 1f, 1f);
+        targetImage.color = Color.white;
     }
 
     IEnumerator BlinkEffect()
     {
-        while (true)
+        float elapsed = 0f;
+
+        while (elapsed < blinkDuration)
         {
-            // Bright
             targetImage.color = new Color(1f, 1f, 1f, brightAlpha);
             yield return new WaitForSeconds(blinkSpeed);
+            elapsed += blinkSpeed;
 
-            // Dim
             targetImage.color = new Color(1f, 1f, 1f, dimAlpha);
             yield return new WaitForSeconds(blinkSpeed);
+            elapsed += blinkSpeed;
         }
+
+        // 🛑 HARD STOP after 5 seconds
+        isBlinking = false;
+        targetImage.color = new Color(1f, 1f, 1f, brightAlpha);
     }
 }
