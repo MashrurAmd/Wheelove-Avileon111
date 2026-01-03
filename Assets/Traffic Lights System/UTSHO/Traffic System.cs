@@ -19,12 +19,50 @@ public class TrafficLightController : MonoBehaviour
     public float yellowTime = 2f;
     public float redTime = 5f;
 
+    [Header("Car Trigger")]
+    public TriggerZone carTriggerZone;
+    public float delayBeforeGreen = 10f;
+
     private enum LightState { Red, Yellow, Green }
     private LightState currentState;
 
+    private Coroutine trafficRoutine;
+    private Coroutine delayedGreenRoutine;
+
     void Start()
     {
-        StartCoroutine(TrafficLightRoutine());
+        // 🔴 Start with RED
+        SetLight(LightState.Red);
+        trafficRoutine = StartCoroutine(TrafficLightRoutine());
+    }
+
+    void Update()
+    {
+        // 🚗 Car enters area
+        if (carTriggerZone.isTriggered && delayedGreenRoutine == null)
+        {
+            delayedGreenRoutine = StartCoroutine(TurnGreenAfterDelay());
+        }
+
+        // 🚗 Car leaves area → cancel delayed green
+        if (!carTriggerZone.isTriggered && delayedGreenRoutine != null)
+        {
+            StopCoroutine(delayedGreenRoutine);
+            delayedGreenRoutine = null;
+        }
+    }
+
+    IEnumerator TurnGreenAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeGreen);
+
+        // Only switch if car is STILL in area
+        if (carTriggerZone.isTriggered)
+        {
+            SetLight(LightState.Green);
+        }
+
+        delayedGreenRoutine = null;
     }
 
     IEnumerator TrafficLightRoutine()
@@ -32,7 +70,7 @@ public class TrafficLightController : MonoBehaviour
         while (true)
         {
             // GREEN
-            SetLight(LightState.Green);
+            yield return new WaitUntil(() => currentState == LightState.Green);
             yield return new WaitForSeconds(greenTime);
 
             // YELLOW
@@ -49,12 +87,10 @@ public class TrafficLightController : MonoBehaviour
     {
         currentState = state;
 
-        // Turn all lights inactive first
         redLight.material = inactiveMat;
         yellowLight.material = inactiveMat;
         greenLight.material = inactiveMat;
 
-        // Activate only one
         switch (state)
         {
             case LightState.Red:
@@ -71,7 +107,6 @@ public class TrafficLightController : MonoBehaviour
         }
     }
 
-    // 🔴 FOR FUTURE CAR SYSTEM
     public bool IsRedLight()
     {
         return currentState == LightState.Red;
