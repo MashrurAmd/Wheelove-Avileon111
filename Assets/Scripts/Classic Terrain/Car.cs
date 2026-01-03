@@ -6,6 +6,7 @@ public class Car : MonoBehaviour
     [Header("Movement Settings")]
     public CinemachinePathBase roadPath;
     public float moveSpeed = 10f;
+    public float acceleration = 5f;   // Added acceleration
     public float deceleration = 5f;
 
     private float pathPosition = 0f;
@@ -25,11 +26,13 @@ public class Car : MonoBehaviour
     {
         if (isGasPressed)
         {
-            currentSpeed = moveSpeed;
+            // Gradually increase speed toward moveSpeed
+            currentSpeed = Mathf.MoveTowards(currentSpeed, moveSpeed, acceleration * Time.deltaTime);
             isCarMoving = true;
         }
         else
         {
+            // Gradually decrease speed toward 0
             currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
             if (currentSpeed <= 0.01f) isCarMoving = false;
         }
