@@ -22,27 +22,42 @@ public class Car : MonoBehaviour
         rb.isKinematic = true;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (isGasPressed)
         {
-            // Gradually increase speed toward moveSpeed
-            currentSpeed = Mathf.MoveTowards(currentSpeed, moveSpeed, acceleration * Time.deltaTime);
+            currentSpeed = Mathf.MoveTowards(
+                currentSpeed,
+                moveSpeed,
+                acceleration * Time.deltaTime
+            );
             isCarMoving = true;
         }
         else
         {
-            // Gradually decrease speed toward 0
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
+            currentSpeed = Mathf.MoveTowards(
+                currentSpeed,
+                0,
+                deceleration * Time.deltaTime
+            );
             if (currentSpeed <= 0.01f) isCarMoving = false;
         }
 
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
-        transform.position = roadPath.EvaluatePositionAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+        transform.position = roadPath.EvaluatePositionAtUnit(
+            pathPosition,
+            CinemachinePathBase.PositionUnits.Distance
+        );
+
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(
+            pathPosition,
+            CinemachinePathBase.PositionUnits.Distance
+        );
     }
+
+
 
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
