@@ -54,16 +54,26 @@ public class TrafficLightController : MonoBehaviour
 
     IEnumerator TurnGreenAfterDelay()
     {
+        // Wait while light stays RED
         yield return new WaitForSeconds(delayBeforeGreen);
 
-        // Only switch if car is STILL in area
-        if (carTriggerZone.isTriggered)
+        // Make sure car is still inside
+        if (!carTriggerZone.isTriggered)
         {
-            SetLight(LightState.Green);
+            delayedGreenRoutine = null;
+            yield break;
         }
+
+        // 🟡 RED → YELLOW
+        SetLight(LightState.Yellow);
+        yield return new WaitForSeconds(1f); // realistic yellow delay
+
+        // 🟢 YELLOW → GREEN
+        SetLight(LightState.Green);
 
         delayedGreenRoutine = null;
     }
+
 
     IEnumerator TrafficLightRoutine()
     {
