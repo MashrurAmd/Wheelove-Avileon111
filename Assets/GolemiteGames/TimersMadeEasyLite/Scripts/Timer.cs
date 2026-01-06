@@ -193,6 +193,27 @@ public class Timer : MonoBehaviour
         }
     }
 
+
+    private void OnEnable()
+    {
+        ResetTimer();
+
+        if (startAtRuntime)
+        {
+            timerRunning = true;
+
+            if (countMethod == CountMethod.CountDown)
+            {
+                timeRemaining = ReturnTotalSeconds();
+            }
+            else
+            {
+                timeRemaining = 0;
+            }
+        }
+    }
+
+
     private void CountUp()
     {
         if (timeRemaining < ReturnTotalSeconds())
