@@ -6,15 +6,20 @@ public class Car : MonoBehaviour
     [Header("Movement Settings")]
     public CinemachinePathBase roadPath;
     public float moveSpeed = 10f;
-    public float acceleration = 5f;   // Added acceleration
+    public float acceleration = 5f;
     public float deceleration = 5f;
 
     private float pathPosition = 0f;
-    private float currentSpeed = 0f;
+
+    [SerializeField]
+    private float currentSpeed = 0f;   // shows in Inspector
 
     private Rigidbody rb;
     private bool isGasPressed = false;
     public static bool isCarMoving = false;
+
+    // 🔍 PUBLIC SPEED CHECKER (read-only)
+    public float CurrentSpeed => currentSpeed;
 
     private void Start()
     {
@@ -40,7 +45,9 @@ public class Car : MonoBehaviour
                 0,
                 deceleration * Time.deltaTime
             );
-            if (currentSpeed <= 0.01f) isCarMoving = false;
+
+            if (currentSpeed <= 0.01f)
+                isCarMoving = false;
         }
 
         pathPosition += currentSpeed * Time.deltaTime;
@@ -57,8 +64,6 @@ public class Car : MonoBehaviour
         );
     }
 
-
-
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
     public bool IsGasPressed() => isGasPressed;
@@ -68,8 +73,17 @@ public class Car : MonoBehaviour
     public void RespawnAtStart()
     {
         pathPosition = 0f;
-        transform.position = roadPath.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(0, CinemachinePathBase.PositionUnits.Distance);
+
+        transform.position = roadPath.EvaluatePositionAtUnit(
+            0,
+            CinemachinePathBase.PositionUnits.Distance
+        );
+
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(
+            0,
+            CinemachinePathBase.PositionUnits.Distance
+        );
+
         currentSpeed = 0f;
         isGasPressed = false;
         isCarMoving = false;
@@ -92,10 +106,12 @@ public class Car : MonoBehaviour
         if (other.CompareTag("Collectible"))
         {
             PauseCar();
+
             if (QuestionManager.Instance != null)
             {
                 QuestionManager.Instance.ShowNextQuestion();
             }
+
             other.gameObject.SetActive(false);
         }
     }
