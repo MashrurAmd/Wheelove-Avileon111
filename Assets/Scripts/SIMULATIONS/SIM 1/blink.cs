@@ -5,10 +5,10 @@ using System.Collections;
 public class GasButtonBlink : MonoBehaviour
 {
     [Header("References")]
-    public Image targetImage;
-    public Sprite greenSprite;
-    public Sprite redSprite;
-    public TriggerZone carTriggerZone;
+    public Image targetImage;          // real gas button image
+    public Sprite greenSprite;         // normal
+    public Sprite redSprite;           // stop
+    public TriggerZone carTriggerZone; // ANY trigger zone
 
     [Header("Blink Settings")]
     public float blinkSpeed = 0.5f;
@@ -23,12 +23,13 @@ public class GasButtonBlink : MonoBehaviour
         if (carTriggerZone == null || targetImage == null)
             return;
 
+        // 🚗 inside trigger zone
         if (carTriggerZone.isTriggered)
         {
-            // set sprite to RED
+            // set red sprite
             targetImage.sprite = redSprite;
 
-            // already blinking? do nothing
+            // start blinking once
             if (blinkRoutine == null)
             {
                 blinkRoutine = StartCoroutine(BlinkRed());
@@ -36,13 +37,14 @@ public class GasButtonBlink : MonoBehaviour
         }
         else
         {
-            // OUTSIDE AREA → reset to GREEN
+            // 🚗 outside trigger zone
             if (blinkRoutine != null)
             {
                 StopCoroutine(blinkRoutine);
                 blinkRoutine = null;
             }
 
+            // go back to green solid
             targetImage.sprite = greenSprite;
             targetImage.color = Color.white;
         }
@@ -65,10 +67,8 @@ public class GasButtonBlink : MonoBehaviour
             timer += blinkSpeed * 2f;
         }
 
-        // stop blinking after duration
+        // after blinking → solid red
         blinkRoutine = null;
-
-        // keep solid red
         targetImage.color = new Color(1f, 1f, 1f, brightAlpha);
     }
 }
