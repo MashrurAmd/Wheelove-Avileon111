@@ -13,18 +13,21 @@ MonoBehaviour:
   m_Name: QuestionData
   m_EditorClassIdentifier: 
   questionAnswers:
-  - questions: What is the maximum speed in a school zone?
+  - questions: What does the following traffic sign mean?
     options:
-    - 30 km/h
-    - 50 km/h
-    - 80 km/h
-    answers: 30 km/h
-  - questions: What should you do at a pedestrian crossing?
+    - Entry permitted for private vehicles only
+    - No entry for motor vehicles
+    - Entry permitted for public vehicles
+    - Entry permitted for two-wheeled vehicles only
+    answers: No entry for motor vehicles
+  - questions: What should you do when approaching a crosswalk with a pedestrian
+      intending to cross?
     options:
-    - Speed up
-    - Stop for pedestrians
-    - Honk and continue
-    answers: Stop for pedestrians
+    - Slow down and proceed carefully
+    - Honk to warn the pedestrian
+    - Stop and allow them to cross
+    - Carefully overtake the pedestrian
+    answers: Stop and allow them to cross
   - questions: What does a red traffic light mean?
     options:
     - Slow down

@@ -14,7 +14,8 @@ public class QuestionManager : MonoBehaviour
 
     [Header("UI References")]
     public GameObject questionPanel;
-    public Text questionText;
+    //public Text questionText;
+    public TMP_Text questionText;
     public List<Toggle> optionToggles;
     public List<Text> optionLabels;
     public ToggleGroup toggleGroup;
