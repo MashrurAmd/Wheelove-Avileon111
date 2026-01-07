@@ -52,6 +52,4 @@ public class StopSimulationController : MonoBehaviour
             hasStoppedInside = false;
         }
     }
-
-
 }
