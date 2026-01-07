@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class SimulationManager : MonoBehaviour
 {
@@ -7,26 +6,28 @@ public class SimulationManager : MonoBehaviour
     public TrafficLightController trafficLight;
     public TriggerZone carTriggerZone;
 
-    [Header("UI")]
-    public Image trafficUI;
-    public Sprite goSprite;
-    public Sprite stopSprite;
+    // 🌟 The REAL gas button blink script from UI
+    public GasButtonBlink gasButtonBlink;
+
+    void Start()
+    {
+        // bind blink logic to this simulation's trigger zone
+        if (gasButtonBlink != null)
+        {
+            gasButtonBlink.carTriggerZone = carTriggerZone;
+        }
+    }
 
     void Update()
     {
-        HandleCarUI();
+        // no UI logic here anymore — gas button handles itself
+        HandleTrafficLogic();
     }
 
-    // 🚗 Car UI logic
-    void HandleCarUI()
+    // 🚦 traffic logic stays same
+    void HandleTrafficLogic()
     {
-        if (carTriggerZone.isTriggered)
-        {
-            trafficUI.sprite = stopSprite; // Car in area = STOP
-        }
-        else
-        {
-            trafficUI.sprite = goSprite;   // Car not in area = GO
-        }
+        // Example: If you want pedestrians or other logic later
+        // keep it here — UI blinking handled elsewhere
     }
 }
