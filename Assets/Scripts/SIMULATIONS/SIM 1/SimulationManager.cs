@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SimulationManager : MonoBehaviour
 {
@@ -12,10 +13,12 @@ public class SimulationManager : MonoBehaviour
     void Start()
     {
         // bind blink logic to this simulation's trigger zone
+        // Example for SimulationManager
         if (gasButtonBlink != null)
         {
-            gasButtonBlink.carTriggerZone = carTriggerZone;
+            gasButtonBlink.triggerZones = new List<TriggerZone> { carTriggerZone }; // single zone
         }
+
     }
 
     void Update()

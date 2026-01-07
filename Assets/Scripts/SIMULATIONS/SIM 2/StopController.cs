@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class StopSimulationController : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class StopSimulationController : MonoBehaviour
     {
         // 🔗 bind gas button blink to this stop area
         if (gasButtonBlink != null)
-            gasButtonBlink.carTriggerZone = stopArea;
+        {
+            gasButtonBlink.triggerZones = new List<TriggerZone> { stopArea }; // or multiple stop areas
+        }
+
     }
 
     void Update()

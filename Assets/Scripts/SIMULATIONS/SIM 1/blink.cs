@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GasButtonBlink : MonoBehaviour
 {
     [Header("References")]
-    public Image targetImage;          // real gas button image
-    public Sprite greenSprite;         // normal
-    public Sprite redSprite;           // stop
-    public TriggerZone carTriggerZone; // ANY trigger zone
+    public Image targetImage;            // real gas button image
+    public Sprite greenSprite;           // normal
+    public Sprite redSprite;             // stop
+    public List<TriggerZone> triggerZones; // 🌟 multiple trigger zones
 
     [Header("Blink Settings")]
     public float blinkSpeed = 0.5f;
@@ -20,11 +21,21 @@ public class GasButtonBlink : MonoBehaviour
 
     void Update()
     {
-        if (carTriggerZone == null || targetImage == null)
+        if (triggerZones == null || triggerZones.Count == 0 || targetImage == null)
             return;
 
-        // 🚗 inside trigger zone
-        if (carTriggerZone.isTriggered)
+        // check if car is inside ANY of the trigger zones
+        bool isInsideAnyZone = false;
+        foreach (var zone in triggerZones)
+        {
+            if (zone != null && zone.isTriggered)
+            {
+                isInsideAnyZone = true;
+                break;
+            }
+        }
+
+        if (isInsideAnyZone)
         {
             // set red sprite
             targetImage.sprite = redSprite;
@@ -37,7 +48,7 @@ public class GasButtonBlink : MonoBehaviour
         }
         else
         {
-            // 🚗 outside trigger zone
+            // 🚗 outside all zones
             if (blinkRoutine != null)
             {
                 StopCoroutine(blinkRoutine);
