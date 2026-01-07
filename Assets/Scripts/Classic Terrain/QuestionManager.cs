@@ -191,4 +191,7 @@ public class QuestionManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
+
+
+    //This is for asads
 }
