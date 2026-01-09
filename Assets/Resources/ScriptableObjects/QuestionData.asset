@@ -1037,42 +1037,100 @@ MonoBehaviour:
     - Yield to the approaching vehicle
     - Enter first if you are on the right
     answers: Yield to the approaching vehicle
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
-  - questions: 
-    options: []
-    answers: 
+  - questions: What does the sign "No Entry for Vehicles with Dangerous Cargo" mean?
+    options:
+    - Allowed if the cargo is secured
+    - Vehicles with dangerous cargo are prohibited from entering
+    - Allowed with police escort
+    - Allowed only during the day
+    answers: Vehicles with dangerous cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching a vehicle signaling
+      a left turn at an intersection?
+    options:
+    - Overtake it on the right carefully
+    - Overtake it on the left
+    - Accelerate and pass in front of it
+    - Stop behind it
+    answers: Overtake it on the right carefully
+  - questions: What does the sign "No Entry for Vehicles with Toxic Cargo" mean?
+    options:
+    - Allowed if the cargo is closed
+    - Vehicles with toxic cargo are prohibited from entering
+    - Allowed with escort of another vehicle
+    - Allowed only at night
+    answers: Vehicles with toxic cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching a vehicle signaling
+      a right turn?
+    options:
+    - Overtake it on the left carefully
+    - Overtake it on the right
+    - Accelerate and pass in front of it
+    - Stop behind it
+    answers: Overtake it on the left carefully
+  - questions: What does the sign "No Entry for Vehicles with Flammable Cargo" mean?
+    options:
+    - Allowed for vehicles with flammable cargo if there is permission
+    - Vehicles with flammable cargo are prohibited from entering
+    - Allowed with a patrol vehicle
+    - Allowed only at night
+    answers: Vehicles with flammable cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching an intersection
+      with the sign "Traffic Light Ahead"?
+    options:
+    - Slow down and prepare to stop
+    - Accelerate to make it
+    - Stop immediately
+    - Ignore the traffic light
+    answers: Slow down and prepare to stop
+  - questions: What does the sign "No Entry for Vehicles with Explosive Cargo" mean?
+    options:
+    - Allowed if the cargo is secured
+    - Vehicles with explosive cargo are prohibited from entering
+    - Allowed with police escort
+    - Allowed only during the day
+    answers: Vehicles with explosive cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching a vehicle signaling
+      a left turn at an intersection?
+    options:
+    - Overtake it on the right carefully
+    - Overtake it on the left
+    - Accelerate and pass in front of it
+    - Stop behind it
+    answers: Overtake it on the right carefully
+  - questions: What does the sign "No Entry for Vehicles with Toxic Cargo" mean?
+    options:
+    - Allowed if the cargo is closed
+    - Vehicles with toxic cargo are prohibited from entering
+    - Allowed with escort of another vehicle
+    - Allowed only at night
+    answers: Vehicles with toxic cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching an intersection
+      with the sign "Roundabout Ahead"?
+    options:
+    - Enter quickly
+    - Always stop
+    - Enter carefully and yield
+    - Enter only if there are no vehicles on the right
+    answers: Enter carefully and yield
+  - questions: What does the sign "No Entry for Vehicles with Dangerous Cargo" mean?
+    options:
+    - Allowed if the cargo is secured
+    - Vehicles with dangerous cargo are prohibited from entering
+    - Allowed with police escort
+    - Allowed only during the day
+    answers: Vehicles with dangerous cargo are prohibited from entering
+  - questions: What is the correct way to behave when approaching a vehicle signaling
+      a left turn?
+    options:
+    - Overtake it on the right carefully
+    - Overtake it on the left
+    - Accelerate and pass in front of it
+    - Stop behind it
+    answers: Overtake it on the right carefully
+  - questions: What does the sign "No Entry for Vehicles with Oversized Cargo" mean?
+    options:
+    - Allowed if the cargo is tied down well
+    - Vehicles with oversized cargo are prohibited from entering
+    - Allowed if escorted
+    - Allowed only during the day
+    answers: Vehicles with oversized cargo are prohibited from entering
