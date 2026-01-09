@@ -26,5 +26,7 @@ MonoBehaviour:
     - Simplified Chinese
     - Latin American Spanish
   modes:
-  - Magic
-  - Classic
+  - modeName: Classic
+    isUnlocked: 0
+  - modeName: Magic
+    isUnlocked: 1

@@ -18,6 +18,7 @@ public class MenuManager : MonoBehaviour
     public TMP_Dropdown regionDropdown;
     public TMP_Dropdown languageDropdown;
     public TMP_Text modeText;
+    public TMP_Text modeLockedText;
     public TMP_Text regionText;
     public TMP_Text languageText;
 
@@ -120,7 +121,21 @@ public class MenuManager : MonoBehaviour
     // MODE
     public void SetMode(int modeIndex)
     {
-        PlayerSettingsManager.Instance.selectedMode = settingsData.modes[modeIndex];
+        var mode = settingsData.modes[modeIndex];
+
+        // Hide message by default
+        modeLockedText.gameObject.SetActive(false);
+
+        if (!mode.isUnlocked)
+        {
+            Debug.Log("Mode is locked");
+            modeLockedText.text = "This mode is locked";
+            modeLockedText.gameObject.SetActive(true);
+            return;
+        }
+
+        //PlayerSettingsManager.Instance.selectedMode = settingsData.modes[modeIndex];
+        PlayerSettingsManager.Instance.selectedMode = mode.modeName;
         PlayerSettingsManager.Instance.Save();
 
         if (comingFromMainMenu)
