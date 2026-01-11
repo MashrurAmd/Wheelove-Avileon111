@@ -5,69 +5,57 @@ public class Car : MonoBehaviour
 {
     [Header("Movement Settings")]
     public CinemachinePathBase roadPath;
-    public float moveSpeed = 10f;
+
+    [Tooltip("Max forward speed in m/s along the path")]
+    public float maxSpeed = 15f;
+
     public float acceleration = 5f;
     public float deceleration = 5f;
 
-    private float pathPosition = 0f;
+    private float pathPosition = 0f;  // ALWAYS IN DISTANCE UNITS
 
     [SerializeField]
-    private float currentSpeed = 0f;   // shows in Inspector
+    private float currentSpeed = 0f;
 
     private Rigidbody rb;
     private bool isGasPressed = false;
     public static bool isCarMoving = false;
 
-    // 🔍 PUBLIC SPEED CHECKER (read-only)
     public float CurrentSpeed => currentSpeed;
 
     [Header("Start Position")]
-    public int startWaypointIndex = 0;
-
-    //private void Start()
-    //{
-    //    rb = GetComponent<Rigidbody>();
-    //    rb.isKinematic = true;
-
-
-    //}
+    public float startDistance = 0f;  // distance along path, NOT waypoint index
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
 
-        // clamp safety
-        startWaypointIndex = Mathf.Clamp(
-            startWaypointIndex,
-            0,
-            Mathf.RoundToInt(roadPath.MaxPos)
-        );
+        // clamp start distance safely
+        startDistance = Mathf.Clamp(startDistance, 0f, roadPath.PathLength);
 
-        // set starting path position using PATH UNITS (waypoint index)
-        pathPosition = startWaypointIndex;
+        // set starting position by distance
+        pathPosition = startDistance;
 
-        // apply starting transform
         transform.position = roadPath.EvaluatePositionAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.PathUnits
+            CinemachinePathBase.PositionUnits.Distance
         );
 
         transform.rotation = roadPath.EvaluateOrientationAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.PathUnits
+            CinemachinePathBase.PositionUnits.Distance
         );
     }
 
-
-
     private void LateUpdate()
     {
+        // --- ACCELERATION / BRAKING ---
         if (isGasPressed)
         {
             currentSpeed = Mathf.MoveTowards(
                 currentSpeed,
-                moveSpeed,
+                maxSpeed,
                 acceleration * Time.deltaTime
             );
             isCarMoving = true;
@@ -76,7 +64,7 @@ public class Car : MonoBehaviour
         {
             currentSpeed = Mathf.MoveTowards(
                 currentSpeed,
-                0,
+                0f,
                 deceleration * Time.deltaTime
             );
 
@@ -84,30 +72,35 @@ public class Car : MonoBehaviour
                 isCarMoving = false;
         }
 
+        // clamp safety
+        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
+
+        // --- MOVE ALONG PATH USING REAL DISTANCE ---
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
         transform.position = roadPath.EvaluatePositionAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.PathUnits
+            CinemachinePathBase.PositionUnits.Distance
         );
 
         transform.rotation = roadPath.EvaluateOrientationAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.PathUnits
+            CinemachinePathBase.PositionUnits.Distance
         );
-
     }
 
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
-    public bool IsGasPressed() => isGasPressed;
 
     public float GetPathPosition() => pathPosition;
 
     public void RespawnAtStart()
     {
         pathPosition = 0f;
+        currentSpeed = 0f;
+        isGasPressed = false;
+        isCarMoving = false;
 
         transform.position = roadPath.EvaluatePositionAtUnit(
             0,
@@ -118,36 +111,17 @@ public class Car : MonoBehaviour
             0,
             CinemachinePathBase.PositionUnits.Distance
         );
-
-        currentSpeed = 0f;
-        isGasPressed = false;
-        isCarMoving = false;
     }
 
-    public void PauseCar()
+    public bool IsGasPressed()
     {
-        isGasPressed = false;
-        isCarMoving = false;
-        currentSpeed = 0f;
+        return isGasPressed;
     }
 
     public void ResumeDriving()
     {
+        // restores movement based on whether gas is held
         isCarMoving = isGasPressed;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Collectible"))
-        {
-            PauseCar();
-
-            if (QuestionManager.Instance != null)
-            {
-                QuestionManager.Instance.ShowNextQuestion();
-            }
-
-            other.gameObject.SetActive(false);
-        }
-    }
 }
