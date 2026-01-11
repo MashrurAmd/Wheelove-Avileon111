@@ -23,30 +23,52 @@ public class Car : MonoBehaviour
 
     public float CurrentSpeed => currentSpeed;
 
+    //[Header("Start Position")]
+    //public float startDistance = 0f;  // distance along path, NOT waypoint index
+
     [Header("Start Position")]
-    public float startDistance = 0f;  // distance along path, NOT waypoint index
+    public int startWaypointIndex = 0;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
 
-        // clamp start distance safely
-        startDistance = Mathf.Clamp(startDistance, 0f, roadPath.PathLength);
+        CinemachineSmoothPath smooth = roadPath as CinemachineSmoothPath;
 
-        // set starting position by distance
-        pathPosition = startDistance;
+        if (smooth == null)
+        {
+            Debug.LogError("Road path must be CinemachineSmoothPath.");
+            return;
+        }
 
-        transform.position = roadPath.EvaluatePositionAtUnit(
-            pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
+        // clamp to valid range
+        startWaypointIndex = Mathf.Clamp(
+            startWaypointIndex,
+            0,
+            smooth.m_Waypoints.Length - 1
         );
 
+        // get world position of waypoint
+        Vector3 wp = smooth.transform.TransformPoint(
+            smooth.m_Waypoints[startWaypointIndex].position
+        );
+
+        // set transform directly
+        transform.position = wp;
+
+        // also store equivalent path position so LateUpdate does NOT move it back
+        // convert waypoint index into distance along path
+        float t = (float)startWaypointIndex / (smooth.m_Waypoints.Length - 1);
+        pathPosition = t * roadPath.PathLength;
+
+        // face along the path
         transform.rotation = roadPath.EvaluateOrientationAtUnit(
             pathPosition,
             CinemachinePathBase.PositionUnits.Distance
         );
     }
+
 
     private void LateUpdate()
     {
