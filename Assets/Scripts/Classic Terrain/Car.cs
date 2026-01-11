@@ -21,11 +21,45 @@ public class Car : MonoBehaviour
     // 🔍 PUBLIC SPEED CHECKER (read-only)
     public float CurrentSpeed => currentSpeed;
 
+    [Header("Start Position")]
+    public int startWaypointIndex = 0;
+
+    //private void Start()
+    //{
+    //    rb = GetComponent<Rigidbody>();
+    //    rb.isKinematic = true;
+
+
+    //}
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
+
+        // clamp safety
+        startWaypointIndex = Mathf.Clamp(
+            startWaypointIndex,
+            0,
+            Mathf.RoundToInt(roadPath.MaxPos)
+        );
+
+        // set starting path position using PATH UNITS (waypoint index)
+        pathPosition = startWaypointIndex;
+
+        // apply starting transform
+        transform.position = roadPath.EvaluatePositionAtUnit(
+            pathPosition,
+            CinemachinePathBase.PositionUnits.PathUnits
+        );
+
+        transform.rotation = roadPath.EvaluateOrientationAtUnit(
+            pathPosition,
+            CinemachinePathBase.PositionUnits.PathUnits
+        );
     }
+
+
 
     private void LateUpdate()
     {
@@ -55,13 +89,14 @@ public class Car : MonoBehaviour
 
         transform.position = roadPath.EvaluatePositionAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
+            CinemachinePathBase.PositionUnits.PathUnits
         );
 
         transform.rotation = roadPath.EvaluateOrientationAtUnit(
             pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
+            CinemachinePathBase.PositionUnits.PathUnits
         );
+
     }
 
     public void GasPressed() => isGasPressed = true;
