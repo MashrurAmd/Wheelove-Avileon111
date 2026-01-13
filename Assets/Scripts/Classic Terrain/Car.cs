@@ -146,4 +146,29 @@ public class Car : MonoBehaviour
         isCarMoving = isGasPressed;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Collectible"))
+        {
+            // Stop the car
+            isGasPressed = false;
+            currentSpeed = 0f;
+            isCarMoving = false;
+
+            // Show question
+            if (QuestionManager.Instance != null)
+            {
+                QuestionManager.Instance.ShowNextQuestion();
+            }
+            else
+            {
+                Debug.LogError("QuestionManager instance is NULL");
+            }
+
+            // Disable collectible
+            other.gameObject.SetActive(false);
+        }
+    }
+
+
 }
