@@ -165,7 +165,7 @@ public class Car : MonoBehaviour
                 Debug.LogError("QuestionManager instance is NULL");
             }
 
-            // Disable collectible
+            // Disable collectible on write answer 
             //other.gameObject.SetActive(false);
         }
     }
