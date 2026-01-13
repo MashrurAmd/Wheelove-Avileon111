@@ -166,7 +166,7 @@ public class Car : MonoBehaviour
             }
 
             // Disable collectible
-            other.gameObject.SetActive(false);
+            //other.gameObject.SetActive(false);
         }
     }
 
