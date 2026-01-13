@@ -10,7 +10,8 @@ public class QuestionManager : MonoBehaviour
     public static QuestionManager Instance;
 
     [Header("Data")]
-    public QuestionData questionData;
+    //public QuestionData questionData;
+    public QuesData quesData;
 
     [Header("UI References")]
     public GameObject questionPanel;
@@ -28,8 +29,10 @@ public class QuestionManager : MonoBehaviour
     [Header("Timer")]
     public float questionTime = 10f;
 
-    private int currentQuestionIndex = -1;
-    private int nextQuestionIndex = 0;
+    //private int currentQuestionIndex = -1;
+    private int currentTestIndex = 0;
+    private int currentQuestionIndex = 0;
+    //private int nextQuestionIndex = 0;
     private float currentTime;
     private bool isCountingDown = false;
 
@@ -76,27 +79,74 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+    //public void ShowNextQuestion()
+    //{
+    //    ShowQuestion(nextQuestionIndex);
+    //}
     public void ShowNextQuestion()
     {
-        ShowQuestion(nextQuestionIndex);
-    }
-
-    public void ShowQuestion(int index)
-    {
-        currentQuestionIndex = index;
-
-        if (index >= questionData.questionAnswers.Count)
+        if (currentTestIndex >= quesData.tests.Count)
         {
-            Debug.Log("No more questions!");
+            Debug.Log("All tests completed!");
+            if (Gameover != null) Gameover.SetActive(true);
             return;
         }
 
+        var currentTest = quesData.tests[currentTestIndex];
+
+        if (currentQuestionIndex >= currentTest.quesAnswers.Count)
+        {
+            StartNextTest();
+            return;
+        }
+
+        ShowQuestion(currentTest.quesAnswers[currentQuestionIndex]);
+    }
+
+
+
+    //public void ShowQuestion(int index)
+    //{
+    //    currentQuestionIndex = index;
+
+    //    if (index >= questionData.questionAnswers.Count)
+    //    {
+    //        Debug.Log("No more questions!");
+    //        return;
+    //    }
+
+    //    questionPanel.SetActive(true);
+    //    currentTime = questionTime;
+    //    isCountingDown = true;
+    //    UpdateTimerUI();
+
+    //    var qa = questionData.questionAnswers[index];
+    //    questionText.text = qa.questions;
+
+    //    for (int i = 0; i < optionLabels.Count; i++)
+    //    {
+    //        if (i < qa.options.Count)
+    //        {
+    //            optionLabels[i].text = qa.options[i];
+    //            optionToggles[i].gameObject.SetActive(true);
+    //            optionToggles[i].isOn = false;
+    //            if (toggleGroup) optionToggles[i].group = toggleGroup;
+    //        }
+    //        else
+    //        {
+    //            optionToggles[i].gameObject.SetActive(false);
+    //        }
+    //    }
+
+    //    if (toggleGroup) toggleGroup.SetAllTogglesOff(true);
+    //}
+    public void ShowQuestion(QuesAnswer qa)
+    {
         questionPanel.SetActive(true);
         currentTime = questionTime;
         isCountingDown = true;
         UpdateTimerUI();
 
-        var qa = questionData.questionAnswers[index];
         questionText.text = qa.questions;
 
         for (int i = 0; i < optionLabels.Count; i++)
@@ -117,11 +167,70 @@ public class QuestionManager : MonoBehaviour
         if (toggleGroup) toggleGroup.SetAllTogglesOff(true);
     }
 
+
+    //public void CheckAnswer()
+    //{
+    //    isCountingDown = false;
+
+    //    var qa = questionData.questionAnswers[currentQuestionIndex];
+    //    string selectedOption = "";
+
+    //    for (int i = 0; i < optionToggles.Count; i++)
+    //    {
+    //        if (optionToggles[i].isOn)
+    //        {
+    //            selectedOption = optionLabels[i].text;
+    //            break;
+    //        }
+    //    }
+
+    //    if (string.IsNullOrWhiteSpace(selectedOption))
+    //    {
+    //        answerText.text = "No option selected!";
+    //        return;
+    //    }
+
+    //    bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(), System.StringComparison.OrdinalIgnoreCase);
+
+    //    if (isCorrect)
+    //    {
+    //        answerText.text = "Correct Answer!";
+    //        nextQuestionIndex++;
+    //        score++;
+    //        UpdateScoreUI();
+
+    //        if (gasBar != null) gasBar.AddGas(0.2f);
+
+    //        if (car != null) car.ResumeDriving();
+    //    }
+    //    else
+    //    {
+    //        answerText.text = "Wrong Answer!";
+    //        life--;
+    //        UpdateWrongAnswersUI();
+
+    //        // ❌ do NOT respawn at start
+    //        // GameManager.instance.car.RespawnAtStart();
+
+    //        // ✅ punishment: move back 10 waypoints
+    //        if (car != null)
+    //        {
+
+
+    //            car.MoveBackByWaypoints(3);
+    //            life--;
+    //            car.ResumeDriving();
+    //        }
+    //    }
+
+
+    //    StartCoroutine(HideQuestionPanelAfterDelay());
+    //}
     public void CheckAnswer()
     {
         isCountingDown = false;
 
-        var qa = questionData.questionAnswers[currentQuestionIndex];
+        var qa = quesData.tests[currentTestIndex].quesAnswers[currentQuestionIndex];
         string selectedOption = "";
 
         for (int i = 0; i < optionToggles.Count; i++)
@@ -139,17 +248,18 @@ public class QuestionManager : MonoBehaviour
             return;
         }
 
-        bool isCorrect = string.Equals(selectedOption.Trim(), qa.answers.Trim(), System.StringComparison.OrdinalIgnoreCase);
+        bool isCorrect = string.Equals(
+            selectedOption.Trim(),
+            qa.answers.Trim(),
+            System.StringComparison.OrdinalIgnoreCase
+        );
 
         if (isCorrect)
         {
             answerText.text = "Correct Answer!";
-            nextQuestionIndex++;
             score++;
             UpdateScoreUI();
-
             if (gasBar != null) gasBar.AddGas(0.2f);
-
             if (car != null) car.ResumeDriving();
         }
         else
@@ -157,24 +267,29 @@ public class QuestionManager : MonoBehaviour
             answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
-
-            // ❌ do NOT respawn at start
-            // GameManager.instance.car.RespawnAtStart();
-
-            // ✅ punishment: move back 10 waypoints
-            if (car != null)
-            {
-
-
-                car.MoveBackByWaypoints(3);
-                life--;
-                car.ResumeDriving();
-            }
+            GameManager.instance.car.RespawnAtStart();
         }
 
-
+        currentQuestionIndex++;
         StartCoroutine(HideQuestionPanelAfterDelay());
     }
+
+    private void StartNextTest()
+    {
+        currentTestIndex++;
+        currentQuestionIndex = 0;
+
+        if (currentTestIndex >= quesData.tests.Count)
+        {
+            Debug.Log("All tests finished!");
+            if (Gameover != null) Gameover.SetActive(true);
+            return;
+        }
+
+        Debug.Log("Starting Test: " + quesData.tests[currentTestIndex].testsName);
+        ShowNextQuestion();
+    }
+
 
     private IEnumerator HideQuestionPanelAfterDelay()
     {
