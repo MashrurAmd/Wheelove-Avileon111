@@ -12,7 +12,8 @@ public class Car : MonoBehaviour
     public float acceleration = 5f;
     public float deceleration = 5f;
 
-    private float pathPosition = 0f;  // ALWAYS IN DISTANCE UNITS
+    // ALWAYS distance units along path
+    private float pathPosition = 0f;
 
     [SerializeField]
     private float currentSpeed = 0f;
@@ -23,56 +24,41 @@ public class Car : MonoBehaviour
 
     public float CurrentSpeed => currentSpeed;
 
-    //[Header("Start Position")]
-    //public float startDistance = 0f;  // distance along path, NOT waypoint index
-
     [Header("Start Position")]
     public int startWaypointIndex = 0;
+
+    // cache smooth path ref
+    private CinemachineSmoothPath smoothPath;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
 
-        CinemachineSmoothPath smooth = roadPath as CinemachineSmoothPath;
+        smoothPath = roadPath as CinemachineSmoothPath;
 
-        if (smooth == null)
+        if (smoothPath == null)
         {
             Debug.LogError("Road path must be CinemachineSmoothPath.");
             return;
         }
 
-        // clamp to valid range
+        // clamp to valid waypoint range
         startWaypointIndex = Mathf.Clamp(
             startWaypointIndex,
             0,
-            smooth.m_Waypoints.Length - 1
+            smoothPath.m_Waypoints.Length - 1
         );
 
-        // get world position of waypoint
-        Vector3 wp = smooth.transform.TransformPoint(
-            smooth.m_Waypoints[startWaypointIndex].position
-        );
-
-        // set transform directly
-        transform.position = wp;
-
-        // also store equivalent path position so LateUpdate does NOT move it back
-        // convert waypoint index into distance along path
-        float t = (float)startWaypointIndex / (smooth.m_Waypoints.Length - 1);
-        pathPosition = t * roadPath.PathLength;
-
-        // face along the path
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(
-            pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
-        );
+        // set car spawn
+        SpawnAtWaypoint(startWaypointIndex);
     }
 
 
     private void LateUpdate()
     {
-        // --- ACCELERATION / BRAKING ---
+        // -------- ACCELERATION / BRAKING --------
         if (isGasPressed)
         {
             currentSpeed = Mathf.MoveTowards(
@@ -80,6 +66,7 @@ public class Car : MonoBehaviour
                 maxSpeed,
                 acceleration * Time.deltaTime
             );
+
             isCarMoving = true;
         }
         else
@@ -94,28 +81,31 @@ public class Car : MonoBehaviour
                 isCarMoving = false;
         }
 
-        // clamp safety
         currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
 
-        // --- MOVE ALONG PATH USING REAL DISTANCE ---
+        // -------- MOVE ALONG PATH IN DISTANCE UNITS --------
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
-        transform.position = roadPath.EvaluatePositionAtUnit(
-            pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
-        );
-
-        transform.rotation = roadPath.EvaluateOrientationAtUnit(
-            pathPosition,
-            CinemachinePathBase.PositionUnits.Distance
-        );
+        SetCarToPathPosition();
     }
+
+
+    // ===========================
+    //  PUBLIC CONTROL METHODS
+    // ===========================
 
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
 
     public float GetPathPosition() => pathPosition;
+
+    public bool IsGasPressed() => isGasPressed;
+
+    public void ResumeDriving()
+    {
+        isCarMoving = isGasPressed;
+    }
 
     public void RespawnAtStart()
     {
@@ -124,51 +114,96 @@ public class Car : MonoBehaviour
         isGasPressed = false;
         isCarMoving = false;
 
+        SetCarToPathPosition();
+    }
+
+    // ===========================
+    //  WRONG ANSWER PUNISHMENT 🚫
+    // ===========================
+
+    /// <summary>
+    /// Move the car backwards by N waypoints.
+    /// </summary>
+    public void MoveBackByWaypoints(int count)
+    {
+        if (smoothPath == null)
+            smoothPath = roadPath as CinemachineSmoothPath;
+
+        int total = smoothPath.m_Waypoints.Length;
+
+        // convert current distance to approx waypoint index
+        int currentIndex = Mathf.RoundToInt(
+            (pathPosition / roadPath.PathLength) * (total - 1)
+        );
+
+        // subtract
+        currentIndex -= count;
+
+        // clamp
+        currentIndex = Mathf.Clamp(currentIndex, 0, total - 1);
+
+        // convert index back to distance along path
+        float t = (float)currentIndex / (total - 1);
+        pathPosition = t * roadPath.PathLength;
+
+        // stop movement
+        currentSpeed = 0f;
+
+        SetCarToPathPosition();
+    }
+
+    /// <summary>
+    /// Shortcut: move car back 10 waypoints.
+    /// </summary>
+    public void MoveBackTenWaypoints()
+    {
+        MoveBackByWaypoints(10);
+    }
+
+
+    // ===========================
+    //  INTERNAL HELPERS
+    // ===========================
+
+    private void SetCarToPathPosition()
+    {
         transform.position = roadPath.EvaluatePositionAtUnit(
-            0,
+            pathPosition,
             CinemachinePathBase.PositionUnits.Distance
         );
 
         transform.rotation = roadPath.EvaluateOrientationAtUnit(
-            0,
+            pathPosition,
             CinemachinePathBase.PositionUnits.Distance
         );
     }
 
-    public bool IsGasPressed()
+    private void SpawnAtWaypoint(int index)
     {
-        return isGasPressed;
+        int total = smoothPath.m_Waypoints.Length;
+
+        index = Mathf.Clamp(index, 0, total - 1);
+
+        float t = (float)index / (total - 1);
+
+        pathPosition = t * roadPath.PathLength;
+
+        SetCarToPathPosition();
     }
 
-    public void ResumeDriving()
-    {
-        // restores movement based on whether gas is held
-        isCarMoving = isGasPressed;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Collectible"))
         {
-            // Stop the car
             isGasPressed = false;
             currentSpeed = 0f;
             isCarMoving = false;
 
-            // Show question
             if (QuestionManager.Instance != null)
-            {
                 QuestionManager.Instance.ShowNextQuestion();
-            }
             else
-            {
                 Debug.LogError("QuestionManager instance is NULL");
-            }
-
-            // Disable collectible on write answer 
-            //other.gameObject.SetActive(false);
         }
     }
-
-
 }

@@ -158,9 +158,20 @@ public class QuestionManager : MonoBehaviour
             life--;
             UpdateWrongAnswersUI();
 
-            GameManager.instance.car.RespawnAtStart();
-            //RespawnAtStart()
+            // ❌ do NOT respawn at start
+            // GameManager.instance.car.RespawnAtStart();
+
+            // ✅ punishment: move back 10 waypoints
+            if (car != null)
+            {
+
+
+                car.MoveBackByWaypoints(3);
+                life--;
+                car.ResumeDriving();
+            }
         }
+
 
         StartCoroutine(HideQuestionPanelAfterDelay());
     }
