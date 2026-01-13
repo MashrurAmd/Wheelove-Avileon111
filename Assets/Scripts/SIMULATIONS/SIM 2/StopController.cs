@@ -21,7 +21,6 @@ public class StopSimulationController : MonoBehaviour
         {
             gasButtonBlink.triggerZones = new List<TriggerZone> { stopArea }; // or multiple stop areas
         }
-
     }
 
     void Update()
@@ -46,9 +45,18 @@ public class StopSimulationController : MonoBehaviour
             if (wasInside)
             {
                 if (hasStoppedInside)
+                {
                     Debug.Log("Successfully stopped at the stop sign 👍");
+                }
                 else
+                {
                     Debug.Log("Rule broken — car did NOT stop ❌");
+
+                    // ❌ Punishment: move car back 3 waypoints
+                    car.PauseCar();                   // pause briefly for effect
+                    car.MoveBackByWaypoints(3);       // move back
+                    car.ResumeDriving();              // resume movement
+                }
             }
 
             // reset for next attempt

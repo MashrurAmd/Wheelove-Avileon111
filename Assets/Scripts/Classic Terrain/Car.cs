@@ -206,4 +206,11 @@ public class Car : MonoBehaviour
                 Debug.LogError("QuestionManager instance is NULL");
         }
     }
+    public void PauseCar()
+    {
+        isGasPressed = false;
+        isCarMoving = false;
+        currentSpeed = 0f;
+    }
+
 }
