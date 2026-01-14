@@ -24,6 +24,8 @@ public class TrainSimulationManager : MonoBehaviour
     private Coroutine rodRoutine;
     private Quaternion rodInitialRotation;
 
+    public Car car;
+
     void Start()
     {
         // store starting rotation
@@ -86,6 +88,10 @@ public class TrainSimulationManager : MonoBehaviour
         // evaluate traffic rule
         if (!rodRaised)
         {
+            car.PauseCar();
+            car.MoveBackByWaypoints(3);
+            car.ResumeDriving();
+
             Debug.Log("❌ Rule broken: car left before barrier opened");
         }
         else
