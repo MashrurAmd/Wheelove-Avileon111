@@ -49,9 +49,9 @@ public class TrafficRuleChecker : MonoBehaviour
         }
 
         // 🚗 Car leaves during GREEN but never saw RED → clean crossing
-        if (!carTriggerZone.isTriggered && !carWasInsideOnRed && !trafficLight.IsRedLight())
-        {
-            Debug.Log("Successfully crossed the traffic light");
-        }
+        //if (!carTriggerZone.isTriggered && !carWasInsideOnRed && !trafficLight.IsRedLight())
+        //{
+        //    Debug.Log("Successfully crossed the traffic light");
+        //}
     }
 }

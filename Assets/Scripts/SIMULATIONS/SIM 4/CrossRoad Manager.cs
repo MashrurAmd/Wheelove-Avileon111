@@ -6,14 +6,10 @@ public class CrossRoadManager : MonoBehaviour
 
     [Header("References")]
     public TriggerZone playerAreaTrigger;
-    public Car playerCar;
     public NPCCarMover npcCar1;
     public NPCCarMover npcCar2;
 
-    private bool simulationRunning = false;
-    private bool successPrinted = false;
-
-    public Car car;
+    private bool carsAlreadyStarted = false;
 
     private void Awake()
     {
@@ -22,67 +18,29 @@ public class CrossRoadManager : MonoBehaviour
 
     private void Update()
     {
-        if (!simulationRunning)
+        // player entered trigger zone
+        if (!carsAlreadyStarted && playerAreaTrigger.isTriggered)
         {
-            // player enters area
-            if (playerAreaTrigger.isTriggered)
-            {
-                StartSimulation();
-            }
-        }
-        else
-        {
-            CheckForSuccess();
+            StartNPCMovement();
         }
     }
 
-    void StartSimulation()
+    void StartNPCMovement()
     {
-        simulationRunning = true;
-        successPrinted = false;
+        carsAlreadyStarted = true;
 
-        // stop player
-        //playerCar.PauseCar();
+        if (npcCar1 != null)
+            npcCar1.StartCrossing();
 
-        // start NPC cars crossing
-        npcCar1.StartCrossing();
-        npcCar2.StartCrossing();
+        if (npcCar2 != null)
+            npcCar2.StartCrossing();
+
+        Debug.Log("NPC cars are crossing now");
     }
 
-    void CheckForSuccess()
-    {
-        // if player pressed gas → fail
-        if (playerCar.IsGasPressed())
-        {
-            Fail();
-            return;
-        }
-
-        // both NPC finished crossing = success
-        if (npcCar1.HasFinished() && npcCar2.HasFinished())
-        {
-            if (!successPrinted)
-            {
-                Debug.Log("SUCCESS: Player yielded to NPC cars.");
-                successPrinted = true;
-
-                // allow player to continue
-                playerCar.ResumeDriving();
-            }
-
-            simulationRunning = false;
-        }
-    }
-
+    // keep your fail for collision
     public void Fail()
     {
-        if (successPrinted) return;
-
-        car.PauseCar();                   // pause briefly for effect
-        car.MoveBackByWaypoints(3);       // move back
-        car.ResumeDriving();
-
-        Debug.Log("FAILED: Collision or player didn't yield.");
-        simulationRunning = false;
+        Debug.Log("FAILED: Player hit NPC car");
     }
 }

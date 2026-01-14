@@ -37,9 +37,10 @@ public class NPCCarMover : MonoBehaviour
 
     public void StartCrossing()
     {
-        if (hasMoved) return; // prevents looping
         isMoving = true;
+        hasMoved = false; // reset so it can move when simulation restarts
     }
+
 
     public bool HasFinished()
     {
@@ -53,4 +54,6 @@ public class NPCCarMover : MonoBehaviour
             CrossRoadManager.Instance.Fail();
         }
     }
+
+
 }
