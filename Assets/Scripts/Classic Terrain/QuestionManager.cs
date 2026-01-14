@@ -267,7 +267,24 @@ public class QuestionManager : MonoBehaviour
             answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
-            GameManager.instance.car.RespawnAtStart();
+            //GameManager.instance.car.RespawnAtStart();
+
+
+            if (life == 2)
+            {
+                car.MoveBackByWaypoints(3);
+            }
+            else if (life == 1)
+            {
+                car.MoveBackByWaypoints(6);
+            }
+            else if (life <= 0)
+            {
+                GameManager.instance.car.RespawnAtStart();
+            }
+
+
+
         }
 
         currentQuestionIndex++;
