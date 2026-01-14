@@ -8,6 +8,10 @@ public class TrafficRuleChecker : MonoBehaviour
     private bool carWasInsideOnRed = false;
     private bool carStoppedProperly = false;
 
+    public Car car;
+
+
+
     void Update()
     {
         // ✔️ Car enters during RED
@@ -29,6 +33,10 @@ public class TrafficRuleChecker : MonoBehaviour
             if (!carStoppedProperly)
             {
                 Debug.Log("Rule broken: Car crossed during red light");
+
+                car.PauseCar();
+                car.MoveBackByWaypoints(3);
+                car.ResumeDriving();
             }
             else
             {

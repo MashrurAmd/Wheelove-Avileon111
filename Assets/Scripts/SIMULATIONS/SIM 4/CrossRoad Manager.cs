@@ -13,6 +13,8 @@ public class CrossRoadManager : MonoBehaviour
     private bool simulationRunning = false;
     private bool successPrinted = false;
 
+    public Car car;
+
     private void Awake()
     {
         Instance = this;
@@ -75,6 +77,10 @@ public class CrossRoadManager : MonoBehaviour
     public void Fail()
     {
         if (successPrinted) return;
+
+        car.PauseCar();                   // pause briefly for effect
+        car.MoveBackByWaypoints(3);       // move back
+        car.ResumeDriving();
 
         Debug.Log("FAILED: Collision or player didn't yield.");
         simulationRunning = false;
