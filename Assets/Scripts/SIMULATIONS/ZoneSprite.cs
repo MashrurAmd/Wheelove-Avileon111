@@ -2,14 +2,17 @@
 using UnityEngine.UI;
 using System.Collections;
 
-
 [RequireComponent(typeof(BoxCollider))]
 public class TriggerZoneSpriteHandler : MonoBehaviour
 {
     [Header("UI References")]
-    public Image targetImage;      // The gas button image
-    public Sprite greenSprite;     // Normal state
-    public Sprite redSprite;       // When car is inside
+    public Image targetImage;
+    public Sprite greenSprite;
+    public Sprite middleSprite;    // 🟡 NEW: intermediate sprite
+    public Sprite redSprite;
+
+    [Header("Transition Settings")]
+    public float middleSpriteDuration = 2f; // 🕒 stays for 2 seconds
 
     [Header("Blink Settings (Optional)")]
     public bool enableBlink = true;
@@ -17,8 +20,8 @@ public class TriggerZoneSpriteHandler : MonoBehaviour
     public float dimAlpha = 0.3f;
     public float brightAlpha = 1f;
 
-    private bool isBlinking = false;
     private Coroutine blinkRoutine;
+    private Coroutine transitionRoutine;
 
     private void Awake()
     {
@@ -26,40 +29,65 @@ public class TriggerZoneSpriteHandler : MonoBehaviour
         box.isTrigger = true;
 
         if (targetImage != null)
-            targetImage.sprite = greenSprite; // initial state
+        {
+            targetImage.sprite = greenSprite;
+            targetImage.color = Color.white;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // Change to red immediately
-            if (targetImage != null)
-            {
-                targetImage.sprite = redSprite;
+        if (!other.CompareTag("Player")) return;
 
-                if (enableBlink && blinkRoutine == null)
-                    blinkRoutine = StartCoroutine(BlinkRed());
-            }
-        }
+        if (transitionRoutine != null)
+            StopCoroutine(transitionRoutine);
+
+        transitionRoutine = StartCoroutine(GreenToRedSequence());
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // Reset to green
-            if (targetImage != null)
-            {
-                if (blinkRoutine != null)
-                {
-                    StopCoroutine(blinkRoutine);
-                    blinkRoutine = null;
-                }
+        if (!other.CompareTag("Player")) return;
 
-                targetImage.color = Color.white;
-                targetImage.sprite = greenSprite;
-            }
+        // Stop all effects
+        if (transitionRoutine != null)
+        {
+            StopCoroutine(transitionRoutine);
+            transitionRoutine = null;
+        }
+
+        if (blinkRoutine != null)
+        {
+            StopCoroutine(blinkRoutine);
+            blinkRoutine = null;
+        }
+
+        // Reset to green
+        if (targetImage != null)
+        {
+            targetImage.color = Color.white;
+            targetImage.sprite = greenSprite;
+        }
+    }
+
+    private IEnumerator GreenToRedSequence()
+    {
+        // 🟡 Step 1: show middle sprite
+        if (targetImage != null && middleSprite != null)
+        {
+            targetImage.color = Color.white;
+            targetImage.sprite = middleSprite;
+        }
+
+        yield return new WaitForSeconds(middleSpriteDuration);
+
+        // 🔴 Step 2: switch to red
+        if (targetImage != null)
+        {
+            targetImage.sprite = redSprite;
+
+            if (enableBlink)
+                blinkRoutine = StartCoroutine(BlinkRed());
         }
     }
 
@@ -69,6 +97,7 @@ public class TriggerZoneSpriteHandler : MonoBehaviour
         {
             targetImage.color = new Color(1f, 1f, 1f, brightAlpha);
             yield return new WaitForSeconds(blinkSpeed);
+
             targetImage.color = new Color(1f, 1f, 1f, dimAlpha);
             yield return new WaitForSeconds(blinkSpeed);
         }
