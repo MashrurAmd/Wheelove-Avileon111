@@ -32,6 +32,8 @@ public class QuestionManager : MonoBehaviour
     private float currentTime;
     private bool isCountingDown = false;
 
+    private SoundManager soundManager;  //SoundManager
+
     [Header("Game Data")]
     public int score = 0;
     public int life = 3;
@@ -51,6 +53,8 @@ public class QuestionManager : MonoBehaviour
         gasBar = FindObjectOfType<GasBar>();
         UpdateScoreUI();
         UpdateWrongAnswersUI();
+
+        soundManager = FindObjectOfType<SoundManager>();    //SoundManager
     }
 
     void Update()
@@ -208,9 +212,18 @@ public class QuestionManager : MonoBehaviour
 
         if (currentTestIndex >= quesData.tests.Count)
         {
+            Debug.Log("All tests finished!");   //SoundManager
+            //soundManager.audioSource.clip = openingTheme; //SoundManager
+            soundManager.audioSource.Play();    //SoundManager
+
             if (Gameover != null) Gameover.SetActive(true);
             return;
         }
+
+        Debug.Log("Starting Test: " + quesData.tests[currentTestIndex].testsName);  //SoundManager
+
+        if (soundManager != null)   //SoundManager
+            soundManager.PlayMusicForTest(currentTestIndex);    //SoundManager
 
         ShowNextQuestion();
     }

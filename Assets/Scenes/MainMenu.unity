@@ -1450,7 +1450,7 @@ RectTransform:
   m_Father: {fileID: 784421170}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1913,7 +1913,7 @@ RectTransform:
   m_Father: {fileID: 1402053273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -31.402, y: -1.0164032}
   m_SizeDelta: {x: 73.1534, y: 28.583}
   m_Pivot: {x: 0, y: 0.5}
@@ -3032,7 +3032,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &594664008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3653,7 +3653,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5cb9585a22c4e3743bddddce7db6e408, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 16d202f6bb7102b47ad6b6f81ff20dd4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -3762,6 +3762,12 @@ MonoBehaviour:
   soundEffectSource: {fileID: 697095729}
   buttonClick:
   - {fileID: 8300000, guid: 93d7958f5ffd8a74997ba2a376db4103, type: 3}
+  openingTheme: {fileID: 8300000, guid: 16d202f6bb7102b47ad6b6f81ff20dd4, type: 3}
+  round1Theme: {fileID: 8300000, guid: 8e9a24904e5830b4a91559da2f6e7c1c, type: 3}
+  lastRoundTheme: {fileID: 8300000, guid: f34dd64bda2ad194da4b08de54517b82, type: 3}
+  everyRoundSong2: {fileID: 8300000, guid: efc841c563c6fa742bbc9e0d3d523bb7, type: 3}
+  everyRoundSong3: {fileID: 8300000, guid: 7de025022789eb44c8f7589a9f6bf764, type: 3}
+  everyRoundSong4: {fileID: 8300000, guid: 0dd01ad9a7a7ab74ea5ae0671c5d2036, type: 3}
 --- !u!4 &697095728
 Transform:
   m_ObjectHideFlags: 0
@@ -7842,7 +7848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1746365083
 RectTransform:
   m_ObjectHideFlags: 0

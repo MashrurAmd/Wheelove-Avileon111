@@ -29,6 +29,25 @@ public class SoundManager : MonoBehaviour
     public AudioSource soundEffectSource;
     public AudioClip[] buttonClick;
 
+    [Header("Round Music")]
+    public AudioClip openingTheme;        // Song 1
+    public AudioClip round1Theme;         // Song 4
+    public AudioClip lastRoundTheme;      // Song 7
+    public AudioClip everyRoundSong2;     // Song 26
+    public AudioClip everyRoundSong3;     // Song 54
+    public AudioClip everyRoundSong4;     // Song 17
+
+    void Awake()
+    {
+        if (FindObjectsOfType<SoundManager>().Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Start()
     {
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
@@ -110,5 +129,26 @@ public class SoundManager : MonoBehaviour
         {
             soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
         }
+    }
+
+    public void PlayMusicForTest(int testIndex)
+    {
+        audioSource.Stop();
+
+        if (testIndex == 0)
+        {
+            audioSource.clip = round1Theme;
+        }
+        else if (testIndex == 4)   // last round (Test 5)
+        {
+            audioSource.clip = lastRoundTheme;
+        }
+        else
+        {
+            audioSource.clip = everyRoundSong2;
+        }
+
+        audioSource.loop = true;
+        audioSource.Play();
     }
 }
