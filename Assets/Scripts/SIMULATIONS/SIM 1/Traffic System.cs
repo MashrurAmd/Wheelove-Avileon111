@@ -23,28 +23,30 @@ public class TrafficLightController : MonoBehaviour
     public TriggerZone carTriggerZone;
     public float delayBeforeGreen = 10f;
 
-    private enum LightState { Red, Yellow, Green }
-    private LightState currentState;
+    // 🔴🟡🟢 BOOL STATES
+    [Header("Current State (Read Only)")]
+    public bool isRed;
+    public bool isYellow;
+    public bool isGreen;
 
     private Coroutine trafficRoutine;
     private Coroutine delayedGreenRoutine;
 
     void Start()
     {
-        // 🔴 Start with RED
-        SetLight(LightState.Red);
+        SetRed();
         trafficRoutine = StartCoroutine(TrafficLightRoutine());
     }
 
     void Update()
     {
-        // 🚗 Car enters area
+        // 🚗 Car enters trigger → prepare green
         if (carTriggerZone.isTriggered && delayedGreenRoutine == null)
         {
             delayedGreenRoutine = StartCoroutine(TurnGreenAfterDelay());
         }
 
-        // 🚗 Car leaves area → cancel delayed green
+        // 🚗 Car leaves → cancel delayed green
         if (!carTriggerZone.isTriggered && delayedGreenRoutine != null)
         {
             StopCoroutine(delayedGreenRoutine);
@@ -62,13 +64,10 @@ public class TrafficLightController : MonoBehaviour
             yield break;
         }
 
-        // 🟡 RED → YELLOW
-        SetLight(LightState.Yellow);
+        SetYellow();
         yield return new WaitForSeconds(1f);
 
-        // 🟢 YELLOW → GREEN
-        SetLight(LightState.Green);
-
+        SetGreen();
         delayedGreenRoutine = null;
     }
 
@@ -76,46 +75,71 @@ public class TrafficLightController : MonoBehaviour
     {
         while (true)
         {
-            // GREEN
-            yield return new WaitUntil(() => currentState == LightState.Green);
+            // wait until green is active
+            yield return new WaitUntil(() => isGreen);
             yield return new WaitForSeconds(greenTime);
 
-            // YELLOW
-            SetLight(LightState.Yellow);
+            SetYellow();
             yield return new WaitForSeconds(yellowTime);
 
-            // RED
-            SetLight(LightState.Red);
+            SetRed();
             yield return new WaitForSeconds(redTime);
         }
     }
 
-    void SetLight(LightState state)
+    // =========================
+    // LIGHT STATE SETTERS
+    // =========================
+
+    void SetRed()
     {
-        currentState = state;
+        isRed = true;
+        isYellow = false;
+        isGreen = false;
+
+        redLight.material = redMat;
+        yellowLight.material = inactiveMat;
+        greenLight.material = inactiveMat;
+    }
+
+    void SetYellow()
+    {
+        isRed = false;
+        isYellow = true;
+        isGreen = false;
+
+        redLight.material = inactiveMat;
+        yellowLight.material = yellowMat;
+        greenLight.material = inactiveMat;
+    }
+
+    void SetGreen()
+    {
+        isRed = false;
+        isYellow = false;
+        isGreen = true;
 
         redLight.material = inactiveMat;
         yellowLight.material = inactiveMat;
-        greenLight.material = inactiveMat;
-
-        switch (state)
-        {
-            case LightState.Red:
-                redLight.material = redMat;
-                break;
-
-            case LightState.Yellow:
-                yellowLight.material = yellowMat;
-                break;
-
-            case LightState.Green:
-                greenLight.material = greenMat;
-                break;
-        }
+        greenLight.material = greenMat;
     }
+
+    // =========================
+    // PUBLIC CHECK HELPERS
+    // =========================
 
     public bool IsRedLight()
     {
-        return currentState == LightState.Red;
+        return isRed;
+    }
+
+    public bool IsGreenLight()
+    {
+        return isGreen;
+    }
+
+    public bool IsYellowLight()
+    {
+        return isYellow;
     }
 }

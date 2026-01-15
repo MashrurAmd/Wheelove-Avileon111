@@ -4,54 +4,45 @@ public class TrafficRuleChecker : MonoBehaviour
 {
     public TrafficLightController trafficLight;
     public TriggerZone carTriggerZone;
-
-    private bool carWasInsideOnRed = false;
-    private bool carStoppedProperly = false;
-
     public Car car;
 
-
+    private bool enteredOnRed = false;
+    private bool greenReached = false;
 
     void Update()
     {
-        // ✔️ Car enters during RED
-        if (carTriggerZone.isTriggered && trafficLight.IsRedLight())
+        // 🚗 Car enters zone during RED
+        if (carTriggerZone.isTriggered && trafficLight.isRed && !enteredOnRed)
         {
-            carWasInsideOnRed = true;
+            enteredOnRed = true;
+            greenReached = false;
         }
 
-        // 🟢 When it turns GREEN while car is inside → car obeyed rule
-        if (carWasInsideOnRed && carTriggerZone.isTriggered && !trafficLight.IsRedLight())
+        // 🟢 Light turns GREEN while car is waiting inside
+        if (enteredOnRed && carTriggerZone.isTriggered && trafficLight.isGreen)
         {
-            carStoppedProperly = true;
+            greenReached = true;
         }
 
-        // 🚗 Car LEAVES the area
-        if (!carTriggerZone.isTriggered && carWasInsideOnRed)
+        // 🚗 Car exits zone
+        if (!carTriggerZone.isTriggered && enteredOnRed)
         {
-            // ❌ If it never waited for green
-            if (!carStoppedProperly)
+            // ✅ VALID crossing: waited for green AND exited on green
+            if (greenReached && trafficLight.isGreen)
             {
-                Debug.Log("Rule broken: Car crossed during red light");
-
+                // success → do nothing
+            }
+            else
+            {
+                // ❌ INVALID crossing
                 car.PauseCar();
                 car.MoveBackByWaypoints(3);
                 car.ResumeDriving();
             }
-            else
-            {
-                Debug.Log("Successfully crossed the traffic light");
-            }
 
             // reset state
-            carWasInsideOnRed = false;
-            carStoppedProperly = false;
+            enteredOnRed = false;
+            greenReached = false;
         }
-
-        // 🚗 Car leaves during GREEN but never saw RED → clean crossing
-        //if (!carTriggerZone.isTriggered && !carWasInsideOnRed && !trafficLight.IsRedLight())
-        //{
-        //    Debug.Log("Successfully crossed the traffic light");
-        //}
     }
 }
