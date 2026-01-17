@@ -8,11 +8,13 @@ public class TrafficLightController : MonoBehaviour
     public MeshRenderer yellowLight;
     public MeshRenderer greenLight;
 
-    [Header("Materials")]
-    public Material redMat;
-    public Material yellowMat;
-    public Material greenMat;
-    public Material inactiveMat;
+    [Header("Active Colors (HDR)")]
+    public Color redOn = Color.red * 5f;
+    public Color yellowOn = Color.yellow * 5f;
+    public Color greenOn = Color.green * 5f;
+
+    [Header("Inactive Color")]
+    public Color offColor = new Color(0.1f, 0.1f, 0.1f);
 
     [Header("Timings")]
     public float greenTime = 5f;
@@ -23,30 +25,34 @@ public class TrafficLightController : MonoBehaviour
     public TriggerZone carTriggerZone;
     public float delayBeforeGreen = 10f;
 
-    // 🔴🟡🟢 BOOL STATES
-    [Header("Current State (Read Only)")]
+    [Header("State (Read Only)")]
     public bool isRed;
     public bool isYellow;
     public bool isGreen;
 
-    private Coroutine trafficRoutine;
-    private Coroutine delayedGreenRoutine;
+    Material redMat;
+    Material yellowMat;
+    Material greenMat;
+
+    Coroutine trafficRoutine;
+    Coroutine delayedGreenRoutine;
 
     void Start()
     {
+        // clone materials once
+        redMat = redLight.material;
+        yellowMat = yellowLight.material;
+        greenMat = greenLight.material;
+
         SetRed();
         trafficRoutine = StartCoroutine(TrafficLightRoutine());
     }
 
     void Update()
     {
-        // 🚗 Car enters trigger → prepare green
         if (carTriggerZone.isTriggered && delayedGreenRoutine == null)
-        {
             delayedGreenRoutine = StartCoroutine(TurnGreenAfterDelay());
-        }
 
-        // 🚗 Car leaves → cancel delayed green
         if (!carTriggerZone.isTriggered && delayedGreenRoutine != null)
         {
             StopCoroutine(delayedGreenRoutine);
@@ -58,24 +64,17 @@ public class TrafficLightController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBeforeGreen);
 
-        if (!carTriggerZone.isTriggered)
-        {
-            delayedGreenRoutine = null;
-            yield break;
-        }
+        if (!carTriggerZone.isTriggered) yield break;
 
         SetYellow();
         yield return new WaitForSeconds(1f);
-
         SetGreen();
-        delayedGreenRoutine = null;
     }
 
     IEnumerator TrafficLightRoutine()
     {
         while (true)
         {
-            // wait until green is active
             yield return new WaitUntil(() => isGreen);
             yield return new WaitForSeconds(greenTime);
 
@@ -87,59 +86,59 @@ public class TrafficLightController : MonoBehaviour
         }
     }
 
-    // =========================
-    // LIGHT STATE SETTERS
-    // =========================
+    // =====================
+    // LIGHT STATES
+    // =====================
 
     void SetRed()
     {
-        isRed = true;
-        isYellow = false;
-        isGreen = false;
+        isRed = true; isYellow = false; isGreen = false;
 
-        redLight.material = redMat;
-        yellowLight.material = inactiveMat;
-        greenLight.material = inactiveMat;
+        Activate(redMat, redOn);
+        Deactivate(yellowMat);
+        Deactivate(greenMat);
     }
 
     void SetYellow()
     {
-        isRed = false;
-        isYellow = true;
-        isGreen = false;
+        isRed = false; isYellow = true; isGreen = false;
 
-        redLight.material = inactiveMat;
-        yellowLight.material = yellowMat;
-        greenLight.material = inactiveMat;
+        Deactivate(redMat);
+        Activate(yellowMat, yellowOn);
+        Deactivate(greenMat);
     }
 
     void SetGreen()
     {
-        isRed = false;
-        isYellow = false;
-        isGreen = true;
+        isRed = false; isYellow = false; isGreen = true;
 
-        redLight.material = inactiveMat;
-        yellowLight.material = inactiveMat;
-        greenLight.material = greenMat;
+        Deactivate(redMat);
+        Deactivate(yellowMat);
+        Activate(greenMat, greenOn);
     }
 
-    // =========================
-    // PUBLIC CHECK HELPERS
-    // =========================
+    // =====================
+    // MATERIAL HELPERS
+    // =====================
 
-    public bool IsRedLight()
+    void Activate(Material mat, Color emission)
     {
-        return isRed;
+        mat.color = Color.white;               // visible
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", emission);
     }
 
-    public bool IsGreenLight()
+    void Deactivate(Material mat)
     {
-        return isGreen;
+        mat.color = offColor;                  // dark
+        mat.SetColor("_EmissionColor", Color.black);
     }
 
-    public bool IsYellowLight()
-    {
-        return isYellow;
-    }
+    // =====================
+    // PUBLIC CHECKS
+    // =====================
+
+    public bool IsRedLight() => isRed;
+    public bool IsYellowLight() => isYellow;
+    public bool IsGreenLight() => isGreen;
 }
