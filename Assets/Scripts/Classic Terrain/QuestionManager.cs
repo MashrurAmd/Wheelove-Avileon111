@@ -59,6 +59,7 @@ public class QuestionManager : MonoBehaviour
         // 🔥 START TEST 1 MUSIC (Index 0)
         if (soundManager != null)   //SoundManager
             soundManager.PlayGameplayMusic();   //SoundManager
+                                                //SoundManager.Instance.PlayGameplayMusic();   //SoundManager
     }
 
     void Update()
@@ -169,7 +170,7 @@ public class QuestionManager : MonoBehaviour
         if (isCorrect)
         {
             //SoundManager.Instance.PlaySFX("CorrectAnswer"); //SoundManager
-            //soundManager.PlaySFX("CorrectAnswer"); //SoundManager
+            soundManager.PlaySFX("CorrectAnswer"); //SoundManager
 
             // ✅ CORRECT
             answerText.text = "Correct Answer!";
@@ -188,7 +189,7 @@ public class QuestionManager : MonoBehaviour
         else
         {
             //SoundManager.Instance.PlaySFX("WrongAnswer");   //SoundManager
-            //soundManager.PlaySFX("WrongAnswer");   //SoundManager
+            soundManager.PlaySFX("WrongAnswer");   //SoundManager
 
             // ❌ WRONG
             answerText.text = "Wrong Answer!";
