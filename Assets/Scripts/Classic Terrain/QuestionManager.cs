@@ -55,6 +55,11 @@ public class QuestionManager : MonoBehaviour
         UpdateWrongAnswersUI();
 
         soundManager = FindObjectOfType<SoundManager>();    //SoundManager
+
+        // 🔥 START TEST 1 MUSIC (Index 0)
+        if (soundManager != null)   //SoundManager
+            //soundManager.PlayMusicForTest(0);   //SoundManager
+            soundManager.PlayGameplayMusic();   //SoundManager
     }
 
     void Update()
@@ -216,7 +221,7 @@ public class QuestionManager : MonoBehaviour
         {
             Debug.Log("All tests finished!");   //SoundManager
             //soundManager.audioSource.clip = openingTheme; //SoundManager
-            soundManager.audioSource.Play();    //SoundManager
+            //soundManager.audioSource.Play();    //SoundManager
 
             if (Gameover != null) Gameover.SetActive(true);
             return;
@@ -225,7 +230,8 @@ public class QuestionManager : MonoBehaviour
         Debug.Log("Starting Test: " + quesData.tests[currentTestIndex].testsName);  //SoundManager
 
         if (soundManager != null)   //SoundManager
-            soundManager.PlayMusicForTest(currentTestIndex);    //SoundManager
+            //soundManager.PlayMusicForTest(currentTestIndex);    //SoundManager
+            soundManager.PlayGameplayMusic();    //SoundManager
 
         ShowNextQuestion();
     }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance;
+
+    [Header("Music Data ScriptableObject)")]
+    public TestMusicData testMusicData;
+
     [Header("Button Icons")]
     public Image musicOnIcon;
     public Image musicOffIcon;
@@ -29,13 +34,14 @@ public class SoundManager : MonoBehaviour
     public AudioSource soundEffectSource;
     public AudioClip[] buttonClick;
 
-    [Header("Round Music")]
-    public AudioClip openingTheme;        // Song 1
-    public AudioClip round1Theme;         // Song 4
-    public AudioClip lastRoundTheme;      // Song 7
-    public AudioClip everyRoundSong2;     // Song 26
-    public AudioClip everyRoundSong3;     // Song 54
-    public AudioClip everyRoundSong4;     // Song 17
+    //[Header("Round Music")]
+    //public AudioClip openingTheme;        // Song 1
+    //public AudioClip round1Theme;         // Song 4
+    //public AudioClip lastRoundTheme;      // Song 7
+    //public AudioClip everyRoundSong2;     // Song 26
+    //public AudioClip everyRoundSong3;     // Song 54
+    //public AudioClip everyRoundSong4;     // Song 17
+
 
     void Awake()
     {
@@ -131,24 +137,214 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayMusicForTest(int testIndex)
+    //public void PlayMusicForTest(int testIndex)
+    //{
+    //    audioSource.Stop();
+
+    //    if (testIndex == 0)
+    //    {
+    //        audioSource.clip = round1Theme;
+    //    }
+    //    else if (testIndex == 4)   // last round (Test 5)
+    //    {
+    //        audioSource.clip = lastRoundTheme;
+    //    }
+    //    else
+    //    {
+    //        audioSource.clip = everyRoundSong2;
+    //    }
+
+    //    audioSource.loop = true;
+    //    audioSource.Play();
+    //}
+    public void PlayMainMenuMusic()
     {
         audioSource.Stop();
+        audioSource.clip = testMusicData.mainMenuMusic;
+        audioSource.loop = true;
+        audioSource.Play(); 
+    }
 
-        if (testIndex == 0)
-        {
-            audioSource.clip = round1Theme;
-        }
-        else if (testIndex == 4)   // last round (Test 5)
-        {
-            audioSource.clip = lastRoundTheme;
-        }
-        else
-        {
-            audioSource.clip = everyRoundSong2;
-        }
-
+    public void PlayGameplayMusic()
+    {
+        audioSource.Stop();
+        audioSource.clip = testMusicData.gameplayMusic;
         audioSource.loop = true;
         audioSource.Play();
     }
+
+
+    public void PlaySFX(string sfxName)
+    {
+        if (soundMuted || testMusicData == null) return;
+
+        AudioEntry entry = testMusicData.soundEffects.Find(x => x.audioName == sfxName);
+
+        if (entry.clip != null)
+        {
+            soundEffectSource.PlayOneShot(entry.clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + sfxName);
+        }
+    }
+
 }
+
+//======================================================================================
+
+
+//using System.Collections;
+//using System.Collections.Generic;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UI;
+
+//public class SoundManager : MonoBehaviour
+//{
+//    public static SoundManager Instance;
+
+//    [Header("Button Icons")]
+//    public Image musicOnIcon;
+//    public Image musicOffIcon;
+//    public Image soundEffectOnIcon;
+//    public Image soundEffectOffIcon;
+
+//    [Header("Button Texts")]
+//    public TMP_Text musicButtonText;
+//    public TMP_Text soundEffectButtonText;
+
+//    private bool muted = false;
+//    private bool soundMuted = false;
+
+//    [Header("Volume Control")]
+//    public Slider volumeSlider;
+
+//    [Header("Music Settings")]
+//    public AudioSource audioSource;
+
+//    [Header("Sound Effect Settings")]
+//    public AudioSource soundEffectSource;
+//    public AudioClip[] buttonClick;
+
+//    // 🔹 NEW (DATA-DRIVEN)
+//    [Header("Test Music Data")]
+//    public TestMusicData testMusicData;
+
+//    void Awake()
+//    {
+//        if (Instance != null)
+//        {
+//            Destroy(gameObject);
+//            return;
+//        }
+
+//        Instance = this;
+//        DontDestroyOnLoad(gameObject);
+//    }
+
+//    void Start()
+//    {
+//        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+
+//        if (PlayerPrefs.HasKey("MusicMuted"))
+//        {
+//            muted = PlayerPrefs.GetInt("MusicMuted") == 1;
+//            audioSource.mute = muted;
+//        }
+
+//        if (PlayerPrefs.HasKey("SfxMuted"))
+//        {
+//            soundMuted = PlayerPrefs.GetInt("SfxMuted") == 1;
+//            soundEffectSource.mute = soundMuted;
+//        }
+
+//        if (PlayerPrefs.HasKey("Volume"))
+//        {
+//            float savedVolume = PlayerPrefs.GetFloat("Volume");
+//            volumeSlider.value = savedVolume;
+//            OnVolumeChanged(savedVolume);
+//        }
+//        else
+//        {
+//            OnVolumeChanged(volumeSlider.value);
+//        }
+
+//        UpdateMusicButtonIcon();
+//        UpdateSoundEffectButtonIcon();
+//        PlayerSettingsManager.Instance.Load();
+
+//        // ▶ Play opening theme in Main Menu
+//        if (testMusicData != null && testMusicData.openingTheme != null)
+//        {
+//            audioSource.clip = testMusicData.openingTheme;
+//            audioSource.loop = true;
+//            audioSource.Play();
+//        }
+//    }
+
+//    void OnVolumeChanged(float value)
+//    {
+//        audioSource.volume = value;
+//        soundEffectSource.volume = value;
+//        PlayerPrefs.SetFloat("Volume", value);
+//    }
+
+//    public void OnMusicButtonPrees()
+//    {
+//        muted = !muted;
+//        audioSource.mute = muted;
+//        PlayerPrefs.SetInt("MusicMuted", muted ? 1 : 0);
+//        UpdateMusicButtonIcon();
+//    }
+
+//    private void UpdateMusicButtonIcon()
+//    {
+//        musicOnIcon.enabled = !muted;
+//        musicOffIcon.enabled = muted;
+
+//        if (musicButtonText != null)
+//            musicButtonText.text = muted ? "OFF" : "ON";
+//    }
+
+//    public void OnSoundEffectButtonPrees()
+//    {
+//        soundMuted = !soundMuted;
+//        soundEffectSource.mute = soundMuted;
+//        PlayerPrefs.SetInt("SfxMuted", soundMuted ? 1 : 0);
+//        UpdateSoundEffectButtonIcon();
+//    }
+
+//    private void UpdateSoundEffectButtonIcon()
+//    {
+//        soundEffectOnIcon.enabled = !soundMuted;
+//        soundEffectOffIcon.enabled = soundMuted;
+
+//        if (soundEffectButtonText != null)
+//            soundEffectButtonText.text = soundMuted ? "OFF" : "ON";
+//    }
+
+//    public void SoundEffectButton()
+//    {
+//        if (!soundMuted && buttonClick.Length > 0)
+//        {
+//            soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
+//        }
+//    }
+
+//    // 🔥 UPDATED (DATA-DRIVEN, SAME PURPOSE)
+//    public void PlayMusicForTest(int testIndex)
+//    {
+//        if (testMusicData == null || testMusicData.testThemes.Length == 0)
+//            return;
+
+//        if (testIndex < 0 || testIndex >= testMusicData.testThemes.Length)
+//            return;
+
+//        audioSource.Stop();
+//        audioSource.clip = testMusicData.testThemes[testIndex];
+//        audioSource.loop = true;
+//        audioSource.Play();
+//    }
+//}

@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c985887446caa1340ba08a448004e1f9, type: 3}
   m_Name: TestMusicData
   m_EditorClassIdentifier: 
-  openingTheme: {fileID: 0}
-  finalTheme: {fileID: 0}
-  testMusics: []
+  mainMenuMusic: {fileID: 8300000, guid: 8b6efc98e8aa47443b01aa4879776e42, type: 3}
+  gameplayMusic: {fileID: 8300000, guid: 1591996e1d0e3e642aff0abe1f21dd44, type: 3}
+  soundEffects:
+  - audioName: CorrectAnswer
+    clip: {fileID: 8300000, guid: e138a4c4cf9efd64082bd64467300d64, type: 3}
+  - audioName: WrongAnswer
+    clip: {fileID: 8300000, guid: b88bd52f65702ee438a81241dbfb6553, type: 3}
+  - audioName: Flickering
+    clip: {fileID: 8300000, guid: 42f188efc4972e0489ec7b52dc71f999, type: 3}
