@@ -766,6 +766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5299609961233650878}
+  - component: {fileID: -1939668267848629338}
   m_Layer: 0
   m_Name: FarmHouse1
   m_TagString: Untagged
@@ -797,3 +798,16 @@ Transform:
   - {fileID: 3475084997835897393}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -185.447, z: 0}
+--- !u!114 &-1939668267848629338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132498801388179882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2a6ba7c7dce9b4e8dff1f3b6e5558a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cullDistance: 80

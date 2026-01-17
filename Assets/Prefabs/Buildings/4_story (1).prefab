@@ -2897,6 +2897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8439859000265970516}
   - component: {fileID: 3151606141473472143}
+  - component: {fileID: -7934599991250828637}
   m_Layer: 0
   m_Name: 4_story (1)
   m_TagString: Untagged
@@ -2996,6 +2997,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-7934599991250828637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805134065444665135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2a6ba7c7dce9b4e8dff1f3b6e5558a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cullDistance: 80
 --- !u!1 &9020328741399809398
 GameObject:
   m_ObjectHideFlags: 0
