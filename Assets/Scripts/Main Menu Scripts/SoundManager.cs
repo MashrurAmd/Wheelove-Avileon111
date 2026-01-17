@@ -34,19 +34,39 @@ public class SoundManager : MonoBehaviour
     public AudioSource soundEffectSource;
     public AudioClip[] buttonClick;
 
+    //void Awake()
+    //{
+    //    if (FindObjectsOfType<SoundManager>().Length > 1)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+
+    //    DontDestroyOnLoad(gameObject);
+    //}
+
     void Awake()
     {
-        if (FindObjectsOfType<SoundManager>().Length > 1)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
+
     void Start()
     {
+#if UNITY_ANDROID
+        PlayerPrefs.DeleteKey("MusicMuted");
+        PlayerPrefs.DeleteKey("SfxMuted");
+        PlayerPrefs.DeleteKey("Volume");
+#endif
+
+
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
 
         if (PlayerPrefs.HasKey("MusicMuted"))
@@ -72,9 +92,21 @@ public class SoundManager : MonoBehaviour
             OnVolumeChanged(volumeSlider.value);
         }
 
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (soundEffectSource == null)
+            soundEffectSource = GetComponent<AudioSource>();
+
+
+
         UpdateMusicButtonIcon();
         UpdateSoundEffectButtonIcon();
         PlayerSettingsManager.Instance.Load();
+
+        PlayMainMenuMusic();
+
     }
 
     void OnVolumeChanged(float value)
@@ -124,7 +156,10 @@ public class SoundManager : MonoBehaviour
     {
         if (!soundMuted && buttonClick.Length > 0)
         {
-            soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
+            //soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
+
+            soundEffectSource.mute = false;
+            soundEffectSource.PlayOneShot(buttonClick[0], 1f);
         }
     }
 
@@ -160,6 +195,17 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("SFX not found: " + sfxName);
         }
     }
+
+    void Reset()
+    {
+        AudioSource[] sources = GetComponents<AudioSource>();
+        if (sources.Length >= 2)
+        {
+            audioSource = sources[0];
+            soundEffectSource = sources[1];
+        }
+    }
+
 
 }
 
