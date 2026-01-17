@@ -192,7 +192,9 @@ public class QuestionManager : MonoBehaviour
                 else if (life == 1)
                     car.MoveBackByWaypoints(6);
                 else if (life <= 0)
-                    GameManager.instance.car.RespawnAtStart();
+                {
+                    StartCoroutine(RestartAfterDelay());
+                }
             }
 
             // ❌ DO NOT increase question index
@@ -257,4 +259,41 @@ public class QuestionManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
+
+    void RestartGame()
+    {
+        // Reset game data
+        life = 3;
+        score = 0;
+
+        // Reset question progress
+        currentTestIndex = 0;
+        currentQuestionIndex = 0;
+
+        // Update UI
+        UpdateScoreUI();
+        UpdateWrongAnswersUI();
+
+        // Hide panels
+        if (questionPanel != null)
+            questionPanel.SetActive(false);
+
+        if (Gameover != null)
+            Gameover.SetActive(false);
+
+        // Reset car
+        if (GameManager.instance != null && GameManager.instance.car != null)
+            GameManager.instance.car.RespawnAtStart();
+
+        // Start first question again
+        ShowNextQuestion();
+    }
+    IEnumerator RestartAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        RestartGame();
+    }
+
+
+
 }
