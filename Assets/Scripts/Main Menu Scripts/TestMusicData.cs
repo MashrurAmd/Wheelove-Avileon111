@@ -1,18 +1,20 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public struct AudioEntry
-{
-    public string audioName; 
-    public AudioClip clip;
-}
-
-[CreateAssetMenu(fileName = "TestMusicData", menuName = "Audio/TestMusicData")]
+[CreateAssetMenu(fileName = "TestMusicData", menuName = "Audio/Test Music Data")]
 public class TestMusicData : ScriptableObject
 {
+    [Header("Music")]
     public AudioClip mainMenuMusic;
     public AudioClip gameplayMusic;
-    public List<AudioEntry> soundEffects;
+
+    [Header("Sound Effects")]
+    public List<AudioEntry> soundEffects = new List<AudioEntry>();
+}
+
+[System.Serializable]
+public class AudioEntry
+{
+    public string audioName;   // Example: "ButtonClick"
+    public AudioClip clip;
 }

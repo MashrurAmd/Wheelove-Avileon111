@@ -1,4 +1,220 @@
-﻿using System.Collections;
+﻿//using System.Collections;
+//using System.Collections.Generic;
+//using TMPro;
+//using UnityEngine;
+//using UnityEngine.UI;
+
+//public class SoundManager : MonoBehaviour
+//{
+//    public static SoundManager Instance;
+
+//    [Header("Music Data ScriptableObject)")]
+//    public TestMusicData testMusicData;
+
+//    [Header("Button Icons")]
+//    public Image musicOnIcon;
+//    public Image musicOffIcon;
+//    public Image soundEffectOnIcon;
+//    public Image soundEffectOffIcon;
+
+//    [Header("Button Texts")]
+//    public TMP_Text musicButtonText;
+//    public TMP_Text soundEffectButtonText;
+
+//    private bool muted = false;
+//    private bool soundMuted = false;
+
+//    [Header("Volume Control")]
+//    public Slider volumeSlider;
+
+//    [Header("Music Settings")]
+//    public AudioSource audioSource;
+
+//    [Header("Sound Effect Settings")]
+//    public AudioSource soundEffectSource;
+//    public AudioClip[] buttonClick;
+
+//    //void Awake()
+//    //{
+//    //    if (FindObjectsOfType<SoundManager>().Length > 1)
+//    //    {
+//    //        Destroy(gameObject);
+//    //        return;
+//    //    }
+
+//    //    DontDestroyOnLoad(gameObject);
+//    //}
+
+//    void Awake()
+//    {
+//        if (Instance != null && Instance != this)
+//        {
+//            Destroy(gameObject);
+//            return;
+//        }
+
+//        Instance = this;
+//        DontDestroyOnLoad(gameObject);
+//    }
+
+
+//    void Start()
+//    {
+//        if (audioSource == null)
+//            audioSource = GetComponent<AudioSource>();
+
+//        if (soundEffectSource == null)
+//            soundEffectSource = GetComponent<AudioSource>();
+
+//#if UNITY_ANDROID
+//        PlayerPrefs.DeleteKey("MusicMuted");
+//        PlayerPrefs.DeleteKey("SfxMuted");
+//        PlayerPrefs.DeleteKey("Volume");
+//#endif
+
+
+//        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+
+//        if (PlayerPrefs.HasKey("MusicMuted"))
+//        {
+//            muted = PlayerPrefs.GetInt("MusicMuted") == 1;
+//            audioSource.mute = muted;
+//        }
+
+//        if (PlayerPrefs.HasKey("SfxMuted"))
+//        {
+//            soundMuted = PlayerPrefs.GetInt("SfxMuted") == 1;
+//            soundEffectSource.mute = soundMuted;
+//        }
+
+//        if (PlayerPrefs.HasKey("Volume"))
+//        {
+//            float savedVolume = PlayerPrefs.GetFloat("Volume");
+//            volumeSlider.value = savedVolume;
+//            OnVolumeChanged(savedVolume);
+//        }
+//        else
+//        {
+//            OnVolumeChanged(volumeSlider.value);
+//        }
+
+
+//        if (audioSource == null)
+//            audioSource = GetComponent<AudioSource>();
+
+//        if (soundEffectSource == null)
+//            soundEffectSource = GetComponent<AudioSource>();
+
+
+
+//        UpdateMusicButtonIcon();
+//        UpdateSoundEffectButtonIcon();
+//        PlayerSettingsManager.Instance.Load();
+
+//        PlayMainMenuMusic();
+
+//    }
+
+//    void OnVolumeChanged(float value)
+//    {
+//        audioSource.volume = value;
+//        soundEffectSource.volume = value;
+//        PlayerPrefs.SetFloat("Volume", value);
+//    }
+
+//    public void OnMusicButtonPrees()
+//    {
+//        muted = !muted;
+//        audioSource.mute = muted;
+//        PlayerPrefs.SetInt("MusicMuted", muted ? 1 : 0);
+//        UpdateMusicButtonIcon();
+//    }
+
+//    private void UpdateMusicButtonIcon()
+//    {
+//        musicOnIcon.enabled = !muted;
+//        musicOffIcon.enabled = muted;
+
+//        if (musicButtonText != null)
+//            musicButtonText.text = muted ? "OFF" : "ON";
+//    }
+
+//    public void OnSoundEffectButtonPrees()
+//    {
+//        soundMuted = !soundMuted;
+//        soundEffectSource.mute = soundMuted;
+//        PlayerPrefs.SetInt("SfxMuted", soundMuted ? 1 : 0);
+//        UpdateSoundEffectButtonIcon();
+//    }
+
+//    private void UpdateSoundEffectButtonIcon()
+//    {
+//        soundEffectOnIcon.enabled = !soundMuted;
+//        soundEffectOffIcon.enabled = soundMuted;
+
+//        if (soundEffectButtonText != null)
+//        {
+//            soundEffectButtonText.text = soundMuted ? "OFF" : "ON";
+//        }
+//    }
+
+//    public void SoundEffectButton()
+//    {
+//        if (!soundMuted && buttonClick.Length > 0)
+//        {
+//            //soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
+
+//            //soundEffectSource.mute = false;
+//            soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
+//        }
+//    }
+
+//    public void PlayMainMenuMusic()
+//    {
+//        audioSource.Stop();
+//        audioSource.clip = testMusicData.mainMenuMusic;
+//        audioSource.loop = true;
+//        audioSource.Play(); 
+//    }
+
+//    public void PlayGameplayMusic()
+//    {
+//        audioSource.Stop();
+//        audioSource.clip = testMusicData.gameplayMusic;
+//        audioSource.loop = true;
+//        audioSource.Play();
+//    }
+
+
+//    public void PlaySFX(string sfxName)
+//    {
+//        if (soundMuted || testMusicData == null) return;
+
+//        AudioEntry entry = testMusicData.soundEffects.Find(x => x.audioName == sfxName);
+
+//        if (entry.clip != null)
+//        {
+//            soundEffectSource.PlayOneShot(entry.clip);
+//        }
+//        else
+//        {
+//            Debug.LogWarning("SFX not found: " + sfxName);
+//        }
+//    }
+
+//    void Reset()
+//    {
+//        AudioSource[] sources = GetComponents<AudioSource>();
+//        if (sources.Length >= 2)
+//        {
+//            audioSource = sources[0];
+//            soundEffectSource = sources[1];
+//        }
+//    }
+
+
+//}
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,42 +224,22 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    [Header("Music Data ScriptableObject)")]
+    [Header("Audio Data")]
     public TestMusicData testMusicData;
 
-    [Header("Button Icons")]
-    public Image musicOnIcon;
-    public Image musicOffIcon;
-    public Image soundEffectOnIcon;
-    public Image soundEffectOffIcon;
+    [Header("Audio Sources")]
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
 
-    [Header("Button Texts")]
-    public TMP_Text musicButtonText;
-    public TMP_Text soundEffectButtonText;
-
-    private bool muted = false;
-    private bool soundMuted = false;
-
-    [Header("Volume Control")]
+    [Header("UI")]
     public Slider volumeSlider;
+    public Image musicOnIcon, musicOffIcon;
+    public Image sfxOnIcon, sfxOffIcon;
+    public TMP_Text musicButtonText;
+    public TMP_Text sfxButtonText;
 
-    [Header("Music Settings")]
-    public AudioSource audioSource;
-
-    [Header("Sound Effect Settings")]
-    public AudioSource soundEffectSource;
-    public AudioClip[] buttonClick;
-
-    //void Awake()
-    //{
-    //    if (FindObjectsOfType<SoundManager>().Length > 1)
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-
-    //    DontDestroyOnLoad(gameObject);
-    //}
+    private bool musicMuted = false;
+    private bool sfxMuted = false;
 
     void Awake()
     {
@@ -57,138 +253,91 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-
     void Start()
     {
-#if UNITY_ANDROID
-        PlayerPrefs.DeleteKey("MusicMuted");
-        PlayerPrefs.DeleteKey("SfxMuted");
-        PlayerPrefs.DeleteKey("Volume");
-#endif
+        volumeSlider.onValueChanged.AddListener(SetVolume);
 
+        // Load settings
+        musicMuted = PlayerPrefs.GetInt("MusicMuted", 0) == 1;
+        sfxMuted = PlayerPrefs.GetInt("SfxMuted", 0) == 1;
 
-        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+        float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
+        volumeSlider.value = savedVolume;
+        SetVolume(savedVolume);
 
-        if (PlayerPrefs.HasKey("MusicMuted"))
-        {
-            muted = PlayerPrefs.GetInt("MusicMuted") == 1;
-            audioSource.mute = muted;
-        }
+        musicSource.mute = musicMuted;
+        sfxSource.mute = sfxMuted;
 
-        if (PlayerPrefs.HasKey("SfxMuted"))
-        {
-            soundMuted = PlayerPrefs.GetInt("SfxMuted") == 1;
-            soundEffectSource.mute = soundMuted;
-        }
-
-        if (PlayerPrefs.HasKey("Volume"))
-        {
-            float savedVolume = PlayerPrefs.GetFloat("Volume");
-            volumeSlider.value = savedVolume;
-            OnVolumeChanged(savedVolume);
-        }
-        else
-        {
-            OnVolumeChanged(volumeSlider.value);
-        }
-
-
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
-
-        if (soundEffectSource == null)
-            soundEffectSource = GetComponent<AudioSource>();
-
-
-
-        UpdateMusicButtonIcon();
-        UpdateSoundEffectButtonIcon();
-        PlayerSettingsManager.Instance.Load();
+        UpdateMusicUI();
+        UpdateSfxUI();
 
         PlayMainMenuMusic();
-
     }
 
-    void OnVolumeChanged(float value)
+    public void SetVolume(float value)
     {
-        audioSource.volume = value;
-        soundEffectSource.volume = value;
+        musicSource.volume = value;
+        sfxSource.volume = value;
         PlayerPrefs.SetFloat("Volume", value);
     }
 
-    public void OnMusicButtonPrees()
+    public void ToggleMusic()
     {
-        muted = !muted;
-        audioSource.mute = muted;
-        PlayerPrefs.SetInt("MusicMuted", muted ? 1 : 0);
-        UpdateMusicButtonIcon();
+        musicMuted = !musicMuted;
+        musicSource.mute = musicMuted;
+        PlayerPrefs.SetInt("MusicMuted", musicMuted ? 1 : 0);
+        UpdateMusicUI();
     }
 
-    private void UpdateMusicButtonIcon()
+    public void ToggleSfx()
     {
-        musicOnIcon.enabled = !muted;
-        musicOffIcon.enabled = muted;
-
-        if (musicButtonText != null)
-            musicButtonText.text = muted ? "OFF" : "ON";
+        sfxMuted = !sfxMuted;
+        sfxSource.mute = sfxMuted;
+        PlayerPrefs.SetInt("SfxMuted", sfxMuted ? 1 : 0);
+        UpdateSfxUI();
     }
 
-    public void OnSoundEffectButtonPrees()
+    void UpdateMusicUI()
     {
-        soundMuted = !soundMuted;
-        soundEffectSource.mute = soundMuted;
-        PlayerPrefs.SetInt("SfxMuted", soundMuted ? 1 : 0);
-        UpdateSoundEffectButtonIcon();
+        musicOnIcon.enabled = !musicMuted;
+        musicOffIcon.enabled = musicMuted;
+        musicButtonText.text = musicMuted ? "OFF" : "ON";
     }
 
-    private void UpdateSoundEffectButtonIcon()
+    void UpdateSfxUI()
     {
-        soundEffectOnIcon.enabled = !soundMuted;
-        soundEffectOffIcon.enabled = soundMuted;
-
-        if (soundEffectButtonText != null)
-        {
-            soundEffectButtonText.text = soundMuted ? "OFF" : "ON";
-        }
-    }
-
-    public void SoundEffectButton()
-    {
-        if (!soundMuted && buttonClick.Length > 0)
-        {
-            //soundEffectSource.PlayOneShot(buttonClick[0], 0.5f);
-
-            soundEffectSource.mute = false;
-            soundEffectSource.PlayOneShot(buttonClick[0], 1f);
-        }
+        sfxOnIcon.enabled = !sfxMuted;
+        sfxOffIcon.enabled = sfxMuted;
+        sfxButtonText.text = sfxMuted ? "OFF" : "ON";
     }
 
     public void PlayMainMenuMusic()
     {
-        audioSource.Stop();
-        audioSource.clip = testMusicData.mainMenuMusic;
-        audioSource.loop = true;
-        audioSource.Play(); 
+        musicSource.Stop();
+        musicSource.clip = testMusicData.mainMenuMusic;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void PlayGameplayMusic()
     {
-        audioSource.Stop();
-        audioSource.clip = testMusicData.gameplayMusic;
-        audioSource.loop = true;
-        audioSource.Play();
+        musicSource.Stop();
+        musicSource.clip = testMusicData.gameplayMusic;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
-
+    // ✅ DATA-DRIVEN SFX SYSTEM
     public void PlaySFX(string sfxName)
     {
-        if (soundMuted || testMusicData == null) return;
+        if (sfxMuted || testMusicData == null) return;
 
-        AudioEntry entry = testMusicData.soundEffects.Find(x => x.audioName == sfxName);
+        AudioEntry entry = testMusicData.soundEffects
+            .Find(x => x.audioName == sfxName);
 
-        if (entry.clip != null)
+        if (entry != null && entry.clip != null)
         {
-            soundEffectSource.PlayOneShot(entry.clip);
+            sfxSource.PlayOneShot(entry.clip);
         }
         else
         {
@@ -196,16 +345,9 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    void Reset()
+    // For UI button click
+    public void ButtonClickSFX()
     {
-        AudioSource[] sources = GetComponents<AudioSource>();
-        if (sources.Length >= 2)
-        {
-            audioSource = sources[0];
-            soundEffectSource = sources[1];
-        }
+        PlaySFX("ButtonClick");
     }
-
-
 }
-

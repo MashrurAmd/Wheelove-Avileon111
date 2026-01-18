@@ -2867,17 +2867,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testMusicData: {fileID: 11400000, guid: fbb7a3dd9e79756409d0c0de8f67a936, type: 2}
+  musicSource: {fileID: 697095726}
+  sfxSource: {fileID: 697095729}
+  volumeSlider: {fileID: 1248940455834877906}
   musicOnIcon: {fileID: 5613423624587900073}
   musicOffIcon: {fileID: 8182433881796423067}
-  soundEffectOnIcon: {fileID: 5655456332068313877}
-  soundEffectOffIcon: {fileID: 4958688737840314829}
+  sfxOnIcon: {fileID: 5655456332068313877}
+  sfxOffIcon: {fileID: 4958688737840314829}
   musicButtonText: {fileID: 7269984506900296184}
-  soundEffectButtonText: {fileID: 8311535904531665896}
-  volumeSlider: {fileID: 1248940455834877906}
-  audioSource: {fileID: 697095726}
-  soundEffectSource: {fileID: 697095729}
-  buttonClick:
-  - {fileID: 8300000, guid: 93d7958f5ffd8a74997ba2a376db4103, type: 3}
+  sfxButtonText: {fileID: 8311535904531665896}
 --- !u!4 &697095728
 Transform:
   m_ObjectHideFlags: 0
@@ -8988,19 +8986,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 697095727}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: OnMusicButtonPrees
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 697095727}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: SoundEffectButton
+        m_MethodName: ToggleMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10182,19 +10168,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 697095727}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: OnSoundEffectButtonPrees
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 697095727}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: SoundEffectButton
+        m_MethodName: ToggleSfx
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
