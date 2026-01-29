@@ -17,9 +17,11 @@ public class TriggerZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isTriggered = true;
+            QuestionManager.Instance.ShowNextQuestion();
+            gameObject.SetActive(false); // or Destroy(gameObject);
         }
     }
+
 
     void OnTriggerExit(Collider other)
     {

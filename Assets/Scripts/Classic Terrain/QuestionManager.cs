@@ -32,7 +32,7 @@ public class QuestionManager : MonoBehaviour
     private float currentTime;
     private bool isCountingDown = false;
 
-    private SoundManager soundManager;  //SoundManager
+    private SoundManager soundManager;
 
     [Header("Game Data")]
     public int score = 0;
@@ -49,18 +49,25 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
+        if (quesData == null || quesData.tests.Count == 0)
+        {
+            Debug.LogError("❌ QuesData is missing or empty!");
+            return;
+        }
+
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
+        soundManager = FindObjectOfType<SoundManager>();
+
         UpdateScoreUI();
         UpdateWrongAnswersUI();
 
-        soundManager = FindObjectOfType<SoundManager>();    //SoundManager
+        if (soundManager != null)
+            soundManager.PlayGameplayMusic();
 
-        // 🔥 START TEST 1 MUSIC (Index 0)
-        if (soundManager != null)   //SoundManager
-            soundManager.PlayGameplayMusic();   //SoundManager
-                                                //SoundManager.Instance.PlayGameplayMusic();   //SoundManager
+        // ❌ DO NOT show question here
     }
+
 
     void Update()
     {
@@ -122,7 +129,7 @@ public class QuestionManager : MonoBehaviour
                 optionLabels[i].text = qa.options[i];
                 optionToggles[i].gameObject.SetActive(true);
                 optionToggles[i].isOn = false;
-                if (toggleGroup) optionToggles[i].group = toggleGroup;
+                optionToggles[i].group = toggleGroup;
             }
             else
             {
@@ -130,12 +137,11 @@ public class QuestionManager : MonoBehaviour
             }
         }
 
-        if (toggleGroup)
-            toggleGroup.SetAllTogglesOff(true);
+        toggleGroup.SetAllTogglesOff(true);
     }
 
     // ==============================
-    // ANSWER CHECK (IMPORTANT FIX)
+    // ANSWER CHECK (FIXED)
     // ==============================
 
     public void CheckAnswer()
@@ -143,12 +149,25 @@ public class QuestionManager : MonoBehaviour
         isCountingDown = false;
 
         var qa = quesData.tests[currentTestIndex].quesAnswers[currentQuestionIndex];
+
+        if (string.IsNullOrEmpty(qa.answers))
+        {
+            Debug.LogError("❌ Answer missing for question: " + qa.questions);
+            return;
+        }
+
         string selectedOption = "";
 
         for (int i = 0; i < optionToggles.Count; i++)
         {
             if (optionToggles[i].isOn)
             {
+                if (optionLabels[i] == null)
+                {
+                    Debug.LogError("❌ Option label missing at index " + i);
+                    return;
+                }
+
                 selectedOption = optionLabels[i].text;
                 break;
             }
@@ -169,10 +188,9 @@ public class QuestionManager : MonoBehaviour
 
         if (isCorrect)
         {
-            //SoundManager.Instance.PlaySFX("CorrectAnswer"); //SoundManager
-            soundManager.PlaySFX("CorrectAnswer"); //SoundManager
+            if (soundManager != null)
+                soundManager.PlaySFX("CorrectAnswer");
 
-            // ✅ CORRECT
             answerText.text = "Correct Answer!";
             score++;
             UpdateScoreUI();
@@ -183,32 +201,24 @@ public class QuestionManager : MonoBehaviour
             if (car != null)
                 car.ResumeDriving();
 
-            // 🔥 ADVANCE QUESTION ONLY HERE
             currentQuestionIndex++;
         }
         else
         {
-            //SoundManager.Instance.PlaySFX("WrongAnswer");   //SoundManager
-            soundManager.PlaySFX("WrongAnswer");   //SoundManager
+            if (soundManager != null)
+                soundManager.PlaySFX("WrongAnswer");
 
-            // ❌ WRONG
             answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
 
             if (car != null)
             {
-                if (life == 2)
-                    car.MoveBackByWaypoints(3);
-                else if (life == 1)
-                    car.MoveBackByWaypoints(6);
+                if (life == 2) car.MoveBackByWaypoints(3);
+                else if (life == 1) car.MoveBackByWaypoints(6);
                 else if (life <= 0)
-                {
                     StartCoroutine(RestartAfterDelay());
-                }
             }
-
-            // ❌ DO NOT increase question index
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
@@ -225,16 +235,12 @@ public class QuestionManager : MonoBehaviour
 
         if (currentTestIndex >= quesData.tests.Count)
         {
-            Debug.Log("All tests finished!");  
-
             if (Gameover != null) Gameover.SetActive(true);
             return;
         }
 
-        Debug.Log("Starting Test: " + quesData.tests[currentTestIndex].testsName);  //SoundManager
-
-        if (soundManager != null)   //SoundManager
-            soundManager.PlayGameplayMusic();    //SoundManager
+        if (soundManager != null)
+            soundManager.PlayGameplayMusic();
 
         ShowNextQuestion();
     }
@@ -271,38 +277,26 @@ public class QuestionManager : MonoBehaviour
 
     void RestartGame()
     {
-        // Reset game data
         life = 3;
         score = 0;
-
-        // Reset question progress
         currentTestIndex = 0;
         currentQuestionIndex = 0;
 
-        // Update UI
         UpdateScoreUI();
         UpdateWrongAnswersUI();
 
-        // Hide panels
-        if (questionPanel != null)
-            questionPanel.SetActive(false);
+        questionPanel.SetActive(false);
+        Gameover.SetActive(false);
 
-        if (Gameover != null)
-            Gameover.SetActive(false);
-
-        // Reset car
         if (GameManager.instance != null && GameManager.instance.car != null)
             GameManager.instance.car.RespawnAtStart();
 
-        // Start first question again
         ShowNextQuestion();
     }
+
     IEnumerator RestartAfterDelay()
     {
         yield return new WaitForSeconds(1f);
         RestartGame();
     }
-
-
-
 }
