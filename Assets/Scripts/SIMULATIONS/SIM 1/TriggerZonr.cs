@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class TriggerZone : MonoBehaviour
@@ -8,26 +8,28 @@ public class TriggerZone : MonoBehaviour
 
     void Awake()
     {
-        // Make sure the BoxCollider is a trigger
         BoxCollider box = GetComponent<BoxCollider>();
         box.isTrigger = true;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        isTriggered = true;
+
+        // ✅ ONLY show question if THIS object is a collectible
+        if (CompareTag("Collectible"))
         {
-            QuestionManager.Instance.ShowNextQuestion();
-            //gameObject.SetActive(false); // or Destroy(gameObject);
+            if (QuestionManager.Instance != null)
+                QuestionManager.Instance.ShowNextQuestion();
         }
     }
 
-
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            isTriggered = false;
-        }
+        if (!other.CompareTag("Player")) return;
+
+        isTriggered = false;
     }
 }
