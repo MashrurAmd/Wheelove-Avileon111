@@ -17,6 +17,9 @@ public class TrainSimulationManager : MonoBehaviour
     public float rodTargetZRotation = 50f;
     public float rodRaiseDuration = 1.5f;
 
+    [Header("Reset Settings")]
+    public float delayBeforeReset = 3f;   // ⏳ Delay before barrier closes
+
     [Header("Player Car")]
     public Car car;
 
@@ -25,6 +28,7 @@ public class TrainSimulationManager : MonoBehaviour
     private bool rodRaised = false;
 
     private Coroutine rodRoutine;
+    private Coroutine resetRoutine;
 
     // saved initial states
     private Quaternion rodInitialRotation;
@@ -50,7 +54,10 @@ public class TrainSimulationManager : MonoBehaviour
     {
         if (triggerZone == null) return;
 
-        bool isTriggered = triggerZone.GetComponent<TriggerZone>().isTriggered;
+        TriggerZone zone = triggerZone.GetComponent<TriggerZone>();
+        if (zone == null) return;
+
+        bool isTriggered = zone.isTriggered;
 
         if (isTriggered && !carInside)
         {
@@ -73,6 +80,13 @@ public class TrainSimulationManager : MonoBehaviour
         // enable train
         if (trainPrefab != null)
             trainPrefab.SetActive(true);
+
+        // stop any pending reset
+        if (resetRoutine != null)
+        {
+            StopCoroutine(resetRoutine);
+            resetRoutine = null;
+        }
 
         // start barrier timer
         if (rodRoutine != null)
@@ -99,7 +113,11 @@ public class TrainSimulationManager : MonoBehaviour
             Debug.Log("✅ Rule followed: Car waited for barrier");
         }
 
-        ResetSimulation();
+        // ⏳ Delay before reset
+        if (resetRoutine != null)
+            StopCoroutine(resetRoutine);
+
+        resetRoutine = StartCoroutine(ResetAfterDelay());
     }
 
     // 🚧 BARRIER TIMER
@@ -129,10 +147,17 @@ public class TrainSimulationManager : MonoBehaviour
         Debug.Log("🚧 Barrier opened — car may pass");
     }
 
+    // ⏳ DELAYED RESET
+    IEnumerator ResetAfterDelay()
+    {
+        yield return new WaitForSeconds(delayBeforeReset);
+        ResetSimulation();
+    }
+
     // 🔄 FULL RESET
     void ResetSimulation()
     {
-        // stop coroutine
+        // stop coroutines
         if (rodRoutine != null)
         {
             StopCoroutine(rodRoutine);
