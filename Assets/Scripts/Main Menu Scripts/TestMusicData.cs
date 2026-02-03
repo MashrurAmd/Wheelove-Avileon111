@@ -5,8 +5,11 @@ using UnityEngine;
 public class TestMusicData : ScriptableObject
 {
     [Header("Music")]
-    public AudioClip mainMenuMusic;
-    public AudioClip gameplayMusic;
+    //public AudioClip mainMenuMusic;
+    //public AudioClip gameplayMusic;
+
+    [Header("All Music")]
+    public List<AudioEntry> allMusic = new List<AudioEntry>();
 
     [Header("Sound Effects")]
     public List<AudioEntry> soundEffects = new List<AudioEntry>();

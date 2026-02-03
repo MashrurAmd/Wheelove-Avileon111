@@ -54,7 +54,8 @@ public class SoundManager : MonoBehaviour
         UpdateMusicUI();
         UpdateSfxUI();
 
-        PlayMainMenuMusic();
+        //PlayMainMenuMusic();
+        PlayMusic("MainMenu");
     }
 
     public void SetVolume(float value)
@@ -94,21 +95,46 @@ public class SoundManager : MonoBehaviour
         sfxButtonText.text = sfxMuted ? "OFF" : "ON";
     }
 
-    public void PlayMainMenuMusic()
+    //public void PlayMainMenuMusic()
+    //{
+    //    musicSource.Stop();
+    //    musicSource.clip = testMusicData.mainMenuMusic;
+    //    musicSource.loop = true;
+    //    musicSource.Play();
+    //}
+
+    //public void PlayGameplayMusic()
+    //{
+    //    musicSource.Stop();
+    //    musicSource.clip = testMusicData.gameplayMusic;
+    //    musicSource.loop = true;
+    //    musicSource.Play();
+    //}
+
+    public void PlayMusic(string musicName)
     {
-        musicSource.Stop();
-        musicSource.clip = testMusicData.mainMenuMusic;
-        musicSource.loop = true;
-        musicSource.Play();
+        if (musicMuted || testMusicData == null) return;
+
+        AudioEntry entry = testMusicData.allMusic
+            .Find(x => x.audioName == musicName);
+
+        if (entry != null && entry.clip != null)
+        {
+            // Prevent restarting same music
+            if (musicSource.clip == entry.clip && musicSource.isPlaying)
+                return;
+
+            musicSource.Stop();
+            musicSource.clip = entry.clip;
+            musicSource.loop = true;
+            musicSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Music not found: " + musicName);
+        }
     }
 
-    public void PlayGameplayMusic()
-    {
-        musicSource.Stop();
-        musicSource.clip = testMusicData.gameplayMusic;
-        musicSource.loop = true;
-        musicSource.Play();
-    }
 
     // DATA-DRIVEN SFX SYSTEM
     public void PlaySFX(string sfxName)

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c985887446caa1340ba08a448004e1f9, type: 3}
   m_Name: TestMusicData
   m_EditorClassIdentifier: 
-  mainMenuMusic: {fileID: 8300000, guid: 8b6efc98e8aa47443b01aa4879776e42, type: 3}
-  gameplayMusic: {fileID: 8300000, guid: 1591996e1d0e3e642aff0abe1f21dd44, type: 3}
+  allMusic:
+  - audioName: MainMenuMusic
+    clip: {fileID: 8300000, guid: ab12f67814242294498489b1778e927c, type: 3}
+  - audioName: ClassicModeMusic
+    clip: {fileID: 8300000, guid: f206805dcd0a26a4eab9623c9cc1137e, type: 3}
   soundEffects:
   - audioName: CorrectAnswer
     clip: {fileID: 8300000, guid: e138a4c4cf9efd64082bd64467300d64, type: 3}

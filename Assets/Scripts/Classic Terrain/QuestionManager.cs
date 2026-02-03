@@ -63,7 +63,8 @@ public class QuestionManager : MonoBehaviour
         UpdateWrongAnswersUI();
 
         if (soundManager != null)
-            soundManager.PlayGameplayMusic();
+            //soundManager.PlayGameplayMusic();
+            SoundManager.Instance.PlayMusic("ClassicModeMusic");
 
         // ❌ DO NOT show question here
     }
@@ -240,7 +241,8 @@ public class QuestionManager : MonoBehaviour
         }
 
         if (soundManager != null)
-            soundManager.PlayGameplayMusic();
+            //soundManager.PlayGameplayMusic();
+            SoundManager.Instance.PlayMusic("ClassicModeMusic");
 
         ShowNextQuestion();
     }
