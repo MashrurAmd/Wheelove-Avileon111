@@ -31,6 +31,8 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        Screen.orientation = ScreenOrientation.Portrait;    // Lock to portrait for mobile
+
         if (PlayerSettingsManager.Instance.IsFirstLaunch())
         {
             ShowChooseRegion(false); // first launch, no back button
