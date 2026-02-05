@@ -5,14 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class QuestionManager : MonoBehaviour
+[System.Serializable]
+public class QuestionUISet
 {
-    public static QuestionManager Instance;
-
-    [Header("Data")]
-    public QuesData quesData;
-
-    [Header("UI References")]
     public GameObject questionPanel;
     public TMP_Text questionText;
     public List<Toggle> optionToggles;
@@ -20,9 +15,35 @@ public class QuestionManager : MonoBehaviour
     public ToggleGroup toggleGroup;
     public TMP_Text timerText;
     public TMP_Text answerText;
-    public Text Scoretext;
+    public Text scoreText;
     public Text wrongAnswersText;
-    public GameObject Gameover;
+    public GameObject gameOver;
+}
+
+public class QuestionManager : MonoBehaviour
+{
+    public static QuestionManager Instance;
+
+    [Header("Data")]
+    public QuesData quesData;
+
+    //[Header("UI References")]
+    //public GameObject questionPanel;
+    //public TMP_Text questionText;
+    //public List<Toggle> optionToggles;
+    //public List<Text> optionLabels;
+    //public ToggleGroup toggleGroup;
+    //public TMP_Text timerText;
+    //public TMP_Text answerText;
+    //public Text Scoretext;
+    //public Text wrongAnswersText;
+    //public GameObject gameOver;
+
+    [Header("UI Sets")]
+    public QuestionUISet portraitUI;
+    public QuestionUISet landscapeUI;
+
+    QuestionUISet ui;
 
     [Header("Timer")]
     public float questionTime = 10f;
@@ -49,6 +70,8 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
+        UpdateUISet();      //added new
+
         if (quesData == null || quesData.tests.Count == 0)
         {
             Debug.LogError("❌ QuesData is missing or empty!");
@@ -72,6 +95,8 @@ public class QuestionManager : MonoBehaviour
 
     void Update()
     {
+        UpdateUISet();      //added new
+
         if (!isCountingDown) return;
 
         currentTime -= Time.deltaTime;
@@ -85,10 +110,27 @@ public class QuestionManager : MonoBehaviour
         UpdateTimerUI();
     }
 
+    //void UpdateUISet()      //added new
+    //{
+    //    bool isLandscape = Screen.width > Screen.height;
+    //    ui = isLandscape ? landscapeUI : portraitUI;
+    //}
+    bool lastLandscape;
+    void UpdateUISet()
+    {
+        bool isLandscape = Screen.width > Screen.height;
+
+        if (ui == null || isLandscape != lastLandscape)
+        {
+            ui = isLandscape ? landscapeUI : portraitUI;
+            lastLandscape = isLandscape;
+        }
+    }
+
     void UpdateTimerUI()
     {
-        if (timerText != null)
-            timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        if (ui.timerText != null)
+            ui.timerText.text = Mathf.CeilToInt(currentTime).ToString();
     }
 
     // ==============================
@@ -99,7 +141,7 @@ public class QuestionManager : MonoBehaviour
     {
         if (currentTestIndex >= quesData.tests.Count)
         {
-            if (Gameover != null) Gameover.SetActive(true);
+            if (ui.gameOver != null) ui.gameOver.SetActive(true);
             return;
         }
 
@@ -116,29 +158,29 @@ public class QuestionManager : MonoBehaviour
 
     void ShowQuestion(QuesAnswer qa)
     {
-        questionPanel.SetActive(true);
+        ui.questionPanel.SetActive(true);
         currentTime = questionTime;
         isCountingDown = true;
         UpdateTimerUI();
 
-        questionText.text = qa.questions;
+        ui.questionText.text = qa.questions;
 
-        for (int i = 0; i < optionToggles.Count; i++)
+        for (int i = 0; i < ui.optionToggles.Count; i++)
         {
             if (i < qa.options.Count)
             {
-                optionLabels[i].text = qa.options[i];
-                optionToggles[i].gameObject.SetActive(true);
-                optionToggles[i].isOn = false;
-                optionToggles[i].group = toggleGroup;
+                ui.optionLabels[i].text = qa.options[i];
+                ui.optionToggles[i].gameObject.SetActive(true);
+                ui.optionToggles[i].isOn = false;
+                ui.optionToggles[i].group = ui.toggleGroup;
             }
             else
             {
-                optionToggles[i].gameObject.SetActive(false);
+                ui.optionToggles[i].gameObject.SetActive(false);
             }
         }
 
-        toggleGroup.SetAllTogglesOff(true);
+        ui.toggleGroup.SetAllTogglesOff(true);
     }
 
     // ==============================
@@ -159,24 +201,24 @@ public class QuestionManager : MonoBehaviour
 
         string selectedOption = "";
 
-        for (int i = 0; i < optionToggles.Count; i++)
+        for (int i = 0; i < ui.optionToggles.Count; i++)
         {
-            if (optionToggles[i].isOn)
+            if (ui.optionToggles[i].isOn)
             {
-                if (optionLabels[i] == null)
+                if (ui.optionLabels[i] == null)
                 {
                     Debug.LogError("❌ Option label missing at index " + i);
                     return;
                 }
 
-                selectedOption = optionLabels[i].text;
+                selectedOption = ui.optionLabels[i].text;
                 break;
             }
         }
 
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
-            answerText.text = "No option selected!";
+            ui.answerText.text = "No option selected!";
             StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
@@ -192,7 +234,7 @@ public class QuestionManager : MonoBehaviour
             if (soundManager != null)
                 soundManager.PlaySFX("CorrectAnswer");
 
-            answerText.text = "Correct Answer!";
+            ui.answerText.text = "Correct Answer!";
             score++;
             UpdateScoreUI();
 
@@ -209,7 +251,7 @@ public class QuestionManager : MonoBehaviour
             if (soundManager != null)
                 soundManager.PlaySFX("WrongAnswer");
 
-            answerText.text = "Wrong Answer!";
+            ui.answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
 
@@ -236,7 +278,7 @@ public class QuestionManager : MonoBehaviour
 
         if (currentTestIndex >= quesData.tests.Count)
         {
-            if (Gameover != null) Gameover.SetActive(true);
+            if (ui.gameOver != null) ui.gameOver.SetActive(true);
             return;
         }
 
@@ -250,7 +292,7 @@ public class QuestionManager : MonoBehaviour
     IEnumerator HideQuestionPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        questionPanel.SetActive(false);
+        ui.questionPanel.SetActive(false);
     }
 
     // ==============================
@@ -259,17 +301,17 @@ public class QuestionManager : MonoBehaviour
 
     void UpdateScoreUI()
     {
-        if (Scoretext != null)
-            Scoretext.text = "Score: " + score;
+        if (ui.scoreText != null)
+            ui.scoreText.text = "Score: " + score;
     }
 
     void UpdateWrongAnswersUI()
     {
-        if (wrongAnswersText != null)
-            wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
+        if (ui.wrongAnswersText != null)
+            ui.wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
 
-        if (life <= 0 && Gameover != null)
-            Gameover.SetActive(true);
+        if (life <= 0 && ui.gameOver != null)
+            ui.gameOver.SetActive(true);
     }
 
     public void LoadScene(int sceneIndex)
@@ -287,8 +329,8 @@ public class QuestionManager : MonoBehaviour
         UpdateScoreUI();
         UpdateWrongAnswersUI();
 
-        questionPanel.SetActive(false);
-        Gameover.SetActive(false);
+        ui.questionPanel.SetActive(false);
+        ui.gameOver.SetActive(false);
 
         if (GameManager.instance != null && GameManager.instance.car != null)
             GameManager.instance.car.RespawnAtStart();
