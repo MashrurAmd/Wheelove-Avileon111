@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public struct QuesAnswer
 {
     public string questions;
+    //public Image[] image;
+    public Sprite[] emogis;
     public List<string> options;
     public string answers;
 }

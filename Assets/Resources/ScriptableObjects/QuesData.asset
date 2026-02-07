@@ -15,23 +15,28 @@ MonoBehaviour:
   tests:
   - testsName: Test 1
     quesAnswers:
-    - questions: "What does the following traffic sign mean? \U0001F6AB\U0001F697  "
+    - questions: 1. What does the following traffic sign mean?
+      emogis:
+      - {fileID: 21300000, guid: a59c751899265e44ba12fb530db69ffe, type: 3}
+      - {fileID: 21300000, guid: fa182ec81646441458428f2a864c04f7, type: 3}
       options:
       - Entry permitted for private vehicles only
       - ' No entry for motor vehicles'
       - Entry permitted for public vehicles
       - Entry permitted for two-wheeled vehicles only
       answers: ' No entry for motor vehicles'
-    - questions: What should you do when approaching a crosswalk with a pedestrian
+    - questions: 2. What should you do when approaching a crosswalk with a pedestrian
         intending to cross?
+      emogis: []
       options:
       - Slow down and proceed carefully
       - Honk to warn the pedestrian
       - Stop and allow them to cross
       - Carefully overtake the pedestrian
       answers: Stop and allow them to cross
-    - questions: What is the maximum speed allowed on an urban road if not specified
+    - questions: 3. What is the maximum speed allowed on an urban road if not specified
         otherwise?
+      emogis: []
       options:
       - 60 km/h
       - 40 km/h
@@ -39,6 +44,7 @@ MonoBehaviour:
       - 50 km/h
       answers: 50 km/h
     - questions: What is the role of the ABS system in a vehicle?
+      emogis: []
       options:
       - To save fuel
       - To prevent wheel lock during braking
@@ -46,6 +52,7 @@ MonoBehaviour:
       - To activate the airbags
       answers: To prevent wheel lock during braking
     - questions: How can you identify a warning sign?
+      emogis: []
       options:
       - Blue circle with a symbol
       - Green square with text
@@ -54,6 +61,7 @@ MonoBehaviour:
       answers: Triangle with a red border
     - questions: "What is your obligation when you see an approaching emergency vehicle
         with flashing lights? \U0001F691"
+      emogis: []
       options:
       - Continue as normal
       - Stop on the right and clear the way
@@ -61,6 +69,7 @@ MonoBehaviour:
       - Speed up to avoid hindrance
       answers: Stop on the right and clear the way
     - questions: What does a double solid line mean?
+      emogis: []
       options:
       - Overtaking is allowed with caution
       - Crossing is allowed only for a left turn
@@ -68,6 +77,7 @@ MonoBehaviour:
       - Overtaking is allowed only for two-wheeled vehicles
       answers: Crossing or overtaking is prohibited
     - questions: What is the correct way to check tire pressure?
+      emogis: []
       options:
       - After driving for 10 minutes
       - When the tires are warm
@@ -76,6 +86,7 @@ MonoBehaviour:
       answers: When the tires are cold
     - questions: What is the danger of driving closely behind the vehicle in front
         of you?
+      emogis: []
       options:
       - Fuel savings
       - Insufficient reaction time in an emergency
@@ -83,6 +94,7 @@ MonoBehaviour:
       - Possibility of quick overtaking
       answers: Insufficient reaction time in an emergency
     - questions: What is the role of the seatbelt?
+      emogis: []
       options:
       - To prevent accidents
       - To reduce injuries in an accident
@@ -90,6 +102,7 @@ MonoBehaviour:
       - To activate the airbags
       answers: To reduce injuries in an accident
     - questions: What is the correct way to change lanes?
+      emogis: []
       options:
       - Signal and change immediately
       - Check mirrors only
@@ -97,6 +110,7 @@ MonoBehaviour:
       - Change quickly to avoid disrupting traffic
       answers: Check mirrors, signal, check blind spot, and change
     - questions: What is the role of the ESP system in a vehicle?
+      emogis: []
       options:
       - To improve fuel consumption
       - To maintain vehicle stability during turns
@@ -104,6 +118,7 @@ MonoBehaviour:
       - To activate the automatic lights
       answers: To maintain vehicle stability during turns
     - questions: What is the danger of driving under the influence of alcohol?
+      emogis: []
       options:
       - Improved concentration
       - Impaired judgment and reaction
@@ -111,6 +126,7 @@ MonoBehaviour:
       - No effect on driving
       answers: Impaired judgment and reaction
     - questions: "What does a stop sign mean? \U0001F6D1"
+      emogis: []
       options:
       - Slow down and proceed carefully
       - Stop and yield
@@ -118,6 +134,7 @@ MonoBehaviour:
       - Allowed to proceed if there is no vehicle on the right
       answers: Stop and yield
     - questions: "What is the correct way to drive in heavy rain? \U0001F327\uFE0F"
+      emogis: []
       options:
       - Turn on high beams and drive fast
       - Slow down, turn on lights, and maintain distance
@@ -125,6 +142,7 @@ MonoBehaviour:
       - Stop on the side of the road immediately
       answers: Slow down, turn on lights, and maintain distance
     - questions: What does a "no overtaking" sign mean?
+      emogis: []
       options:
       - Overtaking a two-wheeled vehicle is allowed
       - Overtaking is allowed only from the left
@@ -132,6 +150,7 @@ MonoBehaviour:
       - Overtaking is allowed if there is no additional sign
       answers: Overtaking another vehicle is prohibited
     - questions: What is the correct way to drive on a mountain road?
+      emogis: []
       options:
       - Drive in low gear and brake carefully
       - Drive in high gear
@@ -139,6 +158,7 @@ MonoBehaviour:
       - Drive on the shoulder
       answers: Drive in low gear and brake carefully
     - questions: What is the role of the cruise control system?
+      emogis: []
       options:
       - To activate the brakes
       - To maintain a constant speed
@@ -146,6 +166,7 @@ MonoBehaviour:
       - To activate the GPS
       answers: To maintain a constant speed
     - questions: What is the correct way to drive an automatic vehicle downhill?
+      emogis: []
       options:
       - Shift to low gear
       - Brake hard
@@ -153,6 +174,7 @@ MonoBehaviour:
       - Shift to Neutral
       answers: Shift to low gear
     - questions: "What is the danger of driving while tired? \U0001F634"
+      emogis: []
       options:
       - Improved concentration
       - Decreased concentration and increased accident risk
@@ -160,6 +182,7 @@ MonoBehaviour:
       - Improved reaction time
       answers: Decreased concentration and increased accident risk
     - questions: What is the correct way to drive on a slippery road?
+      emogis: []
       options:
       - Accelerate to avoid skidding
       - Slow down and avoid sharp movements
@@ -167,6 +190,7 @@ MonoBehaviour:
       - Drive on the shoulder
       answers: Slow down and avoid sharp movements
     - questions: What does a "main road" sign mean?
+      emogis: []
       options:
       - You must yield
       - You are on a road with right of way
@@ -174,6 +198,7 @@ MonoBehaviour:
       - The road is blocked to traffic
       answers: You are on a road with right of way
     - questions: What is the correct way to drive with a trailer?
+      emogis: []
       options:
       - Drive fast to avoid disrupting
       - Drive slowly, avoid sharp turns, and check brakes
@@ -181,6 +206,7 @@ MonoBehaviour:
       - Drive only in the left lane
       answers: Drive slowly, avoid sharp turns, and check brakes
     - questions: What does a "no entry" sign mean?
+      emogis: []
       options:
       - Entry is allowed only for public vehicles
       - Entry is allowed if there is no additional sign
@@ -188,6 +214,7 @@ MonoBehaviour:
       - Entry is allowed if there is no oncoming traffic
       answers: Entry in this direction is prohibited
     - questions: "What is the correct way to drive at night? \U0001F319"
+      emogis: []
       options:
       - Turn on high beams in every situation
       - Turn on lights, maintain distance, and slow down
@@ -195,6 +222,7 @@ MonoBehaviour:
       - Drive only with parking lights
       answers: Turn on lights, maintain distance, and slow down
     - questions: What is the danger of driving at excessive speed?
+      emogis: []
       options:
       - Improved reaction time
       - Shortened reaction time and increased accident severity
@@ -202,6 +230,7 @@ MonoBehaviour:
       - Reduced risk of an accident
       answers: Shortened reaction time and increased accident severity
     - questions: "What is the correct way to drive in heavy fog? \U0001F32B\uFE0F"
+      emogis: []
       options:
       - Turn on high beams and drive fast
       - Turn on fog lights and slow down
@@ -209,6 +238,7 @@ MonoBehaviour:
       - Stop on the side of the road and wait
       answers: Turn on fog lights and slow down
     - questions: What does a "roundabout" sign mean?
+      emogis: []
       options:
       - Entry is allowed without slowing down
       - Enter with caution and yield
@@ -216,6 +246,7 @@ MonoBehaviour:
       - Overtaking is allowed within the roundabout
       answers: Enter with caution and yield
     - questions: What is the correct way to drive when children are near the road?
+      emogis: []
       options:
       - Accelerate to pass quickly
       - Honk to warn
@@ -224,6 +255,7 @@ MonoBehaviour:
       answers: Slow down and be ready to stop
     - questions: What is your obligation when approaching an intersection without
         signs?
+      emogis: []
       options:
       - Yield to vehicles on the left
       - Enter first if there is no traffic
@@ -234,6 +266,7 @@ MonoBehaviour:
     quesAnswers:
     - questions: What should you do when approaching an intersection with a "Yield"
         sign?
+      emogis: []
       options:
       - Slow down and continue if there is no traffic
       - Always stop
@@ -242,6 +275,7 @@ MonoBehaviour:
       answers: Yield to any vehicle approaching the intersection
     - questions: What is the correct way to drive when approaching a railway crossing
         without a barrier?
+      emogis: []
       options:
       - Slow down, look both ways, and proceed with caution
       - Always stop
@@ -249,6 +283,7 @@ MonoBehaviour:
       - Honk to warn the train
       answers: Slow down, look both ways, and proceed with caution
     - questions: What does a "No Parking" sign mean?
+      emogis: []
       options:
       - Parking is allowed only at night
       - Parking is allowed only during the day
@@ -256,6 +291,7 @@ MonoBehaviour:
       - Parking is allowed if there is no additional sign
       answers: No parking is allowed at any time
     - questions: What is the correct way to drive when approaching a school?
+      emogis: []
       options:
       - Slow down and be prepared to stop
       - Accelerate to avoid disturbing
@@ -263,6 +299,7 @@ MonoBehaviour:
       - Drive in the left lane
       answers: Slow down and be prepared to stop
     - questions: What is the danger of driving too slowly?
+      emogis: []
       options:
       - There is no danger at all
       - It may cause dangerous overtaking
@@ -270,78 +307,103 @@ MonoBehaviour:
       - It improves reaction time
       answers: It may cause dangerous overtaking
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
     - questions: 
+      emogis: []
       options: []
       answers: 
   - testsName: Test 3

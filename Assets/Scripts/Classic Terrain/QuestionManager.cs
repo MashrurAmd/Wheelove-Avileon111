@@ -18,6 +18,9 @@ public class QuestionUISet
     public Text scoreText;
     public Text wrongAnswersText;
     public GameObject gameOver;
+    //public Image emojisImage;
+    public List<Image> emojisImages;
+
 }
 
 public class QuestionManager : MonoBehaviour
@@ -26,18 +29,6 @@ public class QuestionManager : MonoBehaviour
 
     [Header("Data")]
     public QuesData quesData;
-
-    //[Header("UI References")]
-    //public GameObject questionPanel;
-    //public TMP_Text questionText;
-    //public List<Toggle> optionToggles;
-    //public List<Text> optionLabels;
-    //public ToggleGroup toggleGroup;
-    //public TMP_Text timerText;
-    //public TMP_Text answerText;
-    //public Text Scoretext;
-    //public Text wrongAnswersText;
-    //public GameObject gameOver;
 
     [Header("UI Sets")]
     public QuestionUISet portraitUI;
@@ -181,6 +172,20 @@ public class QuestionManager : MonoBehaviour
         }
 
         ui.toggleGroup.SetAllTogglesOff(true);
+
+        // Set emojis
+        for (int i = 0; i < ui.emojisImages.Count; i++)
+        {
+            if (qa.emogis != null && i < qa.emogis.Length)
+            {
+                ui.emojisImages[i].sprite = qa.emogis[i];
+                ui.emojisImages[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                ui.emojisImages[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     // ==============================
