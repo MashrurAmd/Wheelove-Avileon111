@@ -19,6 +19,9 @@ public class QuestionUISet
     public Text wrongAnswersText;
     public GameObject gameOver;
     public List<Image> emojisImages;
+
+
+
 }
 
 public class QuestionManager : MonoBehaviour
@@ -53,6 +56,10 @@ public class QuestionManager : MonoBehaviour
     public int life = 3;
 
     bool lastLandscape;
+
+
+    [Header("Wrong Answer Tracking")]
+    private int wrongAnswerCount = 0;
 
     // ============================
     // UNITY EVENTS
@@ -194,6 +201,7 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+
     // ============================
     // ANSWER CHECK
     // ============================
@@ -243,12 +251,33 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            ui.answerText.text = "Wrong Answer!";
-            life--;
-            UpdateWrongAnswersUI();
+            if (!isCorrect)
+            {
+                ui.answerText.text = "Wrong Answer!";
+                life--;
+                UpdateWrongAnswersUI();
 
-            if (life <= 0)
-                StartCoroutine(RestartAfterDelay());
+                if (car != null)
+                {
+                    wrongAnswerCount++; // increment wrong answer counter
+
+                    if (wrongAnswerCount == 1)
+                    {
+                        car.MoveBackByWaypoints(3); // 1st wrong answer
+                    }
+                    else if (wrongAnswerCount == 2)
+                    {
+                        car.MoveBackByWaypoints(7); // 2nd wrong answer
+                    }
+                    else
+                    {
+                        car.RespawnAtStart(); // 3rd wrong answer → reset to start
+                    }
+                }
+
+                if (life <= 0)
+                    StartCoroutine(RestartAfterDelay());
+            }
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
