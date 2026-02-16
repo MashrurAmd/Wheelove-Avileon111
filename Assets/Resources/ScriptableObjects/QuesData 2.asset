@@ -13,265 +13,9 @@ MonoBehaviour:
   m_Name: QuesData 2
   m_EditorClassIdentifier: 
   tests:
-  - testsName: Test 1
-    quesAnswers:
-    - questions: 1. What does the following traffic sign mean?
-      emogis:
-      - {fileID: 21300000, guid: a59c751899265e44ba12fb530db69ffe, type: 3}
-      - {fileID: 21300000, guid: fa182ec81646441458428f2a864c04f7, type: 3}
-      options:
-      - Entry permitted for private vehicles only
-      - ' No entry for motor vehicles'
-      - Entry permitted for public vehicles
-      - Entry permitted for two-wheeled vehicles only
-      answers: ' No entry for motor vehicles'
-    - questions: 2. What should you do when approaching a crosswalk with a pedestrian
-        intending to cross?
-      emogis: []
-      options:
-      - Slow down and proceed carefully
-      - Honk to warn the pedestrian
-      - Stop and allow them to cross
-      - Carefully overtake the pedestrian
-      answers: Stop and allow them to cross
-    - questions: 3. What is the maximum speed allowed on an urban road if not specified
-        otherwise?
-      emogis: []
-      options:
-      - 60 km/h
-      - 40 km/h
-      - 70 km/h
-      - 50 km/h
-      answers: 50 km/h
-    - questions: 4. What is the role of the ABS system in a vehicle?
-      emogis: []
-      options:
-      - To save fuel
-      - To prevent wheel lock during braking
-      - To improve vehicle speed
-      - To activate the airbags
-      answers: To prevent wheel lock during braking
-    - questions: 5. How can you identify a warning sign?
-      emogis: []
-      options:
-      - Blue circle with a symbol
-      - Green square with text
-      - Triangle with a red border
-      - Yellow rectangle with a black stripe
-      answers: Triangle with a red border
-    - questions: 6. What is your obligation when you see an approaching emergency
-        vehicle with flashing lights?
-      emogis:
-      - {fileID: 21300000, guid: 040605442d212674d9239d329b6672ac, type: 3}
-      options:
-      - Continue as normal
-      - Stop on the right and clear the way
-      - Slow down and drive on the shoulder
-      - Speed up to avoid hindrance
-      answers: Stop on the right and clear the way
-    - questions: 7. What does a double solid line mean?
-      emogis: []
-      options:
-      - Overtaking is allowed with caution
-      - Crossing is allowed only for a left turn
-      - Crossing or overtaking is prohibited
-      - Overtaking is allowed only for two-wheeled vehicles
-      answers: Crossing or overtaking is prohibited
-    - questions: 8. What is the correct way to check tire pressure?
-      emogis: []
-      options:
-      - After driving for 10 minutes
-      - When the tires are warm
-      - When the tires are cold
-      - Only at a gas station
-      answers: When the tires are cold
-    - questions: 9. What is the danger of driving closely behind the vehicle in front
-        of you?
-      emogis: []
-      options:
-      - Fuel savings
-      - Insufficient reaction time in an emergency
-      - Wider field of vision
-      - Possibility of quick overtaking
-      answers: Insufficient reaction time in an emergency
-    - questions: 10. What is the role of the seatbelt?
-      emogis: []
-      options:
-      - To prevent accidents
-      - To reduce injuries in an accident
-      - To improve driving comfort
-      - To activate the airbags
-      answers: To reduce injuries in an accident
-    - questions: 11. What is the correct way to change lanes?
-      emogis: []
-      options:
-      - Signal and change immediately
-      - Check mirrors only
-      - Check mirrors, signal, check blind spot, and change
-      - Change quickly to avoid disrupting traffic
-      answers: Check mirrors, signal, check blind spot, and change
-    - questions: 12. What is the role of the ESP system in a vehicle?
-      emogis: []
-      options:
-      - To improve fuel consumption
-      - To maintain vehicle stability during turns
-      - To activate the rear brakes
-      - To activate the automatic lights
-      answers: To maintain vehicle stability during turns
-    - questions: 13. What is the danger of driving under the influence of alcohol?
-      emogis: []
-      options:
-      - Improved concentration
-      - Impaired judgment and reaction
-      - Increased reaction time
-      - No effect on driving
-      answers: Impaired judgment and reaction
-    - questions: '14. What does a stop sign mean? '
-      emogis:
-      - {fileID: 21300000, guid: aa2beedeba4850440ab8f11ef6377f28, type: 3}
-      options:
-      - Slow down and proceed carefully
-      - Stop and yield
-      - Stop only if there is traffic
-      - Allowed to proceed if there is no vehicle on the right
-      answers: Stop and yield
-    - questions: 15. What is the correct way to drive in heavy rain?
-      emogis:
-      - {fileID: 21300000, guid: 18af3929549ec9343844ce6a60ba7c4d, type: 3}
-      options:
-      - Turn on high beams and drive fast
-      - Slow down, turn on lights, and maintain distance
-      - Drive on the shoulder
-      - Stop on the side of the road immediately
-      answers: Slow down, turn on lights, and maintain distance
-    - questions: 16. What does a "no overtaking" sign mean?
-      emogis: []
-      options:
-      - Overtaking a two-wheeled vehicle is allowed
-      - Overtaking is allowed only from the left
-      - Overtaking another vehicle is prohibited
-      - Overtaking is allowed if there is no additional sign
-      answers: Overtaking another vehicle is prohibited
-    - questions: 17. What is the correct way to drive on a mountain road?
-      emogis: []
-      options:
-      - Drive in low gear and brake carefully
-      - Drive in high gear
-      - Accelerate downhill
-      - Drive on the shoulder
-      answers: Drive in low gear and brake carefully
-    - questions: 18. What is the role of the cruise control system?
-      emogis: []
-      options:
-      - To activate the brakes
-      - To maintain a constant speed
-      - To activate the lights
-      - To activate the GPS
-      answers: To maintain a constant speed
-    - questions: 19. What is the correct way to drive an automatic vehicle downhill?
-      emogis: []
-      options:
-      - Shift to low gear
-      - Brake hard
-      - Accelerate
-      - Shift to Neutral
-      answers: Shift to low gear
-    - questions: 20. What is the danger of driving while tired?
-      emogis:
-      - {fileID: 21300000, guid: e6583a37955344c4d86e77d2d841e55d, type: 3}
-      options:
-      - Improved concentration
-      - Decreased concentration and increased accident risk
-      - No effect
-      - Improved reaction time
-      answers: Decreased concentration and increased accident risk
-    - questions: 21. What is the correct way to drive on a slippery road?
-      emogis: []
-      options:
-      - Accelerate to avoid skidding
-      - Slow down and avoid sharp movements
-      - Brake hard at every turn
-      - Drive on the shoulder
-      answers: Slow down and avoid sharp movements
-    - questions: 22. What does a "main road" sign mean?
-      emogis: []
-      options:
-      - You must yield
-      - You are on a road with right of way
-      - Overtaking is allowed in any situation
-      - The road is blocked to traffic
-      answers: You are on a road with right of way
-    - questions: 23. What is the correct way to drive with a trailer?
-      emogis: []
-      options:
-      - Drive fast to avoid disrupting
-      - Drive slowly, avoid sharp turns, and check brakes
-      - Drive only at night
-      - Drive only in the left lane
-      answers: Drive slowly, avoid sharp turns, and check brakes
-    - questions: 24. What does a "no entry" sign mean?
-      emogis: []
-      options:
-      - Entry is allowed only for public vehicles
-      - Entry is allowed if there is no additional sign
-      - Entry in this direction is prohibited
-      - Entry is allowed if there is no oncoming traffic
-      answers: Entry in this direction is prohibited
-    - questions: 25. What is the correct way to drive at night?
-      emogis:
-      - {fileID: 21300000, guid: 2405ef1fbed1c3142b8c5d37632103d2, type: 3}
-      options:
-      - Turn on high beams in every situation
-      - Turn on lights, maintain distance, and slow down
-      - Drive fast to finish quickly
-      - Drive only with parking lights
-      answers: Turn on lights, maintain distance, and slow down
-    - questions: 26. What is the danger of driving at excessive speed?
-      emogis: []
-      options:
-      - Improved reaction time
-      - Shortened reaction time and increased accident severity
-      - Fuel savings
-      - Reduced risk of an accident
-      answers: Shortened reaction time and increased accident severity
-    - questions: 27. What is the correct way to drive in heavy fog?
-      emogis:
-      - {fileID: 21300000, guid: debc1d90464154047bfb71a5e6fb145e, type: 3}
-      options:
-      - Turn on high beams and drive fast
-      - Turn on fog lights and slow down
-      - Drive only with parking lights
-      - Stop on the side of the road and wait
-      answers: Turn on fog lights and slow down
-    - questions: 28. What does a "roundabout" sign mean?
-      emogis: []
-      options:
-      - Entry is allowed without slowing down
-      - Enter with caution and yield
-      - You must stop before entering
-      - Overtaking is allowed within the roundabout
-      answers: Enter with caution and yield
-    - questions: 29. What is the correct way to drive when children are near the
-        road?
-      emogis: []
-      options:
-      - Accelerate to pass quickly
-      - Honk to warn
-      - Slow down and be ready to stop
-      - Drive in the left lane
-      answers: Slow down and be ready to stop
-    - questions: 30. What is your obligation when approaching an intersection without
-        signs?
-      emogis: []
-      options:
-      - Yield to vehicles on the left
-      - Enter first if there is no traffic
-      - Yield to vehicles on the right
-      - Always stop before the intersection
-      answers: Yield to vehicles on the right
   - testsName: Test 2
     quesAnswers:
-    - questions: What should you do when approaching an intersection with a "Yield"
+    - questions: 1. What should you do when approaching an intersection with a "Yield"
         sign?
       emogis: []
       options:
@@ -280,7 +24,7 @@ MonoBehaviour:
       - Yield to the vehicle approaching from the blocked direction
       - Yield to any vehicle approaching the intersection
       answers: Yield to any vehicle approaching the intersection
-    - questions: What is the correct way to drive when approaching a railway crossing
+    - questions: 2 What is the correct way to drive when approaching a railway crossing
         without a barrier?
       emogis: []
       options:
@@ -289,7 +33,7 @@ MonoBehaviour:
       - Accelerate to pass quickly
       - Honk to warn the train
       answers: Slow down, look both ways, and proceed with caution
-    - questions: What does a "No Parking" sign mean?
+    - questions: 3. What does a "No Parking" sign mean?
       emogis: []
       options:
       - Parking is allowed only at night
@@ -297,7 +41,7 @@ MonoBehaviour:
       - No parking is allowed at any time
       - Parking is allowed if there is no additional sign
       answers: No parking is allowed at any time
-    - questions: What is the correct way to drive when approaching a school?
+    - questions: 4. What is the correct way to drive when approaching a school?
       emogis: []
       options:
       - Slow down and be prepared to stop
@@ -305,7 +49,7 @@ MonoBehaviour:
       - Honk to warn children
       - Drive in the left lane
       answers: Slow down and be prepared to stop
-    - questions: What is the danger of driving too slowly?
+    - questions: 5. What is the danger of driving too slowly?
       emogis: []
       options:
       - There is no danger at all
@@ -313,109 +57,221 @@ MonoBehaviour:
       - It saves fuel
       - It improves reaction time
       answers: It may cause dangerous overtaking
-    - questions: 
+    - questions: 6. What is the correct way to drive when approaching a parked vehicle
+        on the side of the road?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Accelerate and pass quickly
+      - Pass as closely as possible
+      - Keep a distance and pass carefully
+      - Honk to warn the driver
+      answers: Keep a distance and pass carefully
+    - questions: 7. What does a "No Entry for Bicycles" sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Bicycles are allowed only at night
+      - Bicycles are allowed if there are no vehicles
+      - Bicycles are not allowed in this area
+      - Bicycles are allowed if there is a path
+      answers: Bicycles are not allowed in this area
+    - questions: 8. What is the correct way to drive when approaching an intersection
+        with a flashing yellow traffic light?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Always stop
+      - Slow down and drive carefully
+      - Accelerate to pass quickly
+      - Ignore the traffic light
+      answers: Slow down and drive carefully
+    - questions: 9. What is the correct way to drive when approaching a vehicle signaling
+        to overtake?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Accelerate to prevent overtaking
+      - Slow down and allow it to overtake
+      - Move to the left lane
+      - Honk to warn
+      answers: Slow down and allow it to overtake
+    - questions: 10. What does a "No Entry for Heavy Vehicles" sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Private vehicles are allowed only
+      - Two-wheeled vehicles are allowed only
+      - Vehicles weighing above the limit are not allowed
+      - Public vehicles are allowed only
+      answers: Vehicles weighing above the limit are not allowed
+    - questions: 11. What is the correct way to drive when approaching an intersection
+        with a "Stop" sign?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and proceed carefully
+      - Stop only if there is traffic
+      - Come to a complete stop and yield
+      - Accelerate to avoid disturbing
+      answers: Come to a complete stop and yield
+    - questions: 12. What does a "No Entry for Two-Wheeled Vehicles" sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Only two-wheeled vehicles are allowed
+      - Two-wheeled vehicles are not allowed to enter
+      - Two-wheeled vehicles are allowed if there is no additional sign
+      - Two-wheeled vehicles are allowed only at night
+      answers: Two-wheeled vehicles are not allowed to enter
+    - questions: 13. What is the correct way to drive when approaching a vehicle
+        signaling to turn left?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the right carefully
+      - Overtake it on the left
+      - Accelerate and pass in front of it
+      - Honk to warn
+      answers: Overtake it on the right carefully
+    - questions: 14. What does a "No Entry for Vehicles with Trailers" sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Light trailers are allowed
+      - Vehicles with trailers are not allowed to enter
+      - Only commercial vehicles are allowed
+      - Allowed if the trailer is empty
+      answers: Vehicles with trailers are not allowed to enter
+    - questions: 15. What is the correct way to drive when approaching a hidden crosswalk?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and be prepared to stop
+      - Accelerate to pass quickly
+      - Honk to warn
+      - Drive in the left lane
+      answers: Slow down and be prepared to stop
+    - questions: 16. What does a "No Entry for Public Vehicles" sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Only private vehicles are allowed
+      - Public vehicles are allowed at night
+      - Public vehicles are allowed if there is no additional sign
+      - Public vehicles are allowed with permission
+      answers: Only private vehicles are allowed
+    - questions: 17. What is the correct way to drive when approaching a parked vehicle
+        with an open door?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Pass as closely as possible
+      - Slow down and pass carefully
+      - Honk to warn
+      - Accelerate and pass quickly
+      answers: Slow down and pass carefully
+    - questions: 18. What does a "No Entry for Vehicles with Hazardous Materials"
+        sign mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Vehicles with fuel are allowed only
+      - Vehicles with hazardous materials are not allowed to enter
+      - Vehicles with special permission are allowed
+      - Allowed only at night
+      answers: Vehicles with hazardous materials are not allowed to enter
+    - questions: 19. What is the correct way to drive when approaching an intersection
+        with a "Roundabout" sign?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Enter quickly
+      - Always stop
+      - Enter carefully and yield
+      - Enter only if there is no vehicle on the right
+      answers: Enter carefully and yield
+    - questions: 20. What does a "No Entry for Vehicles Above a Certain Height" sign
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Tall vehicles are allowed if there is no additional sign
+      - Vehicles taller than the limit are not allowed to enter
+      - Public vehicles only
+      - Allowed with a police escort
+      answers: Vehicles taller than the limit are not allowed to enter
+    - questions: 21. What is the correct way to drive when approaching a vehicle
+        signaling to exit a parking space?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Accelerate and pass in front of it
+      - Stop and let it exit
+      - Honk to warn
+      - Pass in the opposite lane
+      answers: Stop and let it exit
+    - questions: 22. What does a "No Entry for Vehicles Over a Certain Weight" sign
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Heavy vehicles are allowed if there is no additional sign
+      - Vehicles weighing above the limit are not allowed to enter
+      - Public vehicles only
+      - Allowed only at night
+      answers: Vehicles weighing above the limit are not allowed to enter
+    - questions: 23. What is the correct way to drive when approaching an intersection
+        with a "One-Way Traffic" sign?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Drive only in the direction of the arrow
+      - Allowed to drive in any direction
+      - Allowed to turn left only
+      - Allowed to turn right only
+      answers: Drive only in the direction of the arrow
+    - questions: 24. What does a "No Entry for Vehicles with Oversized Loads" sign
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the load is secured well
+      - Vehicles with loads exceeding the limit are not allowed to enter
+      - Allowed if there is an escort
+      - Allowed only during the day
+      answers: Vehicles with loads exceeding the limit are not allowed to enter
+    - questions: 25. What is the correct way to drive when approaching a vehicle
+        signaling to turn right?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the left carefully
+      - Overtake it on the right
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the left carefully
+    - questions: 26. What does a "No Entry for Vehicles with Flammable Cargo" sign
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed for vehicles with flammable cargo if there is permission
+      - Vehicles with flammable cargo are not allowed to enter
+      - Allowed with an escort
+      - Allowed only at night
+      answers: Vehicles with flammable cargo are not allowed to enter
+    - questions: 27. What is the correct way to drive when approaching an intersection
+        with a "Traffic Light Ahead" sign?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and prepare to stop
+      - Accelerate to make it
+      - Stop immediately
+      - Ignore the traffic light
+      answers: Slow down and prepare to stop
+    - questions: 28. What does a "No Entry for Vehicles with Explosive Cargo" sign
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured
+      - Vehicles with explosive cargo are not allowed to enter
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Vehicles with explosive cargo are not allowed to enter
+    - questions: 29. What is the correct way to drive when approaching a vehicle
+        signaling to turn left at an intersection?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the right carefully
+      - Overtake it on the left
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the right carefully
+    - questions: 30. What does a "No Entry for Vehicles with Toxic Cargo" sign mean?
       emogis: []
-      options: []
-      answers: 
-  - testsName: Test 3
-    quesAnswers: []
-  - testsName: Test 4
-    quesAnswers: []
-  - testsName: Test 5
-    quesAnswers: []
+      options:
+      - Allowed if the cargo is closed
+      - Vehicles with toxic cargo are not allowed to enter
+      - Allowed with another vehicle escort
+      - Allowed only at night
+      answers: Vehicles with toxic cargo are not allowed to enter
