@@ -82,14 +82,7 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        UpdateUISet();
-
-        if (quesData == null || quesData.tests.Count == 0)
-        {
-            Debug.LogError("QuesData missing or empty!");
-            return;
-        }
-
+        // Reassign scene objects
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
         soundManager = FindObjectOfType<SoundManager>();
@@ -97,6 +90,8 @@ public class QuestionManager : MonoBehaviour
         UpdateScoreUI();
         UpdateWrongAnswersUI();
     }
+
+
 
     void Update()
     {
@@ -318,4 +313,32 @@ public class QuestionManager : MonoBehaviour
         if (ui != null && ui.wrongAnswersText != null)
             ui.wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
     }
+
+    public void OnSceneReloaded()
+    {
+        // Reassign scene-specific references
+        car = FindObjectOfType<Car>();
+        gasBar = FindObjectOfType<GasBar>();
+        soundManager = FindObjectOfType<SoundManager>();
+
+        // Reset question/level variables
+        currentQuestionIndex = 0;
+        wrongAnswerCount = 0;
+        life = 3;
+        score = 0;
+
+        UpdateScoreUI();
+        UpdateWrongAnswersUI();
+
+        // DO NOT call ShowNextQuestion here
+    }
+
+
+
+
+
+
+
+
+
 }
