@@ -1422,9 +1422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a02826620a244304485f0af6a77039eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carMaterial: {fileID: 2100000, guid: 7ccd71a80fa4d30468dcf9f7ea967578, type: 2}
-  lightBlueColor: {r: 0.4, g: 0.8, b: 1, a: 1}
-  pinkColor: {r: 1, g: 0.901, b: 0.984, a: 1}
 --- !u!1 &439306541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3349,13 +3346,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 430180793}
-        m_TargetAssemblyTypeName: CarCustomizationManager, Assembly-CSharp
-        m_MethodName: SelectLightBlue
+      - m_Target: {fileID: 430180791}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10841,9 +10838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0fb72b07683c945947ecede93baf6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carMaterial: {fileID: 2100000, guid: 7ccd71a80fa4d30468dcf9f7ea967578, type: 2}
-  lightBlueColor: {r: 0.4, g: 0.8, b: 1, a: 1}
-  pinkColor: {r: 1, g: 0.901, b: 0.984, a: 1}
 --- !u!222 &6019682329278010564
 CanvasRenderer:
   m_ObjectHideFlags: 0
