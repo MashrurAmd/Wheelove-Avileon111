@@ -192,20 +192,23 @@ public class Car : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Collectible"))
-        {
-            isGasPressed = false;
-            currentSpeed = 0f;
-            isCarMoving = false;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Collectible"))
+    //    {
+    //        isGasPressed = false;
+    //        currentSpeed = 0f;
+    //        isCarMoving = false;
 
-            if (QuestionManager.Instance != null)
-                QuestionManager.Instance.ShowNextQuestion();
-            else
-                Debug.LogError("QuestionManager instance is NULL");
-        }
-    }
+    //        //if (QuestionManager.Instance != null)
+    //        //    QuestionManager.Instance.ShowNextQuestion();
+    //        //else
+    //        //    Debug.LogError("QuestionManager instance is NULL");
+
+    //        FindObjectOfType<QuestionManager>()?.ShowNextQuestion();
+
+    //    }
+    //}
     public void PauseCar()
     {
         isGasPressed = false;

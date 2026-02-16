@@ -1,47 +1,66 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // Needed for scene loading
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 [RequireComponent(typeof(BoxCollider))]
 public class TriggerZone : MonoBehaviour
 {
     [Header("Trigger State")]
-    public bool isTriggered = false;
+    public bool isTriggered = false;   // ← RESTORED for other scripts
+
+    private bool hasTriggered = false; // internal safety
 
     [Header("Congratulations & Scene")]
-    public GameObject congratulationsPanel; // Assign your panel in Inspector
-    public string nextSceneName;           // Name of the scene to load
-    public float panelDelay = 3f;          // Delay before scene loads
+    public GameObject congratulationsPanel;
+    public string nextSceneName;
+    public float panelDelay = 3f;
 
-    void Awake()
+    private void Awake()
     {
         BoxCollider box = GetComponent<BoxCollider>();
         box.isTrigger = true;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player"))
+            return;
 
-        isTriggered = true;
+        if (hasTriggered)
+            return;
 
-        // ✅ ONLY show question if THIS object is a collectible
+        hasTriggered = true;
+        isTriggered = true;   // ← keep compatibility
+
+        // ===============================
+        // 🎯 COLLECTIBLE
+        // ===============================
         if (CompareTag("Collectible"))
         {
-            if (QuestionManager.Instance != null)
-                QuestionManager.Instance.ShowNextQuestion();
-        }
+            Car car = other.GetComponent<Car>();
+            if (car != null)
+                car.PauseCar();
 
-        // ✅ New feature: Show congratulations panel and load scene
-        if (CompareTag("Finish")) // Add this tag to finish zones
+            QuestionManager qm = FindObjectOfType<QuestionManager>();
+
+            if (qm != null && qm.isActiveAndEnabled)
+            {
+                qm.ShowNextQuestion();
+            }
+        }
+        // ===============================
+        // 🏁 FINISH
+        // ===============================
+        else if (CompareTag("Finish"))
         {
             StartCoroutine(ShowPanelAndLoadScene());
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player"))
+            return;
 
         isTriggered = false;
     }
@@ -54,6 +73,8 @@ public class TriggerZone : MonoBehaviour
         yield return new WaitForSeconds(panelDelay);
 
         if (!string.IsNullOrEmpty(nextSceneName))
+        {
             SceneManager.LoadScene(nextSceneName);
+        }
     }
 }

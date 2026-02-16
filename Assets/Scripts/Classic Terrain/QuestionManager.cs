@@ -18,15 +18,11 @@ public class QuestionUISet
     public Text scoreText;
     public Text wrongAnswersText;
     public GameObject gameOver;
-    //public Image emojisImage;
     public List<Image> emojisImages;
-
 }
 
 public class QuestionManager : MonoBehaviour
 {
-    public static QuestionManager Instance;
-
     [Header("Data")]
     public QuesData quesData;
 
@@ -34,38 +30,56 @@ public class QuestionManager : MonoBehaviour
     public QuestionUISet portraitUI;
     public QuestionUISet landscapeUI;
 
-    QuestionUISet ui;
+    [Header("Level Settings")]
+    public int levelTestIndex = 0;
+
+    private QuestionUISet ui;
 
     [Header("Timer")]
     public float questionTime = 10f;
 
-    private int currentTestIndex = 0;
     private int currentQuestionIndex = 0;
     private float currentTime;
     private bool isCountingDown = false;
 
+    private bool isSceneUnloading = false;
+
     private SoundManager soundManager;
+    private Car car;
+    private GasBar gasBar;
 
     [Header("Game Data")]
     public int score = 0;
     public int life = 3;
 
-    private Car car;
-    private GasBar gasBar;
+    bool lastLandscape;
 
-    void Awake()
+    // ============================
+    // UNITY EVENTS
+    // ============================
+
+    void OnEnable()
     {
-        if (Instance == null)
-            Instance = this;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    void OnSceneUnloaded(Scene scene)
+    {
+        isSceneUnloading = true;
     }
 
     void Start()
     {
-        UpdateUISet();      //added new
+        UpdateUISet();
 
         if (quesData == null || quesData.tests.Count == 0)
         {
-            Debug.LogError("❌ QuesData is missing or empty!");
+            Debug.LogError("QuesData missing or empty!");
             return;
         }
 
@@ -75,22 +89,16 @@ public class QuestionManager : MonoBehaviour
 
         UpdateScoreUI();
         UpdateWrongAnswersUI();
-
-        if (soundManager != null)
-            //soundManager.PlayGameplayMusic();
-            SoundManager.Instance.PlayMusic("ClassicModeMusic");
-
-        // ❌ DO NOT show question here
     }
-
 
     void Update()
     {
-        UpdateUISet();      //added new
+        UpdateUISet();
 
-        if (!isCountingDown) return;
+        if (!isCountingDown || isSceneUnloading) return;
 
         currentTime -= Time.deltaTime;
+
         if (currentTime <= 0f)
         {
             currentTime = 0f;
@@ -101,12 +109,6 @@ public class QuestionManager : MonoBehaviour
         UpdateTimerUI();
     }
 
-    //void UpdateUISet()      //added new
-    //{
-    //    bool isLandscape = Screen.width > Screen.height;
-    //    ui = isLandscape ? landscapeUI : portraitUI;
-    //}
-    bool lastLandscape;
     void UpdateUISet()
     {
         bool isLandscape = Screen.width > Screen.height;
@@ -120,23 +122,21 @@ public class QuestionManager : MonoBehaviour
 
     void UpdateTimerUI()
     {
-        if (ui.timerText != null)
+        if (ui != null && ui.timerText != null)
             ui.timerText.text = Mathf.CeilToInt(currentTime).ToString();
     }
 
-    // ==============================
+    // ============================
     // QUESTION FLOW
-    // ==============================
+    // ============================
 
     public void ShowNextQuestion()
     {
-        if (currentTestIndex >= quesData.tests.Count)
-        {
-            if (ui.gameOver != null) ui.gameOver.SetActive(true);
-            return;
-        }
+        if (isSceneUnloading) return;
+        if (ui == null || ui.questionPanel == null) return;
+        if (levelTestIndex >= quesData.tests.Count) return;
 
-        var test = quesData.tests[currentTestIndex];
+        var test = quesData.tests[levelTestIndex];
 
         if (currentQuestionIndex >= test.quesAnswers.Count)
         {
@@ -149,7 +149,14 @@ public class QuestionManager : MonoBehaviour
 
     void ShowQuestion(QuesAnswer qa)
     {
+        if (isSceneUnloading) return;
+        if (ui == null || ui.questionPanel == null) return;
+
+        if (car != null)
+            car.PauseCar();
+
         ui.questionPanel.SetActive(true);
+
         currentTime = questionTime;
         isCountingDown = true;
         UpdateTimerUI();
@@ -173,7 +180,6 @@ public class QuestionManager : MonoBehaviour
 
         ui.toggleGroup.SetAllTogglesOff(true);
 
-        // Set emojis
         for (int i = 0; i < ui.emojisImages.Count; i++)
         {
             if (qa.emogis != null && i < qa.emogis.Length)
@@ -188,21 +194,17 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    // ==============================
-    // ANSWER CHECK (FIXED)
-    // ==============================
+    // ============================
+    // ANSWER CHECK
+    // ============================
 
     public void CheckAnswer()
     {
+        if (isSceneUnloading) return;
+
         isCountingDown = false;
 
-        var qa = quesData.tests[currentTestIndex].quesAnswers[currentQuestionIndex];
-
-        if (string.IsNullOrEmpty(qa.answers))
-        {
-            Debug.LogError("❌ Answer missing for question: " + qa.questions);
-            return;
-        }
+        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
 
         string selectedOption = "";
 
@@ -210,12 +212,6 @@ public class QuestionManager : MonoBehaviour
         {
             if (ui.optionToggles[i].isOn)
             {
-                if (ui.optionLabels[i] == null)
-                {
-                    Debug.LogError("❌ Option label missing at index " + i);
-                    return;
-                }
-
                 selectedOption = ui.optionLabels[i].text;
                 break;
             }
@@ -228,17 +224,11 @@ public class QuestionManager : MonoBehaviour
             return;
         }
 
-        bool isCorrect = string.Equals(
-            selectedOption.Trim(),
-            qa.answers.Trim(),
-            System.StringComparison.OrdinalIgnoreCase
-        );
+        bool isCorrect = selectedOption.Trim().ToLower() ==
+                         qa.answers.Trim().ToLower();
 
         if (isCorrect)
         {
-            if (soundManager != null)
-                soundManager.PlaySFX("CorrectAnswer");
-
             ui.answerText.text = "Correct Answer!";
             score++;
             UpdateScoreUI();
@@ -253,99 +243,50 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            if (soundManager != null)
-                soundManager.PlaySFX("WrongAnswer");
-
             ui.answerText.text = "Wrong Answer!";
             life--;
             UpdateWrongAnswersUI();
 
-            if (car != null)
-            {
-                if (life == 2) car.MoveBackByWaypoints(3);
-                else if (life == 1) car.MoveBackByWaypoints(6);
-                else if (life <= 0)
-                    StartCoroutine(RestartAfterDelay());
-            }
+            if (life <= 0)
+                StartCoroutine(RestartAfterDelay());
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
     }
 
-    // ==============================
-    // TEST FLOW
-    // ==============================
-
     void StartNextTest()
     {
-        currentTestIndex++;
-        currentQuestionIndex = 0;
-
-        if (currentTestIndex >= quesData.tests.Count)
-        {
-            if (ui.gameOver != null) ui.gameOver.SetActive(true);
-            return;
-        }
-
-        if (soundManager != null)
-            //soundManager.PlayGameplayMusic();
-            SoundManager.Instance.PlayMusic("ClassicModeMusic");
-
-        ShowNextQuestion();
+        if (ui != null && ui.gameOver != null)
+            ui.gameOver.SetActive(true);
     }
 
     IEnumerator HideQuestionPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        ui.questionPanel.SetActive(false);
-    }
 
-    // ==============================
-    // UI
-    // ==============================
-
-    void UpdateScoreUI()
-    {
-        if (ui.scoreText != null)
-            ui.scoreText.text = "Score: " + score;
-    }
-
-    void UpdateWrongAnswersUI()
-    {
-        if (ui.wrongAnswersText != null)
-            ui.wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
-
-        if (life <= 0 && ui.gameOver != null)
-            ui.gameOver.SetActive(true);
-    }
-
-    public void LoadScene(int sceneIndex)
-    {
-        SceneManager.LoadScene(sceneIndex);
-    }
-
-    void RestartGame()
-    {
-        life = 3;
-        score = 0;
-        currentTestIndex = 0;
-        currentQuestionIndex = 0;
-
-        UpdateScoreUI();
-        UpdateWrongAnswersUI();
-
-        ui.questionPanel.SetActive(false);
-        ui.gameOver.SetActive(false);
-
-        if (GameManager.instance != null && GameManager.instance.car != null)
-            GameManager.instance.car.RespawnAtStart();
-
-        ShowNextQuestion();
+        if (ui != null && ui.questionPanel != null)
+            ui.questionPanel.SetActive(false);
     }
 
     IEnumerator RestartAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        RestartGame();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    // ============================
+    // UI
+    // ============================
+
+    void UpdateScoreUI()
+    {
+        if (ui != null && ui.scoreText != null)
+            ui.scoreText.text = "Score: " + score;
+    }
+
+    void UpdateWrongAnswersUI()
+    {
+        if (ui != null && ui.wrongAnswersText != null)
+            ui.wrongAnswersText.text = "Life: " + Mathf.Max(0, life);
     }
 }
