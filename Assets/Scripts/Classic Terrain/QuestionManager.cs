@@ -39,7 +39,11 @@ public class QuestionManager : MonoBehaviour
     private QuestionUISet ui;
 
     [Header("Timer")]
-    public float questionTime = 10f;
+    public float questionTime = 15f;
+
+    [Header("Level Timer Settings")]
+    public bool useTimer = false;
+    public float timedLevelDuration = 15f;
 
     private int currentQuestionIndex = 0;
     private float currentTime;
@@ -105,11 +109,32 @@ public class QuestionManager : MonoBehaviour
         {
             currentTime = 0f;
             isCountingDown = false;
-            CheckAnswer();
+            HandleTimeUp();
         }
+
 
         UpdateTimerUI();
     }
+
+    void HandleTimeUp()
+    {
+        if (!useTimer)
+            return;
+
+        if (ui != null)
+            ui.answerText.text = "Time's Up!";
+
+        // Move back 3 waypoints
+        if (car != null)
+            car.MoveBackByWaypoints(3);
+
+        // Deduct score
+        score = Mathf.Max(0, score - 1);
+        UpdateScoreUI();
+
+        StartCoroutine(HideQuestionPanelAfterDelay());
+    }
+
 
     void UpdateUISet()
     {
@@ -159,9 +184,20 @@ public class QuestionManager : MonoBehaviour
 
         ui.questionPanel.SetActive(true);
 
-        currentTime = questionTime;
-        isCountingDown = true;
-        UpdateTimerUI();
+        if (useTimer)
+        {
+            currentTime = timedLevelDuration;
+            isCountingDown = true;
+            UpdateTimerUI();
+        }
+        else
+        {
+            isCountingDown = false;
+
+            if (ui.timerText != null)
+                ui.timerText.text = "";
+        }
+
 
         ui.questionText.text = qa.questions;
 
