@@ -17,6 +17,7 @@ public class TriggerZone : MonoBehaviour
 
     private void Awake()
     {
+        // Ensure the BoxCollider is set to trigger
         BoxCollider box = GetComponent<BoxCollider>();
         box.isTrigger = true;
     }
@@ -39,18 +40,14 @@ public class TriggerZone : MonoBehaviour
         {
             Car car = other.GetComponent<Car>();
             if (car != null)
-                car.PauseCar();
+                car.PauseCar(); // Stop car until player answers
 
             QuestionManager qm = FindObjectOfType<QuestionManager>();
-
             if (qm != null && qm.isActiveAndEnabled)
                 qm.ShowNextQuestion();
-
-            // ⭐ Allow retrigger after short delay
-            StartCoroutine(ResetTrigger());
         }
         // ===============================
-        // 🏁 FINISH
+        // 🏁 FINISH LINE
         // ===============================
         else if (CompareTag("Finish"))
         {
@@ -58,11 +55,17 @@ public class TriggerZone : MonoBehaviour
         }
     }
 
-    IEnumerator ResetTrigger()
+    private void OnTriggerExit(Collider other)
     {
-        yield return new WaitForSeconds(1f); // small cooldown
-        hasTriggered = false;
-        isTriggered = false;
+        if (!other.CompareTag("Player"))
+            return;
+
+        // Reset collectible trigger so it can be triggered again next time
+        if (CompareTag("Collectible"))
+        {
+            hasTriggered = false;
+            isTriggered = false;
+        }
     }
 
     private IEnumerator ShowPanelAndLoadScene()
