@@ -34,6 +34,8 @@ public class Car : MonoBehaviour
     public bool autoDriveLevel5 = false;
     public float autoDriveSpeed = 20f;
 
+    private bool isForcedStopped = false;
+
 
 
     private void Start()
@@ -66,12 +68,12 @@ public class Car : MonoBehaviour
         // =========================
         // LEVEL 5 AUTO DRIVE
         // =========================
-        if (autoDriveLevel5)
+        if (autoDriveLevel5 && !isForcedStopped)
         {
             currentSpeed = autoDriveSpeed;
             isCarMoving = true;
         }
-        else
+        else if (!autoDriveLevel5)
         {
             // -------- NORMAL ACCELERATION --------
             if (isGasPressed)
@@ -108,6 +110,7 @@ public class Car : MonoBehaviour
 
 
 
+
     // ===========================
     //  PUBLIC CONTROL METHODS
     // ===========================
@@ -121,13 +124,16 @@ public class Car : MonoBehaviour
 
     public void ResumeDriving()
     {
-        isCarMoving = isGasPressed;
+        isForcedStopped = false;
+        isCarMoving = true;
     }
+
 
     public void RespawnAtStart()
     {
         pathPosition = 0f;
-        currentSpeed = 0f;
+        currentSpeed *= 0.2f;
+
         isGasPressed = false;
         isCarMoving = false;
 
@@ -228,9 +234,11 @@ public class Car : MonoBehaviour
     //}
     public void PauseCar()
     {
+        isForcedStopped = true;
         isGasPressed = false;
         isCarMoving = false;
         currentSpeed = 0f;
     }
+
 
 }

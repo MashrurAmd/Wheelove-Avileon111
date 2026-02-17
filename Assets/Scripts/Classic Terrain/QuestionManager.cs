@@ -273,9 +273,17 @@ public class QuestionManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
             ui.answerText.text = "No option selected!";
-      
+
+            if (car != null)
+            {
+                car.MoveBackByWaypoints(3); // same penalty
+                car.ResumeDriving();        // ⭐ IMPORTANT
+            }
+
+            StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
+
 
         bool isCorrect = selectedOption.Trim().ToLower() ==
                          qa.answers.Trim().ToLower();
@@ -318,6 +326,8 @@ public class QuestionManager : MonoBehaviour
                     {
                         car.RespawnAtStart(); // 3rd wrong answer → reset to start
                     }
+
+                    car.ResumeDriving();
                 }
 
                 if (life <= 0)
