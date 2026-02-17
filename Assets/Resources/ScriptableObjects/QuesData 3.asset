@@ -32,42 +32,84 @@ MonoBehaviour:
       - Check the traffic and obey the traffic light
       - Honk before the intersection
       answers: Check the traffic and obey the traffic light
-    - questions: 
+    - questions: 3. What is the main reason for keeping a distance from the vehicle
+        in front of you?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - To improve travel speed
+      - To reduce fuel consumption
+      - To ensure sufficient reaction time
+      - To switch to another lane
+      answers: To ensure sufficient reaction time
+    - questions: 4. What is the maximum speed on a rural road without built-up areas,
+        if there are no other signs?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - 80 km/h
+      - 110 km/h
+      - 60 km/h
+      - 90 km/h
+      answers: 110 km/h
+    - questions: 5. In which cases is it permissible to cross a solid separation
+        line?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - For overtaking
+      - When the traffic light is green
+      - For a left turn only
+      - Always, if there is no oncoming traffic
+      answers: For a left turn only
+    - questions: 6. How should you drive when you discover something is wrong with
+        your vehicle while driving?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and continue cautiously
+      - Stop immediately at the roadside
+      - Turn on high beams
+      - Honk and continue driving
+      answers: Stop immediately at the roadside
+    - questions: 7. How should you drive when you are in an urban area and encounter
+        a bus stop with passengers?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Stop to allow them to get on
+      - Slow down and be ready to stop
+      - Speed up and cross quickly
+      - Drive in the left lane
+      answers: Slow down and be ready to stop
+    - questions: 8. What does the sign "No U-Turn" mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Right turns are allowed
+      - Left turns are prohibited
+      - U-turns are prohibited
+      - U-turns are allowed only with signaling
+      answers: U-turns are prohibited
+    - questions: 9. What is the function of the tire pressure monitoring system?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - To reduce noise
+      - To stabilize steering
+      - To alert about low tire pressure
+      - To balance vehicle braking
+      answers: To alert about low tire pressure
+    - questions: 10. What is the correct way to drive on a wet and slippery road?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and avoid sharp maneuvers
+      - Speed up to get out of the area
+      - Stop at the side
+      - Drive in the left lane
+      answers: Slow down and avoid sharp maneuvers
+    - questions: 11. What is the correct way to drive when approaching an intersection
+        with no signs?
       emogis: []
-      options: []
-      answers: 
+      options:
+      - Go first if there is no traffic
+      - Yield to the vehicle on your right
+      - Always stop
+      - Speed up to avoid disruption
+      answers: Yield to the vehicle on your right
     - questions: 
       emogis: []
       options: []

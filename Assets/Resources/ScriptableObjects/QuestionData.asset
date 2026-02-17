@@ -458,7 +458,7 @@ MonoBehaviour:
     - Allowed with another vehicle escort
     - Allowed only at night
     answers: Vehicles with toxic cargo are not allowed to enter
-  - questions: What should you do when you hear an emergency vehicle approaching
+  - questions: 61. What should you do when you hear an emergency vehicle approaching
       from behind with lights and sirens?
     options:
     - Stop immediately in the middle of the road
@@ -466,22 +466,22 @@ MonoBehaviour:
     - Stick to the right and clear the way
     - Move to the left lane
     answers: Stick to the right and clear the way
-  - questions: What is the safest way to cross a traffic light intersection?
+  - questions: 62. What is the safest way to cross a traffic light intersection?
     options:
     - Speed up to avoid getting stuck at red
     - Slow down and always stop
     - Check the traffic and obey the traffic light
     - Honk before the intersection
     answers: Check the traffic and obey the traffic light
-  - questions: What is the main reason for keeping a distance from the vehicle in
-      front of you?
+  - questions: 63. What is the main reason for keeping a distance from the vehicle
+      in front of you?
     options:
     - To improve travel speed
     - To reduce fuel consumption
     - To ensure sufficient reaction time
     - To switch to another lane
     answers: To ensure sufficient reaction time
-  - questions: What is the maximum speed on a rural road without built-up areas,
+  - questions: 64. What is the maximum speed on a rural road without built-up areas,
       if there are no other signs?
     options:
     - 80 km/h
@@ -489,51 +489,51 @@ MonoBehaviour:
     - 60 km/h
     - 90 km/h
     answers: 110 km/h
-  - questions: In which cases is it permissible to cross a solid separation line?
+  - questions: 65. In which cases is it permissible to cross a solid separation line?
     options:
     - For overtaking
     - When the traffic light is green
     - For a left turn only
     - Always, if there is no oncoming traffic
     answers: For a left turn only
-  - questions: How should you drive when you discover something is wrong with your
-      vehicle while driving?
+  - questions: 66. How should you drive when you discover something is wrong with
+      your vehicle while driving?
     options:
     - Slow down and continue cautiously
     - Stop immediately at the roadside
     - Turn on high beams
     - Honk and continue driving
     answers: Stop immediately at the roadside
-  - questions: How should you drive when you are in an urban area and encounter a
-      bus stop with passengers?
+  - questions: 67. How should you drive when you are in an urban area and encounter
+      a bus stop with passengers?
     options:
     - Stop to allow them to get on
     - Slow down and be ready to stop
     - Speed up and cross quickly
     - Drive in the left lane
     answers: Slow down and be ready to stop
-  - questions: What does the sign "No U-Turn" mean?
+  - questions: 68. What does the sign "No U-Turn" mean?
     options:
     - Right turns are allowed
     - Left turns are prohibited
     - U-turns are prohibited
     - U-turns are allowed only with signaling
     answers: U-turns are prohibited
-  - questions: What is the function of the tire pressure monitoring system?
+  - questions: 69. What is the function of the tire pressure monitoring system?
     options:
     - To reduce noise
     - To stabilize steering
     - To alert about low tire pressure
     - To balance vehicle braking
     answers: To alert about low tire pressure
-  - questions: What is the correct way to drive on a wet and slippery road?
+  - questions: 70. What is the correct way to drive on a wet and slippery road?
     options:
     - Slow down and avoid sharp maneuvers
     - Speed up to get out of the area
     - Stop at the side
     - Drive in the left lane
     answers: Slow down and avoid sharp maneuvers
-  - questions: What is the correct way to drive when approaching an intersection
+  - questions: 71. What is the correct way to drive when approaching an intersection
       with no signs?
     options:
     - Go first if there is no traffic
