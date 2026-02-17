@@ -8,11 +8,9 @@ public class Car : MonoBehaviour
 
     [Tooltip("Max forward speed in m/s along the path")]
     public float maxSpeed = 15f;
-
     public float acceleration = 5f;
     public float deceleration = 5f;
 
-    // ALWAYS distance units along path
     private float pathPosition = 0f;
 
     [SerializeField]
@@ -27,7 +25,6 @@ public class Car : MonoBehaviour
     [Header("Start Position")]
     public int startWaypointIndex = 0;
 
-    // cache smooth path ref
     private CinemachineSmoothPath smoothPath;
 
     [Header("Level 5 Auto Drive")]
@@ -36,7 +33,9 @@ public class Car : MonoBehaviour
 
     private bool isForcedStopped = false;
 
-
+    // =========================
+    // START
+    // =========================
 
     private void Start()
     {
@@ -51,75 +50,60 @@ public class Car : MonoBehaviour
             return;
         }
 
-        // clamp to valid waypoint range
         startWaypointIndex = Mathf.Clamp(
             startWaypointIndex,
             0,
             smoothPath.m_Waypoints.Length - 1
         );
 
-        // set car spawn
         SpawnAtWaypoint(startWaypointIndex);
     }
 
+    // =========================
+    // OPTIMIZED UPDATE
+    // =========================
 
     private void LateUpdate()
     {
-        // =========================
+        float targetSpeed = 0f;
+
         // LEVEL 5 AUTO DRIVE
-        // =========================
         if (autoDriveLevel5 && !isForcedStopped)
         {
-            currentSpeed = autoDriveSpeed;
-            isCarMoving = true;
+            targetSpeed = autoDriveSpeed;
         }
         else if (!autoDriveLevel5)
         {
-            // -------- NORMAL ACCELERATION --------
-            if (isGasPressed)
-            {
-                currentSpeed = Mathf.MoveTowards(
-                    currentSpeed,
-                    maxSpeed,
-                    acceleration * Time.deltaTime
-                );
-
-                isCarMoving = true;
-            }
-            else
-            {
-                currentSpeed = Mathf.MoveTowards(
-                    currentSpeed,
-                    0f,
-                    deceleration * Time.deltaTime
-                );
-
-                if (currentSpeed <= 0.01f)
-                    isCarMoving = false;
-            }
-
-            currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
+            // NORMAL CONTROL
+            targetSpeed = isGasPressed ? maxSpeed : 0f;
         }
 
-        // -------- MOVE ALONG PATH --------
+        // MOVE SPEED TOWARDS TARGET
+        float rate = (targetSpeed > currentSpeed) ? acceleration : deceleration;
+        currentSpeed = Mathf.MoveTowards(
+            currentSpeed,
+            targetSpeed,
+            rate * Time.deltaTime
+        );
+
+        // MOVING STATE
+        isCarMoving = currentSpeed > 0.01f;
+
+        // PATH MOVEMENT
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
         SetCarToPathPosition();
     }
 
-
-
-
-    // ===========================
-    //  PUBLIC CONTROL METHODS
-    // ===========================
+    // =========================
+    // CONTROLS
+    // =========================
 
     public void GasPressed() => isGasPressed = true;
     public void GasReleased() => isGasPressed = false;
 
     public float GetPathPosition() => pathPosition;
-
     public bool IsGasPressed() => isGasPressed;
 
     public void ResumeDriving()
@@ -128,25 +112,27 @@ public class Car : MonoBehaviour
         isCarMoving = true;
     }
 
+    public void PauseCar()
+    {
+        isForcedStopped = true;
+        isGasPressed = false;
+        currentSpeed = 0f;
+        isCarMoving = false;
+    }
 
     public void RespawnAtStart()
     {
         pathPosition = 0f;
         currentSpeed *= 0.2f;
-
         isGasPressed = false;
         isCarMoving = false;
-
         SetCarToPathPosition();
     }
 
-    // ===========================
-    //  WRONG ANSWER PUNISHMENT 🚫
-    // ===========================
+    // =========================
+    // PUNISHMENTS
+    // =========================
 
-    /// <summary>
-    /// Move the car backwards by N waypoints.
-    /// </summary>
     public void MoveBackByWaypoints(int count)
     {
         if (smoothPath == null)
@@ -154,39 +140,28 @@ public class Car : MonoBehaviour
 
         int total = smoothPath.m_Waypoints.Length;
 
-        // convert current distance to approx waypoint index
         int currentIndex = Mathf.RoundToInt(
             (pathPosition / roadPath.PathLength) * (total - 1)
         );
 
-        // subtract
         currentIndex -= count;
-
-        // clamp
         currentIndex = Mathf.Clamp(currentIndex, 0, total - 1);
 
-        // convert index back to distance along path
         float t = (float)currentIndex / (total - 1);
         pathPosition = t * roadPath.PathLength;
 
-        // stop movement
         currentSpeed = 0f;
-
         SetCarToPathPosition();
     }
 
-    /// <summary>
-    /// Shortcut: move car back 10 waypoints.
-    /// </summary>
     public void MoveBackTenWaypoints()
     {
         MoveBackByWaypoints(10);
     }
 
-
-    // ===========================
-    //  INTERNAL HELPERS
-    // ===========================
+    // =========================
+    // INTERNAL
+    // =========================
 
     private void SetCarToPathPosition()
     {
@@ -208,37 +183,8 @@ public class Car : MonoBehaviour
         index = Mathf.Clamp(index, 0, total - 1);
 
         float t = (float)index / (total - 1);
-
         pathPosition = t * roadPath.PathLength;
 
         SetCarToPathPosition();
     }
-
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Collectible"))
-    //    {
-    //        isGasPressed = false;
-    //        currentSpeed = 0f;
-    //        isCarMoving = false;
-
-    //        //if (QuestionManager.Instance != null)
-    //        //    QuestionManager.Instance.ShowNextQuestion();
-    //        //else
-    //        //    Debug.LogError("QuestionManager instance is NULL");
-
-    //        FindObjectOfType<QuestionManager>()?.ShowNextQuestion();
-
-    //    }
-    //}
-    public void PauseCar()
-    {
-        isForcedStopped = true;
-        isGasPressed = false;
-        isCarMoving = false;
-        currentSpeed = 0f;
-    }
-
-
 }
