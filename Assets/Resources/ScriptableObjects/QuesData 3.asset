@@ -110,79 +110,174 @@ MonoBehaviour:
       - Always stop
       - Speed up to avoid disruption
       answers: Yield to the vehicle on your right
-    - questions: 
+    - questions: 12. What does the sign "No Entry for Vehicles with Overheight Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured well
+      - Prohibited for vehicles over the height limit
+      - Allowed with additional vehicle escort
+      - Allowed only during the day
+      answers: Prohibited for vehicles over the height limit
+    - questions: 13. What is the correct way to drive when approaching a vehicle
+        signaling to exit a parking space?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Speed up and pass in front of it
+      - Stop and let it exit
+      - Honk to warn
+      - Pass in the opposite lane
+      answers: Stop and let it exit
+    - questions: 14. What does the sign "No Entry for Vehicles with Overlength Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo only extends from the back
+      - Prohibited for vehicles with cargo exceeding the limit
+      - Allowed with an escort vehicle
+      - Allowed only at night
+      answers: Prohibited for vehicles with cargo exceeding the limit
+    - questions: 15. What is the correct way to drive when approaching a parked vehicle
+        with emergency lights on?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Speed up and pass
+      - Pass carefully and keep distance
+      - Stop behind it
+      - Pass in the opposite lane
+      answers: Pass carefully and keep distance
+    - questions: 16. What does the sign "No Entry for Vehicles with Overwidth Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is marked with lights
+      - Prohibited for vehicles with cargo wider than allowed
+      - Allowed with an escort vehicle
+      - Allowed only during the day
+      answers: Prohibited for vehicles with cargo wider than allowed
+    - questions: 17. What is the correct way to drive when approaching an intersection
+        with the sign "Yield"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Always stop
+      - Slow down and continue if there is no traffic
+      - Yield to the approaching vehicle
+      - Go first if you are on the right
+      answers: Yield to the approaching vehicle
+    - questions: 18. What does the sign "No Entry for Vehicles with Hazardous Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured
+      - Prohibited for vehicles with hazardous cargo
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Prohibited for vehicles with hazardous cargo
+    - questions: 19. What is the correct way to drive when approaching a vehicle
+        signaling to turn left at an intersection?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it from the right carefully
+      - Overtake it from the left
+      - Speed up and pass in front of it
+      - Stop behind it
+      answers: Overtake it from the right carefully
+    - questions: 20. What does the sign "No Entry for Vehicles with Toxic Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is closed
+      - Prohibited for vehicles with toxic cargo
+      - Allowed with an escort vehicle
+      - Allowed only at night
+      answers: Prohibited for vehicles with toxic cargo
+    - questions: 21. What is the correct way to drive when approaching a vehicle
+        signaling to exit a parking space?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Speed up and pass in front of it
+      - Stop and let it exit
+      - Honk to warn
+      - Pass in the opposite lane
+      answers: Stop and let it exit
+    - questions: 22. What does the sign "No Entry for Vehicles Over a Certain Weight"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Heavy vehicles are allowed if there are no additional signs
+      - Prohibited for vehicles exceeding the weight limit
+      - Allowed only for public vehicles
+      - Allowed only at night
+      answers: Prohibited for vehicles exceeding the weight limit
+    - questions: 23. What is the correct way to drive when approaching an intersection
+        with the sign "One-Way Traffic"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Drive only in the direction of the arrow
+      - Allowed to drive in any direction
+      - Allowed to turn left only
+      - Allowed to turn right only
+      answers: Drive only in the direction of the arrow
+    - questions: 24. What does the sign "No Entry for Vehicles with Overweight Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured well
+      - Prohibited for vehicles with cargo exceeding the limit
+      - Allowed if there is escort
+      - Allowed only during the day
+      answers: Prohibited for vehicles with cargo exceeding the limit
+    - questions: 25. What is the correct way to drive when approaching a vehicle
+        signaling to turn right?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it from the left carefully
+      - Overtake it from the right
+      - Speed up and pass in front of it
+      - Stop behind it
+      answers: Overtake it from the left carefully
+    - questions: 26. What does the sign "No Entry for Vehicles with Flammable Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed for vehicles with flammable cargo if there is permission
+      - Prohibited for vehicles with flammable cargo
+      - Allowed with escort vehicle
+      - Allowed only at night
+      answers: Prohibited for vehicles with flammable cargo
+    - questions: 27. What is the correct way to drive when approaching an intersection
+        with the sign "Traffic Light Ahead"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and prepare to stop
+      - Speed up to make it
+      - Stop immediately
+      - Ignore the traffic light
+      answers: Slow down and prepare to stop
+    - questions: 28. What does the sign "No Entry for Vehicles with Explosive Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured
+      - Prohibited for vehicles with explosive cargo
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Prohibited for vehicles with explosive cargo
+    - questions: 29. What is the correct way to drive when approaching a vehicle
+        signaling to turn left at an intersection?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it from the right carefully
+      - Overtake it from the left
+      - Speed up and pass in front of it
+      - Stop behind it
+      answers: Overtake it from the right carefully
+    - questions: 30. What does the sign "No Entry for Vehicles with Toxic Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
+      options:
+      - Allowed if the cargo is closed
+      - Prohibited for vehicles with toxic cargo
+      - Allowed with escort vehicle
+      - Allowed only at night
+      answers: Prohibited for vehicles with toxic cargo
