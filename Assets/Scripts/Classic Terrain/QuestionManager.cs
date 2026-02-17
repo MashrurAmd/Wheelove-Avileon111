@@ -19,7 +19,7 @@ public class QuestionUISet
     public Text wrongAnswersText;
     public GameObject gameOver;
     public List<Image> emojisImages;
-
+    public AndroidTTS tts;
 
 
 }
@@ -200,6 +200,8 @@ public class QuestionManager : MonoBehaviour
 
 
         ui.questionText.text = qa.questions;
+
+        ui.tts.Speak(qa.questions);     // tts added here
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
