@@ -30,6 +30,11 @@ public class Car : MonoBehaviour
     // cache smooth path ref
     private CinemachineSmoothPath smoothPath;
 
+    [Header("Level 5 Auto Drive")]
+    public bool autoDriveLevel5 = false;
+    public float autoDriveSpeed = 20f;
+
+
 
     private void Start()
     {
@@ -58,37 +63,49 @@ public class Car : MonoBehaviour
 
     private void LateUpdate()
     {
-        // -------- ACCELERATION / BRAKING --------
-        if (isGasPressed)
+        // =========================
+        // LEVEL 5 AUTO DRIVE
+        // =========================
+        if (autoDriveLevel5)
         {
-            currentSpeed = Mathf.MoveTowards(
-                currentSpeed,
-                maxSpeed,
-                acceleration * Time.deltaTime
-            );
-
+            currentSpeed = autoDriveSpeed;
             isCarMoving = true;
         }
         else
         {
-            currentSpeed = Mathf.MoveTowards(
-                currentSpeed,
-                0f,
-                deceleration * Time.deltaTime
-            );
+            // -------- NORMAL ACCELERATION --------
+            if (isGasPressed)
+            {
+                currentSpeed = Mathf.MoveTowards(
+                    currentSpeed,
+                    maxSpeed,
+                    acceleration * Time.deltaTime
+                );
 
-            if (currentSpeed <= 0.01f)
-                isCarMoving = false;
+                isCarMoving = true;
+            }
+            else
+            {
+                currentSpeed = Mathf.MoveTowards(
+                    currentSpeed,
+                    0f,
+                    deceleration * Time.deltaTime
+                );
+
+                if (currentSpeed <= 0.01f)
+                    isCarMoving = false;
+            }
+
+            currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
         }
 
-        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
-
-        // -------- MOVE ALONG PATH IN DISTANCE UNITS --------
+        // -------- MOVE ALONG PATH --------
         pathPosition += currentSpeed * Time.deltaTime;
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
         SetCarToPathPosition();
     }
+
 
 
     // ===========================
