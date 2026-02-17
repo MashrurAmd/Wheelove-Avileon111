@@ -223,7 +223,7 @@ public class QuestionManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
             ui.answerText.text = "No option selected!";
-            StartCoroutine(HideQuestionPanelAfterDelay());
+      
             return;
         }
 
