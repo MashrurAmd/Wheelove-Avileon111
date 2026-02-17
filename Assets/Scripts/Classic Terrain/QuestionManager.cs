@@ -201,7 +201,11 @@ public class QuestionManager : MonoBehaviour
 
         ui.questionText.text = qa.questions;
 
-        ui.tts.Speak(qa.questions);     // tts added here
+        //ui.tts.Speak(qa.questions);     // tts added here
+        Debug.Log("UI is null? " + (ui == null));
+        Debug.Log("QuestionText is null? " + (ui?.questionText == null));
+
+        AndroidTTS.instance.Speak(qa.questions);
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
@@ -233,6 +237,17 @@ public class QuestionManager : MonoBehaviour
             }
         }
     }
+
+    // read current question using TTS (can be called from a button)
+    public void ReadCurrentQuestion()
+    {
+        if (levelTestIndex >= quesData.tests.Count) return;
+        if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
+
+        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
+        AndroidTTS.instance.Speak(qa.questions);
+    }
+
 
 
     // ============================
