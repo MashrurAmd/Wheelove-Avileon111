@@ -6,9 +6,9 @@ using System.Collections;
 public class TriggerZone : MonoBehaviour
 {
     [Header("Trigger State")]
-    public bool isTriggered = false;   // ← RESTORED for other scripts
+    public bool isTriggered = false;
 
-    private bool hasTriggered = false; // internal safety
+    private bool hasTriggered = false;
 
     [Header("Congratulations & Scene")]
     public GameObject congratulationsPanel;
@@ -30,7 +30,7 @@ public class TriggerZone : MonoBehaviour
             return;
 
         hasTriggered = true;
-        isTriggered = true;   // ← keep compatibility
+        isTriggered = true;
 
         // ===============================
         // 🎯 COLLECTIBLE
@@ -44,9 +44,10 @@ public class TriggerZone : MonoBehaviour
             QuestionManager qm = FindObjectOfType<QuestionManager>();
 
             if (qm != null && qm.isActiveAndEnabled)
-            {
                 qm.ShowNextQuestion();
-            }
+
+            // ⭐ Allow retrigger after short delay
+            StartCoroutine(ResetTrigger());
         }
         // ===============================
         // 🏁 FINISH
@@ -57,11 +58,10 @@ public class TriggerZone : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    IEnumerator ResetTrigger()
     {
-        if (!other.CompareTag("Player"))
-            return;
-
+        yield return new WaitForSeconds(1f); // small cooldown
+        hasTriggered = false;
         isTriggered = false;
     }
 
@@ -73,8 +73,6 @@ public class TriggerZone : MonoBehaviour
         yield return new WaitForSeconds(panelDelay);
 
         if (!string.IsNullOrEmpty(nextSceneName))
-        {
             SceneManager.LoadScene(nextSceneName);
-        }
     }
 }
