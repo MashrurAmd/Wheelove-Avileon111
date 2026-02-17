@@ -337,8 +337,4 @@ public class QuestionManager : MonoBehaviour
 
 
 
-
-
-
-
 }
