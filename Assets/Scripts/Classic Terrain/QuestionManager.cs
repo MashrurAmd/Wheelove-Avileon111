@@ -202,9 +202,6 @@ public class QuestionManager : MonoBehaviour
         ui.questionText.text = qa.questions;
 
         //ui.tts.Speak(qa.questions);     // tts added here
-        Debug.Log("UI is null? " + (ui == null));
-        Debug.Log("QuestionText is null? " + (ui?.questionText == null));
-
         AndroidTTS.instance.Speak(qa.questions);
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
