@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 [System.Serializable]
 public class QuestionUISet
 {
@@ -60,6 +61,9 @@ public class QuestionManager : MonoBehaviour
     public int life = 3;
 
     bool lastLandscape;
+
+    private Coroutine panelAnimRoutine;
+
 
 
     [Header("Wrong Answer Tracking")]
@@ -182,7 +186,21 @@ public class QuestionManager : MonoBehaviour
         if (car != null)
             car.PauseCar();
 
-        ui.questionPanel.SetActive(true);
+        GameObject panel = ui.questionPanel;
+        panel.SetActive(true);
+
+        RectTransform rt = panel.GetComponent<RectTransform>();
+        CanvasGroup cg = panel.GetComponent<CanvasGroup>();
+
+        // Add CanvasGroup if missing
+        if (cg == null)
+            cg = panel.AddComponent<CanvasGroup>();
+
+        if (panelAnimRoutine != null)
+            StopCoroutine(panelAnimRoutine);
+
+        panelAnimRoutine = StartCoroutine(OpenPanelAnimation(rt, cg));
+
 
         if (useTimer)
         {
@@ -348,9 +366,21 @@ public class QuestionManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        if (ui != null && ui.questionPanel != null)
-            ui.questionPanel.SetActive(false);
+        if (ui == null || ui.questionPanel == null)
+            yield break;
+
+        RectTransform rt = ui.questionPanel.GetComponent<RectTransform>();
+        CanvasGroup cg = ui.questionPanel.GetComponent<CanvasGroup>();
+
+        if (cg == null)
+            cg = ui.questionPanel.AddComponent<CanvasGroup>();
+
+        if (panelAnimRoutine != null)
+            StopCoroutine(panelAnimRoutine);
+
+        panelAnimRoutine = StartCoroutine(ClosePanelAnimation(rt, cg));
     }
+
 
     IEnumerator RestartAfterDelay()
     {
@@ -391,6 +421,55 @@ public class QuestionManager : MonoBehaviour
         UpdateWrongAnswersUI();
 
         // DO NOT call ShowNextQuestion here
+    }
+    IEnumerator OpenPanelAnimation(RectTransform rt, CanvasGroup cg)
+    {
+        float duration = 0.3f;
+        float time = 0f;
+
+        rt.localScale = Vector3.zero;
+        cg.alpha = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            // Smooth easing
+            float scale = Mathf.Lerp(0f, 1.1f, t);
+            float alpha = Mathf.Lerp(0f, 1f, t);
+
+            rt.localScale = Vector3.one * scale;
+            cg.alpha = alpha;
+
+            yield return null;
+        }
+
+        // Slight bounce back
+        rt.localScale = Vector3.one;
+        cg.alpha = 1f;
+    }
+
+    IEnumerator ClosePanelAnimation(RectTransform rt, CanvasGroup cg)
+    {
+        float duration = 0.25f;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            float scale = Mathf.Lerp(1f, 0f, t);
+            float alpha = Mathf.Lerp(1f, 0f, t);
+
+            rt.localScale = Vector3.one * scale;
+            cg.alpha = alpha;
+
+            yield return null;
+        }
+
+        ui.questionPanel.SetActive(false);
     }
 
 
