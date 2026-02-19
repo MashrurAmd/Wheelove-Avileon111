@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using DG.Tweening;
 
 [System.Serializable]
 public class QuestionUISet
@@ -62,7 +62,7 @@ public class QuestionManager : MonoBehaviour
 
     bool lastLandscape;
 
-    private Coroutine panelAnimRoutine;
+
 
 
 
@@ -192,14 +192,23 @@ public class QuestionManager : MonoBehaviour
         RectTransform rt = panel.GetComponent<RectTransform>();
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
 
-        // Add CanvasGroup if missing
         if (cg == null)
             cg = panel.AddComponent<CanvasGroup>();
 
-        if (panelAnimRoutine != null)
-            StopCoroutine(panelAnimRoutine);
+        // Kill previous tweens to prevent overlap
+        rt.DOKill();
+        cg.DOKill();
 
-        panelAnimRoutine = StartCoroutine(OpenPanelAnimation(rt, cg));
+        // Reset state
+        rt.localScale = Vector3.zero;
+        cg.alpha = 0f;
+
+        // 🔥 Smooth professional open animation
+        rt.DOScale(Vector3.one, 0.5f)
+          .SetEase(Ease.OutBack);
+
+        cg.DOFade(1f, 0.4f);
+
 
 
         if (useTimer)
@@ -369,17 +378,28 @@ public class QuestionManager : MonoBehaviour
         if (ui == null || ui.questionPanel == null)
             yield break;
 
-        RectTransform rt = ui.questionPanel.GetComponent<RectTransform>();
-        CanvasGroup cg = ui.questionPanel.GetComponent<CanvasGroup>();
+        GameObject panel = ui.questionPanel;
+
+        RectTransform rt = panel.GetComponent<RectTransform>();
+        CanvasGroup cg = panel.GetComponent<CanvasGroup>();
 
         if (cg == null)
-            cg = ui.questionPanel.AddComponent<CanvasGroup>();
+            cg = panel.AddComponent<CanvasGroup>();
 
-        if (panelAnimRoutine != null)
-            StopCoroutine(panelAnimRoutine);
+        rt.DOKill();
+        cg.DOKill();
 
-        panelAnimRoutine = StartCoroutine(ClosePanelAnimation(rt, cg));
+        // 🔥 Smooth close animation
+        rt.DOScale(Vector3.zero, 0.3f)
+          .SetEase(Ease.InBack);
+
+        cg.DOFade(0f, 0.25f);
+
+        yield return new WaitForSeconds(0.3f);
+
+        panel.SetActive(false);
     }
+
 
 
     IEnumerator RestartAfterDelay()
@@ -422,55 +442,7 @@ public class QuestionManager : MonoBehaviour
 
         // DO NOT call ShowNextQuestion here
     }
-    IEnumerator OpenPanelAnimation(RectTransform rt, CanvasGroup cg)
-    {
-        float duration = 0.3f;
-        float time = 0f;
 
-        rt.localScale = Vector3.zero;
-        cg.alpha = 0f;
-
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = time / duration;
-
-            // Smooth easing
-            float scale = Mathf.Lerp(0f, 1.1f, t);
-            float alpha = Mathf.Lerp(0f, 1f, t);
-
-            rt.localScale = Vector3.one * scale;
-            cg.alpha = alpha;
-
-            yield return null;
-        }
-
-        // Slight bounce back
-        rt.localScale = Vector3.one;
-        cg.alpha = 1f;
-    }
-
-    IEnumerator ClosePanelAnimation(RectTransform rt, CanvasGroup cg)
-    {
-        float duration = 0.25f;
-        float time = 0f;
-
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = time / duration;
-
-            float scale = Mathf.Lerp(1f, 0f, t);
-            float alpha = Mathf.Lerp(1f, 0f, t);
-
-            rt.localScale = Vector3.one * scale;
-            cg.alpha = alpha;
-
-            yield return null;
-        }
-
-        ui.questionPanel.SetActive(false);
-    }
 
 
     //TTS
