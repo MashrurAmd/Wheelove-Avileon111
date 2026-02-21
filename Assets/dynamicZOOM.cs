@@ -2,46 +2,49 @@ using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
 
-public class DynamicCameraZoom : MonoBehaviour
+public class RacingCameraController : MonoBehaviour
 {
-    public CinemachineVirtualCamera virtualCamera;
-    public CinemachineDollyCart dollyCart;
+    [Header("References")]
+    public CinemachineVirtualCamera vcam;
     public CinemachineSmoothPath path;
+    public Transform car;
 
     [Header("Zoom Settings")]
     public float normalZ = -6f;
     public float curveZ = -8f;
 
-    [Header("Look Offset")]
-    public float normalX = 0f;
-    public float curveX = 1.5f;
+    [Header("Side Look")]
+    public float sideAmount = 1.5f;
 
-    [Header("Sensitivity")]
+    [Header("FOV Settings")]
+    public float normalFOV = 60f;
+    public float curveFOV = 65f;
+
+    [Header("Curve Detection")]
+    public float checkDistance = 2f;
     public float curveThreshold = 5f;
 
     private CinemachineTransposer transposer;
-    private float lastOffsetZ;
-    private float lastOffsetX;
 
     void Start()
     {
-        transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
-        lastOffsetZ = normalZ;
-        lastOffsetX = normalX;
+        transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
     }
 
     void Update()
     {
-        float t = dollyCart.m_Position / path.PathLength;
+        if (path == null || car == null) return;
 
-        Vector3 forward1 = path.EvaluateTangentAtUnit(t, CinemachinePathBase.PositionUnits.Normalized);
-        Vector3 forward2 = path.EvaluateTangentAtUnit(t + 0.01f, CinemachinePathBase.PositionUnits.Normalized);
+        float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
+
+        Vector3 forward1 = path.EvaluateTangent(nearest);
+        Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
 
         float angle = Vector3.Angle(forward1, forward2);
 
         if (angle > curveThreshold)
         {
-            ApplyCurveCamera(forward1, forward2);
+            ApplyCurve(forward1, forward2);
         }
         else
         {
@@ -49,36 +52,51 @@ public class DynamicCameraZoom : MonoBehaviour
         }
     }
 
-    void ApplyCurveCamera(Vector3 f1, Vector3 f2)
+    void ApplyCurve(Vector3 f1, Vector3 f2)
     {
         float direction = Mathf.Sign(Vector3.Cross(f1, f2).y);
 
-        if (lastOffsetZ != curveZ)
-        {
-            lastOffsetZ = curveZ;
-            transposer.m_FollowOffset = new Vector3(lastOffsetX, 1.77f, curveZ);
+        Vector3 targetOffset = new Vector3(
+            sideAmount * direction,
+            1.77f,
+            curveZ
+        );
 
+        DOTween.To(
+            () => transposer.m_FollowOffset,
+            x => transposer.m_FollowOffset = x,
+            targetOffset,
+            0.5f
+        ).SetEase(Ease.OutCubic);
 
-        }
-
-        float targetX = curveX * direction;
-
-        if (lastOffsetX != targetX)
-        {
-            lastOffsetX = targetX;
-
-            transposer.m_FollowOffset = new Vector3(targetX, 1.77f, curveZ);
-        }
+        DOTween.To(
+            () => vcam.m_Lens.FieldOfView,
+            x => vcam.m_Lens.FieldOfView = x,
+            curveFOV,
+            0.5f
+        ).SetEase(Ease.OutCubic);
     }
 
     void ResetCamera()
     {
-        if (lastOffsetZ != normalZ || lastOffsetX != normalX)
-        {
-            lastOffsetZ = normalZ;
-            lastOffsetX = normalX;
+        Vector3 targetOffset = new Vector3(
+            0f,
+            1.77f,
+            normalZ
+        );
 
-            transposer.m_FollowOffset = new Vector3(normalX, 1.77f, normalZ);
-        }
+        DOTween.To(
+            () => transposer.m_FollowOffset,
+            x => transposer.m_FollowOffset = x,
+            targetOffset,
+            0.5f
+        ).SetEase(Ease.OutCubic);
+
+        DOTween.To(
+            () => vcam.m_Lens.FieldOfView,
+            x => vcam.m_Lens.FieldOfView = x,
+            normalFOV,
+            0.5f
+        ).SetEase(Ease.OutCubic);
     }
 }
