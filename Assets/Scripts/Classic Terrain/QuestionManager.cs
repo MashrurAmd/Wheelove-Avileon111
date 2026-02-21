@@ -443,9 +443,4 @@ public class QuestionManager : MonoBehaviour
         // DO NOT call ShowNextQuestion here
     }
 
-
-
-    //TTS
-
-
 }
