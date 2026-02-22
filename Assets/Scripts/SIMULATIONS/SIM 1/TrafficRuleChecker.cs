@@ -3,7 +3,7 @@
 public class TrafficRuleChecker : MonoBehaviour
 {
     public TrafficLightController trafficLight;
-    public TriggerZone carTriggerZone;
+    public SimulationZone carZone;
     public Car car;
 
     private bool enteredOnRed = false;
@@ -11,38 +11,41 @@ public class TrafficRuleChecker : MonoBehaviour
 
     void Update()
     {
-        // 🚗 Car enters zone during RED
-        if (carTriggerZone.isTriggered && trafficLight.isRed && !enteredOnRed)
+        // Car enters zone during RED
+        if (carZone.isPlayerInside && trafficLight.isRed && !enteredOnRed)
         {
             enteredOnRed = true;
             greenReached = false;
+            Debug.Log("Car entered on RED");
         }
 
-        // 🟢 Light turns GREEN while car is waiting inside
-        if (enteredOnRed && carTriggerZone.isTriggered && trafficLight.isGreen)
+        // Light turns GREEN while car is waiting inside
+        if (enteredOnRed && carZone.isPlayerInside && trafficLight.isGreen)
         {
             greenReached = true;
+            Debug.Log("Green reached while waiting ✅");
         }
 
-        // 🚗 Car exits zone
-        if (!carTriggerZone.isTriggered && enteredOnRed)
+        // Car exits zone — evaluate ONCE using justExited
+        if (carZone.justExited && enteredOnRed)
         {
-            // ✅ VALID crossing: waited for green AND exited on green
+            carZone.ClearExitFlag(); // consume the flag immediately
+
             if (greenReached && trafficLight.isGreen)
             {
-                // success → do nothing
+                Debug.Log("Valid crossing ✅");
             }
             else
             {
-                // ❌ INVALID crossing
-                car.PauseCar();
+                Debug.Log("Invalid crossing ❌ — punishing");
                 car.MoveBackByWaypoints(3);
-                car.ResumeDriving();
             }
 
-            // reset state
             enteredOnRed = false;
             greenReached = false;
+
+
+
         }
     }
 }

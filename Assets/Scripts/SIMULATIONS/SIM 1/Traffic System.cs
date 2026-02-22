@@ -21,8 +21,8 @@ public class TrafficLightController : MonoBehaviour
     public float yellowTime = 2f;
     public float redTime = 5f;
 
-    [Header("Car Trigger")]
-    public TriggerZone carTriggerZone;
+    [Header("Zone Reference")]
+    public SimulationZone carZone;
     public float delayBeforeGreen = 10f;
 
     [Header("State (Read Only)")]
@@ -30,30 +30,24 @@ public class TrafficLightController : MonoBehaviour
     public bool isYellow;
     public bool isGreen;
 
-    Material redMat;
-    Material yellowMat;
-    Material greenMat;
-
-    Coroutine trafficRoutine;
+    Material redMat, yellowMat, greenMat;
     Coroutine delayedGreenRoutine;
 
     void Start()
     {
-        // clone materials once
         redMat = redLight.material;
         yellowMat = yellowLight.material;
         greenMat = greenLight.material;
-
         SetRed();
-        trafficRoutine = StartCoroutine(TrafficLightRoutine());
+        StartCoroutine(TrafficLightRoutine());
     }
 
     void Update()
     {
-        if (carTriggerZone.isTriggered && delayedGreenRoutine == null)
+        if (carZone.isPlayerInside && delayedGreenRoutine == null)
             delayedGreenRoutine = StartCoroutine(TurnGreenAfterDelay());
 
-        if (!carTriggerZone.isTriggered && delayedGreenRoutine != null)
+        if (!carZone.isPlayerInside && delayedGreenRoutine != null)
         {
             StopCoroutine(delayedGreenRoutine);
             delayedGreenRoutine = null;
@@ -63,9 +57,7 @@ public class TrafficLightController : MonoBehaviour
     IEnumerator TurnGreenAfterDelay()
     {
         yield return new WaitForSeconds(delayBeforeGreen);
-
-        if (!carTriggerZone.isTriggered) yield break;
-
+        if (!carZone.isPlayerInside) yield break;
         SetYellow();
         yield return new WaitForSeconds(1f);
         SetGreen();
@@ -77,66 +69,29 @@ public class TrafficLightController : MonoBehaviour
         {
             yield return new WaitUntil(() => isGreen);
             yield return new WaitForSeconds(greenTime);
-
             SetYellow();
             yield return new WaitForSeconds(yellowTime);
-
             SetRed();
             yield return new WaitForSeconds(redTime);
         }
     }
 
-    // =====================
-    // LIGHT STATES
-    // =====================
-
-    void SetRed()
-    {
-        isRed = true; isYellow = false; isGreen = false;
-
-        Activate(redMat, redOn);
-        Deactivate(yellowMat);
-        Deactivate(greenMat);
-    }
-
-    void SetYellow()
-    {
-        isRed = false; isYellow = true; isGreen = false;
-
-        Deactivate(redMat);
-        Activate(yellowMat, yellowOn);
-        Deactivate(greenMat);
-    }
-
-    void SetGreen()
-    {
-        isRed = false; isYellow = false; isGreen = true;
-
-        Deactivate(redMat);
-        Deactivate(yellowMat);
-        Activate(greenMat, greenOn);
-    }
-
-    // =====================
-    // MATERIAL HELPERS
-    // =====================
+    void SetRed() { isRed = true; isYellow = false; isGreen = false; Activate(redMat, redOn); Deactivate(yellowMat); Deactivate(greenMat); }
+    void SetYellow() { isRed = false; isYellow = true; isGreen = false; Deactivate(redMat); Activate(yellowMat, yellowOn); Deactivate(greenMat); }
+    void SetGreen() { isRed = false; isYellow = false; isGreen = true; Deactivate(redMat); Deactivate(yellowMat); Activate(greenMat, greenOn); }
 
     void Activate(Material mat, Color emission)
     {
-        mat.color = Color.white;               // visible
+        mat.color = Color.white;
         mat.EnableKeyword("_EMISSION");
         mat.SetColor("_EmissionColor", emission);
     }
 
     void Deactivate(Material mat)
     {
-        mat.color = offColor;                  // dark
+        mat.color = offColor;
         mat.SetColor("_EmissionColor", Color.black);
     }
-
-    // =====================
-    // PUBLIC CHECKS
-    // =====================
 
     public bool IsRedLight() => isRed;
     public bool IsYellowLight() => isYellow;
