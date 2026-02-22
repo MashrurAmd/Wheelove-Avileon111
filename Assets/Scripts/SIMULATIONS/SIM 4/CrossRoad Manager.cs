@@ -5,7 +5,7 @@ public class CrossRoadManager : MonoBehaviour
     public static CrossRoadManager Instance;
 
     [Header("References")]
-    public TriggerZone playerAreaTrigger;
+    public SimulationZone playerAreaZone;  // ← changed from TriggerZone
     public NPCCarMover npcCar1;
     public NPCCarMover npcCar2;
 
@@ -18,10 +18,17 @@ public class CrossRoadManager : MonoBehaviour
 
     private void Update()
     {
-        // player entered trigger zone
-        if (!carsAlreadyStarted && playerAreaTrigger.isTriggered)
+        // Player entered zone → start NPC cars ONCE
+        if (!carsAlreadyStarted && playerAreaZone.isPlayerInside)
         {
             StartNPCMovement();
+        }
+
+        // Reset when player exits so simulation can repeat if needed
+        if (carsAlreadyStarted && playerAreaZone.justExited)
+        {
+            playerAreaZone.ClearExitFlag();
+            carsAlreadyStarted = false;
         }
     }
 
@@ -29,16 +36,12 @@ public class CrossRoadManager : MonoBehaviour
     {
         carsAlreadyStarted = true;
 
-        if (npcCar1 != null)
-            npcCar1.StartCrossing();
-
-        if (npcCar2 != null)
-            npcCar2.StartCrossing();
+        if (npcCar1 != null) npcCar1.StartCrossing();
+        if (npcCar2 != null) npcCar2.StartCrossing();
 
         Debug.Log("NPC cars are crossing now");
     }
 
-    // keep your fail for collision
     public void Fail()
     {
         Debug.Log("FAILED: Player hit NPC car");
