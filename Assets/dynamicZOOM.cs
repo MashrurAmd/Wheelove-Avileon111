@@ -11,7 +11,7 @@ public class RacingCameraController : MonoBehaviour
 
     [Header("Zoom Settings")]
     public float normalZ = -6f;
-    public float curveZ = -6f;
+    public float curveZ = -5f;
 
     [Header("Side Look")]
     public float sideAmount = 1f;
