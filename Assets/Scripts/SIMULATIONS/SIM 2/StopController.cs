@@ -1,67 +1,53 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StopSimulationController : MonoBehaviour
 {
     [Header("References")]
-    public Car car;                        // your car script
-    public TriggerZone stopArea;           // stop zone trigger
-    public GasButtonBlink gasButtonBlink;  // 🌟 actual gas button blink script
+    public Car car;
+    public SimulationZone stopArea;        // ← changed from TriggerZone
+    public GasButtonBlink gasButtonBlink;
 
     [Header("Stop Settings")]
-    public float stopThreshold = 0.05f;    // when car is considered stopped
+    public float stopThreshold = 0.05f;
 
     private bool hasStoppedInside = false;
-    private bool wasInside = false;
-
-    void Start()
-    {
-        // 🔗 bind gas button blink to this stop area
-        if (gasButtonBlink != null)
-        {
-            gasButtonBlink.triggerZones = new List<TriggerZone> { stopArea }; // or multiple stop areas
-        }
-    }
+    private bool resultEvaluated = false;
 
     void Update()
     {
-        if (stopArea == null || car == null)
-            return;
+        if (stopArea == null || car == null) return;
 
-        // 🚗 car is inside stop zone
-        if (stopArea.isTriggered)
+        // Car is inside zone
+        if (stopArea.isPlayerInside)
         {
-            wasInside = true;
+            resultEvaluated = false; // reset so we can evaluate on exit
 
-            // check if car fully stopped
             if (car.CurrentSpeed <= stopThreshold)
             {
                 hasStoppedInside = true;
+                Debug.Log("Car stopped inside zone ✅");
             }
         }
-        else
-        {
-            // 🧠 when car exits → evaluate result ONCE
-            if (wasInside)
-            {
-                if (hasStoppedInside)
-                {
-                    Debug.Log("Successfully stopped at the stop sign 👍");
-                }
-                else
-                {
-                    Debug.Log("Rule broken — car did NOT stop ❌");
 
-                    // ❌ Punishment: move car back 3 waypoints
-                    car.PauseCar();                   // pause briefly for effect
-                    car.MoveBackByWaypoints(3);       // move back
-                    car.ResumeDriving();              // resume movement
-                }
+        // Car just exited — evaluate ONCE
+        if (stopArea.justExited && !resultEvaluated)
+        {
+            stopArea.ClearExitFlag();
+            resultEvaluated = true;
+
+            if (hasStoppedInside)
+            {
+                Debug.Log("Successfully stopped at the stop sign 👍");
+            }
+            else
+            {
+                Debug.Log("Rule broken — car did NOT stop ❌");
+                car.MoveBackByWaypoints(3);
             }
 
-            // reset for next attempt
-            wasInside = false;
+            // Reset for next attempt
             hasStoppedInside = false;
+            resultEvaluated = false;
         }
     }
 }
