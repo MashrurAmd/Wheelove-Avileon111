@@ -1,19 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPCCarMover : MonoBehaviour
 {
     public Transform startPoint;
     public Transform endPoint;
-
     public float moveSpeed = 5f;
-    public bool autoMove = false;
 
     private bool hasMoved = false;
     private bool isMoving = false;
 
     private void Start()
     {
-        // spawn at start
         transform.position = startPoint.position;
     }
 
@@ -27,34 +24,34 @@ public class NPCCarMover : MonoBehaviour
             moveSpeed * Time.deltaTime
         );
 
-        // reached destination
         if (Vector3.Distance(transform.position, endPoint.position) < 0.1f)
         {
             isMoving = false;
             hasMoved = true;
+            // ✅ Notify manager that this NPC finished crossing
+            CrossRoadManager.Instance.OnSimulationComplete();
         }
     }
 
     public void StartCrossing()
     {
         isMoving = true;
-        hasMoved = false; // reset so it can move when simulation restarts
+        hasMoved = false;
     }
 
-
-    public bool HasFinished()
+    public void ResetToStart()
     {
-        return hasMoved;
+        isMoving = false;
+        hasMoved = false;
+        transform.position = startPoint.position;
+        Debug.Log($"{gameObject.name} reset to start ✅");
     }
+
+    public bool HasFinished() => hasMoved;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
-        {
             CrossRoadManager.Instance.Fail();
-        }
     }
-
-
-
 }
