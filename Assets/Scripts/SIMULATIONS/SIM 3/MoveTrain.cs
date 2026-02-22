@@ -2,12 +2,22 @@ using UnityEngine;
 
 public class MoveOnX : MonoBehaviour
 {
-    // Change this in the Inspector
     public float moveSpeed = 2f;
+    public bool isMoving = false;
 
     void Update()
     {
-        // Move only in X direction
+        if (!isMoving) return;
         transform.position += new Vector3(moveSpeed * Time.deltaTime, 0f, 0f);
+    }
+
+    public void StartMoving()
+    {
+        isMoving = true;
+    }
+
+    public void StopMoving()
+    {
+        isMoving = false;
     }
 }

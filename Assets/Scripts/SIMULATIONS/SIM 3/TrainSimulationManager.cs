@@ -4,10 +4,10 @@ using System.Collections;
 public class TrainSimulationManager : MonoBehaviour
 {
     [Header("Trigger Area")]
-    public TriggerZoneSpriteHandler triggerZone;
+    public SimulationZone triggerZone;      // ← changed from TriggerZone
 
     [Header("Train Settings")]
-    public GameObject trainPrefab;
+    public GameObject train;
 
     [Header("Barrier Rod")]
     public Transform barrierRod;
@@ -18,35 +18,31 @@ public class TrainSimulationManager : MonoBehaviour
     public float rodRaiseDuration = 1.5f;
 
     [Header("Reset Settings")]
-    public float delayBeforeReset = 3f;   // ⏳ Delay before barrier closes
+    public float delayBeforeReset = 3f;
 
     [Header("Player Car")]
     public Car car;
 
-    // internal state
     private bool carInside = false;
     private bool rodRaised = false;
 
     private Coroutine rodRoutine;
     private Coroutine resetRoutine;
 
-    // saved initial states
     private Quaternion rodInitialRotation;
     private Vector3 trainStartPosition;
     private Quaternion trainStartRotation;
 
     void Start()
     {
-        // save rod initial rotation
         if (barrierRod != null)
             rodInitialRotation = barrierRod.localRotation;
 
-        // save train initial transform
-        if (trainPrefab != null)
+        if (train != null)
         {
-            trainStartPosition = trainPrefab.transform.position;
-            trainStartRotation = trainPrefab.transform.rotation;
-            trainPrefab.SetActive(false);
+            trainStartPosition = train.transform.position;
+            trainStartRotation = train.transform.rotation;
+            train.SetActive(false);
         }
     }
 
@@ -54,22 +50,18 @@ public class TrainSimulationManager : MonoBehaviour
     {
         if (triggerZone == null) return;
 
-        TriggerZone zone = triggerZone.GetComponent<TriggerZone>();
-        if (zone == null) return;
-
-        bool isTriggered = zone.isTriggered;
-
-        if (isTriggered && !carInside)
-        {
+        // Car entered
+        if (triggerZone.isPlayerInside && !carInside)
             OnCarEntered();
-        }
-        else if (!isTriggered && carInside)
+
+        // Car exited — use justExited flag
+        if (triggerZone.justExited && carInside)
         {
+            triggerZone.ClearExitFlag();
             OnCarExited();
         }
     }
 
-    // 🚗 CAR ENTERS ZONE
     void OnCarEntered()
     {
         carInside = true;
@@ -77,25 +69,28 @@ public class TrainSimulationManager : MonoBehaviour
 
         Debug.Log("🚗 Car entered train crossing");
 
-        // enable train
-        if (trainPrefab != null)
-            trainPrefab.SetActive(true);
+        // Activate train
+        if (train != null)
+        {
+            train.transform.position = trainStartPosition;
+            train.transform.rotation = trainStartRotation;
+            train.SetActive(true);
+        }
 
-        // stop any pending reset
+        // Stop any pending reset
         if (resetRoutine != null)
         {
             StopCoroutine(resetRoutine);
             resetRoutine = null;
         }
 
-        // start barrier timer
+        // Start barrier raise timer
         if (rodRoutine != null)
             StopCoroutine(rodRoutine);
 
         rodRoutine = StartCoroutine(RaiseRodAfterDelay());
     }
 
-    // 🚗 CAR EXITS ZONE
     void OnCarExited()
     {
         carInside = false;
@@ -103,31 +98,27 @@ public class TrainSimulationManager : MonoBehaviour
         if (!rodRaised)
         {
             Debug.Log("❌ Rule broken: Car crossed before barrier opened");
-
-            car.PauseCar();
             car.MoveBackByWaypoints(3);
-            car.ResumeDriving();
         }
         else
         {
             Debug.Log("✅ Rule followed: Car waited for barrier");
         }
 
-        // ⏳ Delay before reset
         if (resetRoutine != null)
             StopCoroutine(resetRoutine);
 
         resetRoutine = StartCoroutine(ResetAfterDelay());
     }
 
-    // 🚧 BARRIER TIMER
     IEnumerator RaiseRodAfterDelay()
     {
+        // Wait for train to pass
         yield return new WaitForSeconds(waitBeforeRodUp);
 
-        if (!carInside)
-            yield break;
+        if (!carInside) yield break;
 
+        // Animate barrier rod raising
         float t = 0f;
         Quaternion start = barrierRod.localRotation;
         Quaternion target = Quaternion.Euler(
@@ -144,20 +135,17 @@ public class TrainSimulationManager : MonoBehaviour
         }
 
         rodRaised = true;
-        Debug.Log("🚧 Barrier opened — car may pass");
+        Debug.Log("🚧 Barrier raised — car may pass ✅");
     }
 
-    // ⏳ DELAYED RESET
     IEnumerator ResetAfterDelay()
     {
         yield return new WaitForSeconds(delayBeforeReset);
         ResetSimulation();
     }
 
-    // 🔄 FULL RESET
     void ResetSimulation()
     {
-        // stop coroutines
         if (rodRoutine != null)
         {
             StopCoroutine(rodRoutine);
@@ -167,16 +155,16 @@ public class TrainSimulationManager : MonoBehaviour
         carInside = false;
         rodRaised = false;
 
-        // reset barrier
+        // Reset barrier
         if (barrierRod != null)
             barrierRod.localRotation = rodInitialRotation;
 
-        // reset train
-        if (trainPrefab != null)
+        // Reset train
+        if (train != null)
         {
-            trainPrefab.SetActive(false);
-            trainPrefab.transform.position = trainStartPosition;
-            trainPrefab.transform.rotation = trainStartRotation;
+            train.SetActive(false);
+            train.transform.position = trainStartPosition;
+            train.transform.rotation = trainStartRotation;
         }
 
         Debug.Log("🔄 Train simulation reset");
