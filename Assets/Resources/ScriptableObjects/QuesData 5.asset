@@ -33,94 +33,204 @@ MonoBehaviour:
       - Allowed with police escort
       - Allowed only during the day
       answers: Vehicles with dangerous cargo are prohibited from entering
-    - questions: 
+    - questions: 123. What is the correct way to behave when approaching a vehicle
+        signaling a left turn?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the right carefully
+      - Overtake it on the left
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the right carefully
+    - questions: 124. What does the sign "No Entry for Vehicles with Toxic Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is closed
+      - Vehicles with toxic cargo are prohibited from entering
+      - Allowed with the escort of another vehicle
+      - Allowed only at night
+      answers: Vehicles with toxic cargo are prohibited from entering
+    - questions: 125. What is the correct way to behave when approaching an intersection
+        with the sign "Roundabout Ahead"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Enter quickly
+      - Always stop
+      - Enter carefully and yield
+      - Enter only if there are no vehicles on the right
+      answers: Enter carefully and yield
+    - questions: 126. What does the sign "No Entry for Vehicles with Flammable Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed for vehicles with flammable cargo if there is permission
+      - Vehicles with flammable cargo are prohibited from entering
+      - Allowed with a patrol vehicle
+      - Allowed only at night
+      answers: Vehicles with flammable cargo are prohibited from entering
+    - questions: 127. What is the correct way to behave when approaching a vehicle
+        signaling a right turn?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the left carefully
+      - Overtake it on the right
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the left carefully
+    - questions: 128. What does the sign "No Entry for Vehicles with Explosive Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured
+      - Vehicles with explosive cargo are prohibited from entering
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Vehicles with explosive cargo are prohibited from entering
+    - questions: 129. What is the correct way to behave when approaching an intersection
+        with the sign "Traffic Light Ahead"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and prepare to stop
+      - Accelerate to make it
+      - Stop immediately
+      - Ignore the traffic light
+      answers: Slow down and prepare to stop
+    - questions: 130. What does the sign "No Entry for Vehicles with Oversized Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is tied down well
+      - Vehicles with oversized cargo are prohibited from entering
+      - Allowed if escorted
+      - Allowed only during the day
+      answers: Vehicles with oversized cargo are prohibited from entering
+    - questions: 131. What is the correct way to behave when approaching an intersection
+        without signs?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Enter first if there is no traffic
+      - Yield to vehicles on the right
+      - Always stop
+      - Accelerate to avoid disrupting
+      answers: Yield to vehicles on the right
+    - questions: 132. What does the sign "No Entry for Vehicles with Height Over
+        Limit" mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is tied down well
+      - Vehicles taller than the limit are prohibited from entering
+      - Allowed with escort of another vehicle
+      - Allowed only during the day
+      answers: Vehicles taller than the limit are prohibited from entering
+    - questions: 133. What is the correct way to behave when approaching a vehicle
+        signaling to exit a parking space?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Accelerate and pass in front of it
+      - Stop and let it exit
+      - Honk to warn
+      - Pass in the opposite lane
+      answers: Stop and let it exit
+    - questions: 134. What does the sign "No Entry for Vehicles with Length Over
+        Limit" mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo extends only from the back
+      - Vehicles with cargo exceeding the limit are prohibited from entering
+      - Allowed with patrol vehicle
+      - Allowed only at night
+      answers: Vehicles with cargo exceeding the limit are prohibited from entering
+    - questions: 135. What is the correct way to behave when approaching a parked
+        vehicle with emergency lights on?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Accelerate and pass
+      - Pass carefully and keep distance
+      - Stop behind it
+      - Pass in the opposite lane
+      answers: Pass carefully and keep distance
+    - questions: 136. What does the sign "No Entry for Vehicles with Width Over Limit"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is marked with lights
+      - Vehicles wider than the limit are prohibited from entering
+      - Allowed with escort of another vehicle
+      - Allowed only during the day
+      answers: Vehicles wider than the limit are prohibited from entering
+    - questions: 137. What is the correct way to behave when approaching an intersection
+        with the sign "Yield"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Always stop
+      - Slow down and continue if there is no traffic
+      - Yield to the approaching vehicle
+      - Enter first if you are on the right
+      answers: Yield to the approaching vehicle
+    - questions: 138. What does the sign "No Entry for Vehicles with Dangerous Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is secured
+      - Vehicles with dangerous cargo are prohibited from entering
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Vehicles with dangerous cargo are prohibited from entering
+    - questions: 139. What is the correct way to behave when approaching a vehicle
+        signaling a left turn at an intersection?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the right carefully
+      - Overtake it on the left
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the right carefully
+    - questions: 140. What does the sign "No Entry for Vehicles with Toxic Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed if the cargo is closed
+      - Vehicles with toxic cargo are prohibited from entering
+      - Allowed with escort of another vehicle
+      - Allowed only at night
+      answers: Vehicles with toxic cargo are prohibited from entering
+    - questions: 141. What is the correct way to behave when approaching a vehicle
+        signaling a right turn?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Overtake it on the left carefully
+      - Overtake it on the right
+      - Accelerate and pass in front of it
+      - Stop behind it
+      answers: Overtake it on the left carefully
+    - questions: 142. What does the sign "No Entry for Vehicles with Flammable Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Allowed for vehicles with flammable cargo if there is permission
+      - Vehicles with flammable cargo are prohibited from entering
+      - Allowed with a patrol vehicle
+      - Allowed only at night
+      answers: Vehicles with flammable cargo are prohibited from entering
+    - questions: 143. What is the correct way to behave when approaching an intersection
+        with the sign "Traffic Light Ahead"?
       emogis: []
-      options: []
-      answers: 
-    - questions: 
+      options:
+      - Slow down and prepare to stop
+      - Accelerate to make it
+      - Stop immediately
+      - Ignore the traffic light
+      answers: Slow down and prepare to stop
+    - questions: 144. What does the sign "No Entry for Vehicles with Explosive Cargo"
+        mean?
       emogis: []
-      options: []
-      answers: 
+      options:
+      - Allowed if the cargo is secured
+      - Vehicles with explosive cargo are prohibited from entering
+      - Allowed with police escort
+      - Allowed only during the day
+      answers: Vehicles with explosive cargo are prohibited from entering
     - questions: 
       emogis: []
       options: []
