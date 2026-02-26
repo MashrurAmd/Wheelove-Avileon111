@@ -28,7 +28,9 @@ public class QuestionUISet
 public class QuestionManager : MonoBehaviour
 {
     [Header("Data")]
-    public QuesData quesData;
+    public QuesData englishQuesData;    // ← assign English scriptable object
+    public QuesData hebrewQuesData;
+
 
     [Header("UI Sets")]
     public QuestionUISet portraitUI;
@@ -63,6 +65,8 @@ public class QuestionManager : MonoBehaviour
     bool lastLandscape;
 
 
+    private QuesData quesData;
+
 
 
 
@@ -90,7 +94,12 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        // Reassign scene objects
+        // Pick language based on selection
+        if (LocalizationManager.isHebrew && hebrewQuesData != null)
+            quesData = hebrewQuesData;
+        else
+            quesData = englishQuesData;
+
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
         soundManager = FindObjectOfType<SoundManager>();
