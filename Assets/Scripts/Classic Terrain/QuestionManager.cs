@@ -238,7 +238,8 @@ public class QuestionManager : MonoBehaviour
         ui.questionText.text = qa.questions;
 
         //ui.tts.Speak(qa.questions);     // tts added here
-        AndroidTTS.instance.Speak(qa.questions);
+        //AndroidTTS.instance.Speak(qa.questions);
+        StartCoroutine(SpeakQuestionAndOptions(qa));
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
@@ -268,6 +269,34 @@ public class QuestionManager : MonoBehaviour
             {
                 ui.emojisImages[i].gameObject.SetActive(false);
             }
+        }
+    }
+
+    // tts method to speak question and options sequentially with dynamic timing
+    IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
+    {
+        if (AndroidTTS.instance == null)
+            yield break;
+
+        // 🔹 Speak Question First
+        AndroidTTS.instance.Speak(qa.questions);
+
+        // Wait depending on question length (dynamic delay)
+        float questionDelay = Mathf.Clamp(qa.questions.Length * 0.05f, 2f, 6f);
+        yield return new WaitForSeconds(questionDelay);
+
+        // 🔹 Speak Options One By One
+        for (int i = 0; i < qa.options.Count; i++)
+        {
+            string optionText = qa.options[i];
+
+            // Optional: Add numbering voice
+            string speakText = "Option " + (i + 1) + ". " + optionText;
+
+            AndroidTTS.instance.Speak(speakText);
+
+            float optionDelay = Mathf.Clamp(optionText.Length * 0.05f, 1.5f, 4f);
+            yield return new WaitForSeconds(optionDelay);
         }
     }
 
