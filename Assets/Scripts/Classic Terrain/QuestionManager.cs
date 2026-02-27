@@ -67,6 +67,9 @@ public class QuestionManager : MonoBehaviour
 
     private QuesData quesData;
 
+    //Shuffling mechanism 
+    private List<QuesAnswer> shuffledQuestions = new List<QuesAnswer>();
+
 
 
 
@@ -94,7 +97,6 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        // Pick language based on selection
         if (LocalizationManager.isHebrew && hebrewQuesData != null)
             quesData = hebrewQuesData;
         else
@@ -104,8 +106,28 @@ public class QuestionManager : MonoBehaviour
         gasBar = FindObjectOfType<GasBar>();
         soundManager = FindObjectOfType<SoundManager>();
 
+        ShuffleQuestions();
+
         UpdateScoreUI();
         UpdateWrongAnswersUI();
+    }
+
+    void ShuffleQuestions()
+    {
+        if (quesData == null || levelTestIndex >= quesData.tests.Count) return;
+
+        shuffledQuestions = new List<QuesAnswer>(quesData.tests[levelTestIndex].quesAnswers);
+
+        // Fisher-Yates shuffle
+        for (int i = shuffledQuestions.Count - 1; i > 0; i--)
+        {
+            int rand = Random.Range(0, i + 1);
+            QuesAnswer temp = shuffledQuestions[i];
+            shuffledQuestions[i] = shuffledQuestions[rand];
+            shuffledQuestions[rand] = temp;
+        }
+
+        Debug.Log($"Questions shuffled: {shuffledQuestions.Count} total");
     }
 
 
@@ -174,17 +196,15 @@ public class QuestionManager : MonoBehaviour
     {
         if (isSceneUnloading) return;
         if (ui == null || ui.questionPanel == null) return;
-        if (levelTestIndex >= quesData.tests.Count) return;
+        if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
 
-        var test = quesData.tests[levelTestIndex];
-
-        if (currentQuestionIndex >= test.quesAnswers.Count)
+        if (currentQuestionIndex >= shuffledQuestions.Count)
         {
             StartNextTest();
             return;
         }
 
-        ShowQuestion(test.quesAnswers[currentQuestionIndex]);
+        ShowQuestion(shuffledQuestions[currentQuestionIndex]);
     }
 
     void ShowQuestion(QuesAnswer qa)
@@ -322,7 +342,7 @@ public class QuestionManager : MonoBehaviour
 
         isCountingDown = false;
 
-        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
+        var qa = shuffledQuestions[currentQuestionIndex];
 
         string selectedOption = "";
 
@@ -341,14 +361,13 @@ public class QuestionManager : MonoBehaviour
 
             if (car != null)
             {
-                car.MoveBackByWaypoints(3); // same penalty
-                car.ResumeDriving();        // ⭐ IMPORTANT
+                car.MoveBackByWaypoints(3);
+                car.ResumeDriving();
             }
 
             StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
-
 
         bool isCorrect = selectedOption.Trim().ToLower() ==
                          qa.answers.Trim().ToLower();
@@ -369,35 +388,32 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            if (!isCorrect)
+            ui.answerText.text = "Wrong Answer!";
+            life--;
+            UpdateWrongAnswersUI();
+
+            if (car != null)
             {
-                ui.answerText.text = "Wrong Answer!";
-                life--;
-                UpdateWrongAnswersUI();
+                wrongAnswerCount++;
 
-                if (car != null)
+                if (wrongAnswerCount == 1)
                 {
-                    wrongAnswerCount++; // increment wrong answer counter
-
-                    if (wrongAnswerCount == 1)
-                    {
-                        car.MoveBackByWaypoints(3); // 1st wrong answer
-                    }
-                    else if (wrongAnswerCount == 2)
-                    {
-                        car.MoveBackByWaypoints(7); // 2nd wrong answer
-                    }
-                    else
-                    {
-                        car.RespawnAtStart(); // 3rd wrong answer → reset to start
-                    }
-
-                    car.ResumeDriving();
+                    car.MoveBackByWaypoints(3);
+                }
+                else if (wrongAnswerCount == 2)
+                {
+                    car.MoveBackByWaypoints(7);
+                }
+                else
+                {
+                    car.RespawnAtStart();
                 }
 
-                if (life <= 0)
-                    StartCoroutine(RestartAfterDelay());
+                car.ResumeDriving();
             }
+
+            if (life <= 0)
+                StartCoroutine(RestartAfterDelay());
         }
 
         StartCoroutine(HideQuestionPanelAfterDelay());
@@ -464,21 +480,19 @@ public class QuestionManager : MonoBehaviour
 
     public void OnSceneReloaded()
     {
-        // Reassign scene-specific references
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
         soundManager = FindObjectOfType<SoundManager>();
 
-        // Reset question/level variables
         currentQuestionIndex = 0;
         wrongAnswerCount = 0;
         life = 3;
         score = 0;
 
+        ShuffleQuestions(); // ← reshuffle on restart so order is fresh
+
         UpdateScoreUI();
         UpdateWrongAnswersUI();
-
-        // DO NOT call ShowNextQuestion here
     }
 
 }
