@@ -402,7 +402,7 @@ public class QuestionManager : MonoBehaviour
                 }
                 else if (wrongAnswerCount == 2)
                 {
-                    car.MoveBackByWaypoints(7);
+                    car.MoveBackByWaypoints(5);
                 }
                 else
                 {
