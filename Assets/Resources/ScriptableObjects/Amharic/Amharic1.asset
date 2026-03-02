@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8231245e4999eb498c6af83841371fe, type: 3}
+  m_Name: Amharic1
+  m_EditorClassIdentifier: 
+  tests:
+  - testsName: Test1
+    quesAnswers:
+    - questions: "\u12E8\u1273\u1238\u1308 \u121D\u120D\u12AD\u1275 \u12E8\u121A\u1296\u1228\u12CD
+        \u121D\u1295\u12F5\u1290\u12CD?"
+      emogis:
+      - {fileID: 21300000, guid: fa182ec81646441458428f2a864c04f7, type: 3}
+      - {fileID: 21300000, guid: a59c751899265e44ba12fb530db69ffe, type: 3}
+      options:
+      - "\u12A0. \u12C8\u12F0 \u130D\u121D\u1263\u122D \u1218\u130D\u1263\u1275 \u1270\u1348\u1245\u12F6
+        \u1290\u12CD "
+      - "\u1262. \u12C8\u12F0 \u121B\u1295\u129B\u12CD\u121D \u12E8\u121A\u1290\u1243\u1243
+        \u1218\u130D\u1263\u1275 \u12A0\u120D\u1270\u1348\u1240\u12F0\u121D "
+      - "\u130D. \u12C8\u12F0 \u1205\u12DD\u1263\u12CA \u1218\u12AA\u1293 \u1218\u130D\u1263\u1275
+        \u1270\u1348\u1245\u12F6 \u1290\u12CD "
+      - "\u12F5. \u12C8\u12F0 \u1201\u1208\u1275 \u12C8\u122D\u1245 \u1218\u12AA\u1293
+        \u1265\u127B \u1218\u130D\u1263\u1275 \u1270\u1348\u1245\u12F6 \u1290\u12CD "
+      answers: "\u25A1. \u25A1\u25A1 \u25A1\u25A1\u25A1\u25A1\u25A1 \u25A1\u25A1\u25A1\u25A1\u25A1
+        \u25A1\u25A1\u25A1\u25A1 \u25A1\u25A1\u25A1\u25A1\u25A1\u25A1\u25A1 "
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
+    - questions: 
+      emogis: []
+      options: []
+      answers: 
