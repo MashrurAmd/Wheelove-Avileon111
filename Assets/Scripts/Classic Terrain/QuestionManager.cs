@@ -293,30 +293,52 @@ public class QuestionManager : MonoBehaviour
     }
 
     // tts method to speak question and options sequentially with dynamic timing
+    //IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
+    //{
+    //    if (AndroidTTS.instance == null)
+    //        yield break;
+
+    //    // 🔹 Speak Question First
+    //    AndroidTTS.instance.Speak(qa.questions);
+
+    //    // Wait depending on question length (dynamic delay)
+    //    float questionDelay = Mathf.Clamp(qa.questions.Length * 0.05f, 2f, 6f);
+    //    yield return new WaitForSeconds(questionDelay);
+
+    //    // 🔹 Speak Options One By One
+    //    for (int i = 0; i < qa.options.Count; i++)
+    //    {
+    //        string optionText = qa.options[i];
+
+    //        // Optional: Add numbering voice
+    //        string speakText = "Option " + (i + 1) + ". " + optionText;
+
+    //        AndroidTTS.instance.Speak(speakText);
+
+    //        float optionDelay = Mathf.Clamp(optionText.Length * 0.05f, 1.5f, 4f);
+    //        yield return new WaitForSeconds(optionDelay);
+    //    }
+    //}
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
         if (AndroidTTS.instance == null)
             yield break;
 
-        // 🔹 Speak Question First
+        // 🔹 Speak Question
         AndroidTTS.instance.Speak(qa.questions);
 
-        // Wait depending on question length (dynamic delay)
-        float questionDelay = Mathf.Clamp(qa.questions.Length * 0.05f, 2f, 6f);
-        yield return new WaitForSeconds(questionDelay);
+        // wait for question speech
+        yield return new WaitForSeconds(4f);
 
-        // 🔹 Speak Options One By One
+        // 🔹 Speak Options
         for (int i = 0; i < qa.options.Count; i++)
         {
             string optionText = qa.options[i];
 
-            // Optional: Add numbering voice
-            string speakText = "Option " + (i + 1) + ". " + optionText;
+            AndroidTTS.instance.Speak(optionText);
 
-            AndroidTTS.instance.Speak(speakText);
-
-            float optionDelay = Mathf.Clamp(optionText.Length * 0.05f, 1.5f, 4f);
-            yield return new WaitForSeconds(optionDelay);
+            // wait before speaking next option
+            yield return new WaitForSeconds(3f);
         }
     }
 
@@ -338,6 +360,9 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
+        if (AndroidTTS.instance != null)
+            AndroidTTS.instance.Stop();
+
         if (isSceneUnloading) return;
 
         isCountingDown = false;
