@@ -10,6 +10,13 @@ public class LocalizedText : MonoBehaviour
     [Header("Hebrew")]
     public string hebrewText;
 
+    [Header("Russian")]
+    public string russianText;
+
+    [Header("Arabic")]
+    public string arabicText;
+
+
     private TMP_Text tmpText;
     private Text uiText;
 
@@ -28,7 +35,27 @@ public class LocalizedText : MonoBehaviour
 
     public void Refresh()
     {
-        string display = LocalizationManager.isHebrew ? hebrewText : englishText;
+        string display = englishText;
+
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Hebrew:
+                display = hebrewText;
+                break;
+
+            case LocalizationManager.Language.Russian:
+                display = russianText;
+                break;
+
+            case LocalizationManager.Language.Arabic:
+                display = arabicText;
+                break;
+
+            case LocalizationManager.Language.English:
+            default:
+                display = englishText;
+                break;
+        }
 
         if (tmpText != null) tmpText.text = display;
         else if (uiText != null) uiText.text = display;

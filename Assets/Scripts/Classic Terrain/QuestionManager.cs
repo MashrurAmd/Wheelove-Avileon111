@@ -28,8 +28,10 @@ public class QuestionUISet
 public class QuestionManager : MonoBehaviour
 {
     [Header("Data")]
-    public QuesData englishQuesData;    // ← assign English scriptable object
+    public QuesData englishQuesData;
     public QuesData hebrewQuesData;
+    public QuesData russianQuesData;
+    public QuesData arabicQuesData;
 
 
     [Header("UI Sets")]
@@ -97,10 +99,24 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        if (LocalizationManager.isHebrew && hebrewQuesData != null)
-            quesData = hebrewQuesData;
-        else
-            quesData = englishQuesData;
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Hebrew:
+                quesData = hebrewQuesData != null ? hebrewQuesData : englishQuesData;
+                break;
+
+            case LocalizationManager.Language.Russian:
+                quesData = russianQuesData != null ? russianQuesData : englishQuesData;
+                break;
+
+            case LocalizationManager.Language.Arabic:
+                quesData = arabicQuesData != null ? arabicQuesData : englishQuesData;
+                break;
+
+            default:
+                quesData = englishQuesData;
+                break;
+        }
 
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
