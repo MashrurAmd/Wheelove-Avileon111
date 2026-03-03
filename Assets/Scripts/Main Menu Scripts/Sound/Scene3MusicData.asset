@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07536b47a062dc140b9ea8973acb38d5, type: 3}
   m_Name: Scene3MusicData
   m_EditorClassIdentifier: 
-  sceneName: 
-  playlist: []
+  sceneName: lvl 3
+  playlist:
+  - {fileID: 8300000, guid: 5bfc212cf2bca154bbea39f9e657b603, type: 3}
+  - {fileID: 8300000, guid: 987606891f7d51a45800aafda17b7214, type: 3}
+  - {fileID: 8300000, guid: 34432f44d2bbfe84c9099784678ae2d5, type: 3}
+  - {fileID: 8300000, guid: 91056f8b402aff34dabab97dd57d6e6d, type: 3}

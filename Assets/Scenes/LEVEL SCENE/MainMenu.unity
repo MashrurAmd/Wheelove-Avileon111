@@ -2923,7 +2923,7 @@ MonoBehaviour:
   sfxOffIcon: {fileID: 4958688737840314829}
   musicButtonText: {fileID: 7269984506900296184}
   sfxButtonText: {fileID: 8311535904531665896}
-  sceneMusicDatabase: {fileID: 0}
+  sceneMusicDatabase: {fileID: 11400000, guid: 313c57fad46f9fd419fae0de1b02db37, type: 2}
 --- !u!4 &697095728
 Transform:
   m_ObjectHideFlags: 0
