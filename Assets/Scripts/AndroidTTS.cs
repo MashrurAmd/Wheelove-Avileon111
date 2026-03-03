@@ -9,7 +9,8 @@ public class AndroidTTS : MonoBehaviour
     private AndroidJavaObject activity;
     private bool isReady = false;
 
-    private bool isEnabled = false;
+    //private bool isEnabled = false;
+    private bool isEnabled = true;
 
     [Header("UI Buttons")]
     public Button onButton;

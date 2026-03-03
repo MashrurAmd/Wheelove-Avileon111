@@ -2910,7 +2910,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 697095725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49212eae6cfa64543a3b440092a8d7cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 24eb0ce6b4fdfec48be0476974715f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testMusicData: {fileID: 11400000, guid: fbb7a3dd9e79756409d0c0de8f67a936, type: 2}
@@ -2923,6 +2923,7 @@ MonoBehaviour:
   sfxOffIcon: {fileID: 4958688737840314829}
   musicButtonText: {fileID: 7269984506900296184}
   sfxButtonText: {fileID: 8311535904531665896}
+  sceneMusicDatabase: {fileID: 0}
 --- !u!4 &697095728
 Transform:
   m_ObjectHideFlags: 0
