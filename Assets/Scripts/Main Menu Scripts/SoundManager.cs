@@ -71,24 +71,6 @@ public class SoundManager : MonoBehaviour
         PlaySceneMusic();
     }
 
-    // 3-3-26: New method to play a playlist of music tracks in sequence
-    //public void PlayMusicPlaylist(List<string> musicNames)
-    //{
-    //    if (musicMuted || testMusicData == null || musicNames == null || musicNames.Count == 0)
-    //        return;
-
-    //    // Stop previous playlist
-    //    if (playlistCoroutine != null)
-    //        StopCoroutine(playlistCoroutine);
-
-    //    playlistCoroutine = StartCoroutine(PlayPlaylistCoroutine(musicNames));
-    //}
-    //public void PlayMusicPlaylist(List<AudioClip> playlist)
-    //{
-    //    currentPlaylist = playlist;
-    //    currentTrackIndex = 0;
-    //    PlayCurrentTrack();
-    //}
     public void PlayMusicPlaylist(List<AudioClip> playlist)
     {
         if (playlistCoroutine != null)
@@ -139,34 +121,7 @@ public class SoundManager : MonoBehaviour
                 currentTrackIndex = 0;
         }
     }
-    // 3-3-26: Coroutine to handle playlist playback
-    //private IEnumerator PlayPlaylistCoroutine(List<string> musicNames)
-    //{
-    //    int index = 0;
-
-    //    while (true) // infinite loop playlist
-    //    {
-    //        string musicName = musicNames[index];
-
-    //        AudioEntry entry = testMusicData.allMusic
-    //            .Find(x => x.audioName == musicName);
-
-    //        if (entry != null && entry.clip != null)
-    //        {
-    //            musicSource.Stop();
-    //            musicSource.clip = entry.clip;
-    //            musicSource.loop = false; // Important: disable loop
-    //            musicSource.Play();
-
-    //            yield return new WaitForSeconds(entry.clip.length);
-    //        }
-
-    //        index++;
-    //        if (index >= musicNames.Count)
-    //            index = 0; // restart playlist
-    //    }
-    //}
-
+   
     // 3-3-26
     public void PlaySceneMusic()
     {
