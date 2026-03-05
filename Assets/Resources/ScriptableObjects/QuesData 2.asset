@@ -15,7 +15,7 @@ MonoBehaviour:
   tests:
   - testsName: Test 2
     quesAnswers:
-    - questions: 1. What should you do when approaching an intersection with a "Yield"
+    - questions: What should you do when approaching an intersection with a "Yield"
         sign?
       emogis: []
       options:
@@ -24,7 +24,7 @@ MonoBehaviour:
       - Yield to the vehicle approaching from the blocked direction
       - Yield to any vehicle approaching the intersection
       answers: Yield to any vehicle approaching the intersection
-    - questions: 2 What is the correct way to drive when approaching a railway crossing
+    - questions: What is the correct way to drive when approaching a railway crossing
         without a barrier?
       emogis: []
       options:
@@ -33,7 +33,7 @@ MonoBehaviour:
       - Accelerate to pass quickly
       - Honk to warn the train
       answers: Slow down, look both ways, and proceed with caution
-    - questions: 3. What does a "No Parking" sign mean?
+    - questions: What does a "No Parking" sign mean?
       emogis: []
       options:
       - Parking is allowed only at night
@@ -41,7 +41,7 @@ MonoBehaviour:
       - No parking is allowed at any time
       - Parking is allowed if there is no additional sign
       answers: No parking is allowed at any time
-    - questions: 4. What is the correct way to drive when approaching a school?
+    - questions: What is the correct way to drive when approaching a school?
       emogis: []
       options:
       - Slow down and be prepared to stop
@@ -49,7 +49,7 @@ MonoBehaviour:
       - Honk to warn children
       - Drive in the left lane
       answers: Slow down and be prepared to stop
-    - questions: 5. What is the danger of driving too slowly?
+    - questions: What is the danger of driving too slowly?
       emogis: []
       options:
       - There is no danger at all
@@ -57,7 +57,7 @@ MonoBehaviour:
       - It saves fuel
       - It improves reaction time
       answers: It may cause dangerous overtaking
-    - questions: 6. What is the correct way to drive when approaching a parked vehicle
+    - questions: What is the correct way to drive when approaching a parked vehicle
         on the side of the road?
       emogis: []
       options:
@@ -66,7 +66,7 @@ MonoBehaviour:
       - Keep a distance and pass carefully
       - Honk to warn the driver
       answers: Keep a distance and pass carefully
-    - questions: 7. What does a "No Entry for Bicycles" sign mean?
+    - questions: What does a "No Entry for Bicycles" sign mean?
       emogis: []
       options:
       - Bicycles are allowed only at night
@@ -74,7 +74,7 @@ MonoBehaviour:
       - Bicycles are not allowed in this area
       - Bicycles are allowed if there is a path
       answers: Bicycles are not allowed in this area
-    - questions: 8. What is the correct way to drive when approaching an intersection
+    - questions: What is the correct way to drive when approaching an intersection
         with a flashing yellow traffic light?
       emogis: []
       options:
@@ -83,7 +83,7 @@ MonoBehaviour:
       - Accelerate to pass quickly
       - Ignore the traffic light
       answers: Slow down and drive carefully
-    - questions: 9. What is the correct way to drive when approaching a vehicle signaling
+    - questions: What is the correct way to drive when approaching a vehicle signaling
         to overtake?
       emogis: []
       options:
@@ -92,7 +92,7 @@ MonoBehaviour:
       - Move to the left lane
       - Honk to warn
       answers: Slow down and allow it to overtake
-    - questions: 10. What does a "No Entry for Heavy Vehicles" sign mean?
+    - questions: ' What does a "No Entry for Heavy Vehicles" sign mean?'
       emogis: []
       options:
       - Private vehicles are allowed only
@@ -100,8 +100,8 @@ MonoBehaviour:
       - Vehicles weighing above the limit are not allowed
       - Public vehicles are allowed only
       answers: Vehicles weighing above the limit are not allowed
-    - questions: 11. What is the correct way to drive when approaching an intersection
-        with a "Stop" sign?
+    - questions: ' What is the correct way to drive when approaching an intersection
+        with a "Stop" sign?'
       emogis: []
       options:
       - Slow down and proceed carefully
@@ -109,7 +109,7 @@ MonoBehaviour:
       - Come to a complete stop and yield
       - Accelerate to avoid disturbing
       answers: Come to a complete stop and yield
-    - questions: 12. What does a "No Entry for Two-Wheeled Vehicles" sign mean?
+    - questions: ' What does a "No Entry for Two-Wheeled Vehicles" sign mean?'
       emogis: []
       options:
       - Only two-wheeled vehicles are allowed
@@ -117,8 +117,8 @@ MonoBehaviour:
       - Two-wheeled vehicles are allowed if there is no additional sign
       - Two-wheeled vehicles are allowed only at night
       answers: Two-wheeled vehicles are not allowed to enter
-    - questions: 13. What is the correct way to drive when approaching a vehicle
-        signaling to turn left?
+    - questions: ' What is the correct way to drive when approaching a vehicle signaling
+        to turn left?'
       emogis: []
       options:
       - Overtake it on the right carefully
@@ -126,7 +126,7 @@ MonoBehaviour:
       - Accelerate and pass in front of it
       - Honk to warn
       answers: Overtake it on the right carefully
-    - questions: 14. What does a "No Entry for Vehicles with Trailers" sign mean?
+    - questions: ' What does a "No Entry for Vehicles with Trailers" sign mean?'
       emogis: []
       options:
       - Light trailers are allowed
@@ -134,7 +134,7 @@ MonoBehaviour:
       - Only commercial vehicles are allowed
       - Allowed if the trailer is empty
       answers: Vehicles with trailers are not allowed to enter
-    - questions: 15. What is the correct way to drive when approaching a hidden crosswalk?
+    - questions: ' What is the correct way to drive when approaching a hidden crosswalk?'
       emogis: []
       options:
       - Slow down and be prepared to stop
@@ -142,7 +142,7 @@ MonoBehaviour:
       - Honk to warn
       - Drive in the left lane
       answers: Slow down and be prepared to stop
-    - questions: 16. What does a "No Entry for Public Vehicles" sign mean?
+    - questions: ' What does a "No Entry for Public Vehicles" sign mean?'
       emogis: []
       options:
       - Only private vehicles are allowed
@@ -150,8 +150,8 @@ MonoBehaviour:
       - Public vehicles are allowed if there is no additional sign
       - Public vehicles are allowed with permission
       answers: Only private vehicles are allowed
-    - questions: 17. What is the correct way to drive when approaching a parked vehicle
-        with an open door?
+    - questions: ' What is the correct way to drive when approaching a parked vehicle
+        with an open door?'
       emogis: []
       options:
       - Pass as closely as possible
@@ -159,8 +159,8 @@ MonoBehaviour:
       - Honk to warn
       - Accelerate and pass quickly
       answers: Slow down and pass carefully
-    - questions: 18. What does a "No Entry for Vehicles with Hazardous Materials"
-        sign mean?
+    - questions: ' What does a "No Entry for Vehicles with Hazardous Materials" sign
+        mean?'
       emogis: []
       options:
       - Vehicles with fuel are allowed only
@@ -168,8 +168,8 @@ MonoBehaviour:
       - Vehicles with special permission are allowed
       - Allowed only at night
       answers: Vehicles with hazardous materials are not allowed to enter
-    - questions: 19. What is the correct way to drive when approaching an intersection
-        with a "Roundabout" sign?
+    - questions: ' What is the correct way to drive when approaching an intersection
+        with a "Roundabout" sign?'
       emogis: []
       options:
       - Enter quickly
@@ -177,8 +177,8 @@ MonoBehaviour:
       - Enter carefully and yield
       - Enter only if there is no vehicle on the right
       answers: Enter carefully and yield
-    - questions: 20. What does a "No Entry for Vehicles Above a Certain Height" sign
-        mean?
+    - questions: ' What does a "No Entry for Vehicles Above a Certain Height" sign
+        mean?'
       emogis: []
       options:
       - Tall vehicles are allowed if there is no additional sign
@@ -186,8 +186,8 @@ MonoBehaviour:
       - Public vehicles only
       - Allowed with a police escort
       answers: Vehicles taller than the limit are not allowed to enter
-    - questions: 21. What is the correct way to drive when approaching a vehicle
-        signaling to exit a parking space?
+    - questions: ' What is the correct way to drive when approaching a vehicle signaling
+        to exit a parking space?'
       emogis: []
       options:
       - Accelerate and pass in front of it
@@ -195,8 +195,8 @@ MonoBehaviour:
       - Honk to warn
       - Pass in the opposite lane
       answers: Stop and let it exit
-    - questions: 22. What does a "No Entry for Vehicles Over a Certain Weight" sign
-        mean?
+    - questions: ' What does a "No Entry for Vehicles Over a Certain Weight" sign
+        mean?'
       emogis: []
       options:
       - Heavy vehicles are allowed if there is no additional sign
@@ -204,8 +204,8 @@ MonoBehaviour:
       - Public vehicles only
       - Allowed only at night
       answers: Vehicles weighing above the limit are not allowed to enter
-    - questions: 23. What is the correct way to drive when approaching an intersection
-        with a "One-Way Traffic" sign?
+    - questions: ' What is the correct way to drive when approaching an intersection
+        with a "One-Way Traffic" sign?'
       emogis: []
       options:
       - Drive only in the direction of the arrow
@@ -213,8 +213,8 @@ MonoBehaviour:
       - Allowed to turn left only
       - Allowed to turn right only
       answers: Drive only in the direction of the arrow
-    - questions: 24. What does a "No Entry for Vehicles with Oversized Loads" sign
-        mean?
+    - questions: ' What does a "No Entry for Vehicles with Oversized Loads" sign
+        mean?'
       emogis: []
       options:
       - Allowed if the load is secured well
@@ -222,8 +222,8 @@ MonoBehaviour:
       - Allowed if there is an escort
       - Allowed only during the day
       answers: Vehicles with loads exceeding the limit are not allowed to enter
-    - questions: 25. What is the correct way to drive when approaching a vehicle
-        signaling to turn right?
+    - questions: ' What is the correct way to drive when approaching a vehicle signaling
+        to turn right?'
       emogis: []
       options:
       - Overtake it on the left carefully
@@ -231,8 +231,8 @@ MonoBehaviour:
       - Accelerate and pass in front of it
       - Stop behind it
       answers: Overtake it on the left carefully
-    - questions: 26. What does a "No Entry for Vehicles with Flammable Cargo" sign
-        mean?
+    - questions: ' What does a "No Entry for Vehicles with Flammable Cargo" sign
+        mean?'
       emogis: []
       options:
       - Allowed for vehicles with flammable cargo if there is permission
@@ -240,8 +240,8 @@ MonoBehaviour:
       - Allowed with an escort
       - Allowed only at night
       answers: Vehicles with flammable cargo are not allowed to enter
-    - questions: 27. What is the correct way to drive when approaching an intersection
-        with a "Traffic Light Ahead" sign?
+    - questions: ' What is the correct way to drive when approaching an intersection
+        with a "Traffic Light Ahead" sign?'
       emogis: []
       options:
       - Slow down and prepare to stop
@@ -249,8 +249,8 @@ MonoBehaviour:
       - Stop immediately
       - Ignore the traffic light
       answers: Slow down and prepare to stop
-    - questions: 28. What does a "No Entry for Vehicles with Explosive Cargo" sign
-        mean?
+    - questions: ' What does a "No Entry for Vehicles with Explosive Cargo" sign
+        mean?'
       emogis: []
       options:
       - Allowed if the cargo is secured
@@ -258,8 +258,8 @@ MonoBehaviour:
       - Allowed with police escort
       - Allowed only during the day
       answers: Vehicles with explosive cargo are not allowed to enter
-    - questions: 29. What is the correct way to drive when approaching a vehicle
-        signaling to turn left at an intersection?
+    - questions: ' What is the correct way to drive when approaching a vehicle signaling
+        to turn left at an intersection?'
       emogis: []
       options:
       - Overtake it on the right carefully
@@ -267,7 +267,7 @@ MonoBehaviour:
       - Accelerate and pass in front of it
       - Stop behind it
       answers: Overtake it on the right carefully
-    - questions: 30. What does a "No Entry for Vehicles with Toxic Cargo" sign mean?
+    - questions: ' What does a "No Entry for Vehicles with Toxic Cargo" sign mean?'
       emogis: []
       options:
       - Allowed if the cargo is closed
