@@ -15,7 +15,7 @@ MonoBehaviour:
   tests:
   - testsName: Test 1
     quesAnswers:
-    - questions: 1. What does the following traffic sign mean?
+    - questions: What does the following traffic sign mean?
       emogis:
       - {fileID: 21300000, guid: a59c751899265e44ba12fb530db69ffe, type: 3}
       - {fileID: 21300000, guid: fa182ec81646441458428f2a864c04f7, type: 3}
@@ -25,7 +25,7 @@ MonoBehaviour:
       - Entry permitted for public vehicles
       - Entry permitted for two-wheeled vehicles only
       answers: ' No entry for motor vehicles'
-    - questions: 2. What should you do when approaching a crosswalk with a pedestrian
+    - questions: What should you do when approaching a crosswalk with a pedestrian
         intending to cross?
       emogis: []
       options:
@@ -34,7 +34,7 @@ MonoBehaviour:
       - Stop and allow them to cross
       - Carefully overtake the pedestrian
       answers: Stop and allow them to cross
-    - questions: 3. What is the maximum speed allowed on an urban road if not specified
+    - questions: What is the maximum speed allowed on an urban road if not specified
         otherwise?
       emogis: []
       options:
@@ -43,7 +43,7 @@ MonoBehaviour:
       - 70 km/h
       - 50 km/h
       answers: 50 km/h
-    - questions: 4. What is the role of the ABS system in a vehicle?
+    - questions: ' What is the role of the ABS system in a vehicle?'
       emogis: []
       options:
       - To save fuel
@@ -51,7 +51,7 @@ MonoBehaviour:
       - To improve vehicle speed
       - To activate the airbags
       answers: To prevent wheel lock during braking
-    - questions: 5. How can you identify a warning sign?
+    - questions: How can you identify a warning sign?
       emogis: []
       options:
       - Blue circle with a symbol
@@ -59,8 +59,8 @@ MonoBehaviour:
       - Triangle with a red border
       - Yellow rectangle with a black stripe
       answers: Triangle with a red border
-    - questions: 6. What is your obligation when you see an approaching emergency
-        vehicle with flashing lights?
+    - questions: What is your obligation when you see an approaching emergency vehicle
+        with flashing lights?
       emogis:
       - {fileID: 21300000, guid: 040605442d212674d9239d329b6672ac, type: 3}
       options:
@@ -69,7 +69,7 @@ MonoBehaviour:
       - Slow down and drive on the shoulder
       - Speed up to avoid hindrance
       answers: Stop on the right and clear the way
-    - questions: 7. What does a double solid line mean?
+    - questions: What does a double solid line mean?
       emogis: []
       options:
       - Overtaking is allowed with caution
@@ -77,7 +77,7 @@ MonoBehaviour:
       - Crossing or overtaking is prohibited
       - Overtaking is allowed only for two-wheeled vehicles
       answers: Crossing or overtaking is prohibited
-    - questions: 8. What is the correct way to check tire pressure?
+    - questions: What is the correct way to check tire pressure?
       emogis: []
       options:
       - After driving for 10 minutes
@@ -85,7 +85,7 @@ MonoBehaviour:
       - When the tires are cold
       - Only at a gas station
       answers: When the tires are cold
-    - questions: 9. What is the danger of driving closely behind the vehicle in front
+    - questions: What is the danger of driving closely behind the vehicle in front
         of you?
       emogis: []
       options:
@@ -94,7 +94,7 @@ MonoBehaviour:
       - Wider field of vision
       - Possibility of quick overtaking
       answers: Insufficient reaction time in an emergency
-    - questions: 10. What is the role of the seatbelt?
+    - questions: ' What is the role of the seatbelt?'
       emogis: []
       options:
       - To prevent accidents
@@ -102,7 +102,7 @@ MonoBehaviour:
       - To improve driving comfort
       - To activate the airbags
       answers: To reduce injuries in an accident
-    - questions: 11. What is the correct way to change lanes?
+    - questions: What is the correct way to change lanes?
       emogis: []
       options:
       - Signal and change immediately
@@ -110,7 +110,7 @@ MonoBehaviour:
       - Check mirrors, signal, check blind spot, and change
       - Change quickly to avoid disrupting traffic
       answers: Check mirrors, signal, check blind spot, and change
-    - questions: 12. What is the role of the ESP system in a vehicle?
+    - questions: What is the role of the ESP system in a vehicle?
       emogis: []
       options:
       - To improve fuel consumption
@@ -118,7 +118,7 @@ MonoBehaviour:
       - To activate the rear brakes
       - To activate the automatic lights
       answers: To maintain vehicle stability during turns
-    - questions: 13. What is the danger of driving under the influence of alcohol?
+    - questions: What is the danger of driving under the influence of alcohol?
       emogis: []
       options:
       - Improved concentration
@@ -126,7 +126,7 @@ MonoBehaviour:
       - Increased reaction time
       - No effect on driving
       answers: Impaired judgment and reaction
-    - questions: '14. What does a stop sign mean? '
+    - questions: 'What does a stop sign mean? '
       emogis:
       - {fileID: 21300000, guid: aa2beedeba4850440ab8f11ef6377f28, type: 3}
       options:
@@ -135,7 +135,7 @@ MonoBehaviour:
       - Stop only if there is traffic
       - Allowed to proceed if there is no vehicle on the right
       answers: Stop and yield
-    - questions: 15. What is the correct way to drive in heavy rain?
+    - questions: What is the correct way to drive in heavy rain?
       emogis:
       - {fileID: 21300000, guid: 18af3929549ec9343844ce6a60ba7c4d, type: 3}
       options:
@@ -144,7 +144,7 @@ MonoBehaviour:
       - Drive on the shoulder
       - Stop on the side of the road immediately
       answers: Slow down, turn on lights, and maintain distance
-    - questions: 16. What does a "no overtaking" sign mean?
+    - questions: What does a "no overtaking" sign mean?
       emogis: []
       options:
       - Overtaking a two-wheeled vehicle is allowed
@@ -152,7 +152,7 @@ MonoBehaviour:
       - Overtaking another vehicle is prohibited
       - Overtaking is allowed if there is no additional sign
       answers: Overtaking another vehicle is prohibited
-    - questions: 17. What is the correct way to drive on a mountain road?
+    - questions: What is the correct way to drive on a mountain road?
       emogis: []
       options:
       - Drive in low gear and brake carefully
@@ -160,7 +160,7 @@ MonoBehaviour:
       - Accelerate downhill
       - Drive on the shoulder
       answers: Drive in low gear and brake carefully
-    - questions: 18. What is the role of the cruise control system?
+    - questions: What is the role of the cruise control system?
       emogis: []
       options:
       - To activate the brakes
@@ -168,7 +168,7 @@ MonoBehaviour:
       - To activate the lights
       - To activate the GPS
       answers: To maintain a constant speed
-    - questions: 19. What is the correct way to drive an automatic vehicle downhill?
+    - questions: What is the correct way to drive an automatic vehicle downhill?
       emogis: []
       options:
       - Shift to low gear
@@ -176,7 +176,7 @@ MonoBehaviour:
       - Accelerate
       - Shift to Neutral
       answers: Shift to low gear
-    - questions: 20. What is the danger of driving while tired?
+    - questions: What is the danger of driving while tired?
       emogis:
       - {fileID: 21300000, guid: e6583a37955344c4d86e77d2d841e55d, type: 3}
       options:
@@ -185,7 +185,7 @@ MonoBehaviour:
       - No effect
       - Improved reaction time
       answers: Decreased concentration and increased accident risk
-    - questions: 21. What is the correct way to drive on a slippery road?
+    - questions: What is the correct way to drive on a slippery road?
       emogis: []
       options:
       - Accelerate to avoid skidding
@@ -193,7 +193,7 @@ MonoBehaviour:
       - Brake hard at every turn
       - Drive on the shoulder
       answers: Slow down and avoid sharp movements
-    - questions: 22. What does a "main road" sign mean?
+    - questions: What does a "main road" sign mean?
       emogis: []
       options:
       - You must yield
@@ -201,7 +201,7 @@ MonoBehaviour:
       - Overtaking is allowed in any situation
       - The road is blocked to traffic
       answers: You are on a road with right of way
-    - questions: 23. What is the correct way to drive with a trailer?
+    - questions: What is the correct way to drive with a trailer?
       emogis: []
       options:
       - Drive fast to avoid disrupting
@@ -209,7 +209,7 @@ MonoBehaviour:
       - Drive only at night
       - Drive only in the left lane
       answers: Drive slowly, avoid sharp turns, and check brakes
-    - questions: 24. What does a "no entry" sign mean?
+    - questions: What does a "no entry" sign mean?
       emogis: []
       options:
       - Entry is allowed only for public vehicles
@@ -217,7 +217,7 @@ MonoBehaviour:
       - Entry in this direction is prohibited
       - Entry is allowed if there is no oncoming traffic
       answers: Entry in this direction is prohibited
-    - questions: 25. What is the correct way to drive at night?
+    - questions: What is the correct way to drive at night?
       emogis:
       - {fileID: 21300000, guid: 2405ef1fbed1c3142b8c5d37632103d2, type: 3}
       options:
@@ -226,7 +226,7 @@ MonoBehaviour:
       - Drive fast to finish quickly
       - Drive only with parking lights
       answers: Turn on lights, maintain distance, and slow down
-    - questions: 26. What is the danger of driving at excessive speed?
+    - questions: ' What is the danger of driving at excessive speed?'
       emogis: []
       options:
       - Improved reaction time
@@ -234,7 +234,7 @@ MonoBehaviour:
       - Fuel savings
       - Reduced risk of an accident
       answers: Shortened reaction time and increased accident severity
-    - questions: 27. What is the correct way to drive in heavy fog?
+    - questions: What is the correct way to drive in heavy fog?
       emogis:
       - {fileID: 21300000, guid: debc1d90464154047bfb71a5e6fb145e, type: 3}
       options:
@@ -243,7 +243,7 @@ MonoBehaviour:
       - Drive only with parking lights
       - Stop on the side of the road and wait
       answers: Turn on fog lights and slow down
-    - questions: 28. What does a "roundabout" sign mean?
+    - questions: What does a "roundabout" sign mean?
       emogis: []
       options:
       - Entry is allowed without slowing down
@@ -251,8 +251,7 @@ MonoBehaviour:
       - You must stop before entering
       - Overtaking is allowed within the roundabout
       answers: Enter with caution and yield
-    - questions: 29. What is the correct way to drive when children are near the
-        road?
+    - questions: What is the correct way to drive when children are near the road?
       emogis: []
       options:
       - Accelerate to pass quickly
@@ -260,7 +259,7 @@ MonoBehaviour:
       - Slow down and be ready to stop
       - Drive in the left lane
       answers: Slow down and be ready to stop
-    - questions: 30. What is your obligation when approaching an intersection without
+    - questions: What is your obligation when approaching an intersection without
         signs?
       emogis: []
       options:
