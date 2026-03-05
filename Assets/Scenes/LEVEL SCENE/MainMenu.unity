@@ -216,6 +216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Setting
   hebrewText: "\u05E1\u05B0\u05D1\u05B4\u05D9\u05D1\u05B8\u05D4"
+  russianText: "\u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+  arabicText: "\u062C\u0644\u0633\u0629"
 --- !u!1 &39460247
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,6 +676,141 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Change Region
   hebrewText: "\u05E9\u05E0\u05D4 \u05D0\u05D6\u05D5\u05E8"
+  russianText: "\u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u0433\u0438\u043E\u043D"
+  arabicText: "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0645\u0646\u0637\u0642\u0629"
+--- !u!1 &214664431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 214664432}
+  - component: {fileID: 214664435}
+  - component: {fileID: 214664434}
+  - component: {fileID: 214664433}
+  m_Layer: 5
+  m_Name: RUSSIAN
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &214664432
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214664431}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1719906051}
+  m_Father: {fileID: 757873869}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -265.63895, y: -713.9998}
+  m_SizeDelta: {x: 298.6151, y: 87.5331}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &214664433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214664431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 214664434}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1563277509}
+        m_TargetAssemblyTypeName: LocalizationManager, Assembly-CSharp
+        m_MethodName: SetRussian
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &214664434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214664431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: dbdcc06ecafdce643b45d039dd6cf172, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &214664435
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214664431}
+  m_CullTransparentMesh: 1
 --- !u!1 &237668008
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,6 +905,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Play
   hebrewText: "\u05DC\u05B0\u05E9\u05C2\u05B7\u05D7\u05B5\u05E7"
+  russianText: "\u0438\u0433\u0440\u0430\u0442\u044C"
+  arabicText: "\u064A\u0644\u0639\u0628"
 --- !u!1 &241188875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,7 +1571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &430180792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,6 +2543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: 'Change Mode '
   hebrewText: "\u05E9\u05E0\u05D4 \u05DE\u05E6\u05D1"
+  russianText: "\u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u0436\u0438\u043C"
+  arabicText: "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0648\u0636\u0639"
 --- !u!1 &635741425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,6 +2784,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Classic
   hebrewText: "\u05E7\u05DC\u05B7\u05D0\u05E1\u05B4\u05D9"
+  russianText: "\u041A\u043B\u0430\u0441\u0441\u0438\u0447\u0435\u0441\u043A\u0438\u0439"
+  arabicText: "\u0643\u0644\u0627\u0633\u064A\u0643\u064A"
 --- !u!1 &697095725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,7 +2910,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 697095725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49212eae6cfa64543a3b440092a8d7cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 24eb0ce6b4fdfec48be0476974715f06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testMusicData: {fileID: 11400000, guid: fbb7a3dd9e79756409d0c0de8f67a936, type: 2}
@@ -2780,6 +2923,7 @@ MonoBehaviour:
   sfxOffIcon: {fileID: 4958688737840314829}
   musicButtonText: {fileID: 7269984506900296184}
   sfxButtonText: {fileID: 8311535904531665896}
+  sceneMusicDatabase: {fileID: 11400000, guid: 313c57fad46f9fd419fae0de1b02db37, type: 2}
 --- !u!4 &697095728
 Transform:
   m_ObjectHideFlags: 0
@@ -3183,6 +3327,8 @@ RectTransform:
   - {fileID: 1969807604}
   - {fileID: 830980430}
   - {fileID: 1995636248}
+  - {fileID: 808110024}
+  - {fileID: 214664432}
   - {fileID: 1531015729}
   m_Father: {fileID: 1902776384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3522,6 +3668,139 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &808110023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808110024}
+  - component: {fileID: 808110027}
+  - component: {fileID: 808110026}
+  - component: {fileID: 808110025}
+  m_Layer: 5
+  m_Name: ARABIC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &808110024
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808110023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1797457249}
+  m_Father: {fileID: 757873869}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 52, y: -714}
+  m_SizeDelta: {x: 298.6151, y: 87.5331}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &808110025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808110023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 808110026}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1563277509}
+        m_TargetAssemblyTypeName: LocalizationManager, Assembly-CSharp
+        m_MethodName: SetArabic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &808110026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808110023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: dbdcc06ecafdce643b45d039dd6cf172, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &808110027
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808110023}
+  m_CullTransparentMesh: 1
 --- !u!1 &830980429
 GameObject:
   m_ObjectHideFlags: 0
@@ -4039,6 +4318,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: 'Choose a mode : '
   hebrewText: "\u05D1\u05D7\u05E8 \u05DE\u05E6\u05D1:"
+  russianText: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0440\u0435\u0436\u0438\u043C:"
+  arabicText: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0648\u0636\u0639 :"
 --- !u!1 &906138680
 GameObject:
   m_ObjectHideFlags: 0
@@ -4931,6 +5212,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Blue Car
   hebrewText: "\u05DE\u05DB\u05D5\u05E0\u05D9\u05EA \u05DB\u05D7\u05D5\u05DC\u05D4"
+  russianText: "\u0441\u0438\u043D\u0438\u0439"
+  arabicText: "\u0623\u0632\u0631\u0642"
 --- !u!1 &1242843927
 GameObject:
   m_ObjectHideFlags: 0
@@ -5117,8 +5400,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 207, y: -48}
-  m_SizeDelta: {x: 325.561, y: 93.526}
+  m_AnchoredPosition: {x: 352, y: -101}
+  m_SizeDelta: {x: 275.8641, y: 79.2491}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1280771989
 MonoBehaviour:
@@ -5453,6 +5736,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: 'Magic '
   hebrewText: "\u05E7\u05B6\u05E1\u05B6\u05DD"
+  russianText: "\u043C\u0430\u0433\u0438\u044F"
+  arabicText: "\u0633\u062D\u0631"
 --- !u!1 &1362613275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5547,6 +5832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Choose the Language
   hebrewText: "\u05D1\u05D7\u05E8 \u05D0\u05EA \u05D4\u05E9\u05E4\u05D4"
+  russianText: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A"
+  arabicText: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0644\u063A\u0629"
 --- !u!1 &1395964209
 GameObject:
   m_ObjectHideFlags: 0
@@ -5795,6 +6082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Choose the Region
   hebrewText: "\u05D1\u05D7\u05E8 \u05D0\u05EA \u05D4\u05D0\u05D6\u05D5\u05E8"
+  russianText: " \u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0440\u0435\u0433\u0438\u043E\u043D"
+  arabicText: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0631\u062C\u0639\u0629"
 --- !u!1 &1461221877
 GameObject:
   m_ObjectHideFlags: 0
@@ -5996,6 +6285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Pink Car
   hebrewText: "\u05DE\u05DB\u05D5\u05E0\u05D9\u05EA \u05D5\u05E8\u05D5\u05D3\u05D4"
+  russianText: "\u0440\u043E\u0437\u043E\u0432\u044B\u0439"
+  arabicText: "\u0644\u0648\u0646 \u0627\u0644\u0642\u0631\u0646\u0641\u0644"
 --- !u!1 &1531015728
 GameObject:
   m_ObjectHideFlags: 0
@@ -6454,6 +6745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Exit
   hebrewText: "\u05D9\u05B0\u05E6\u05B4\u05D9\u05D0\u05B8\u05D4"
+  russianText: "\u0412\u044B\u0445\u043E\u0434"
+  arabicText: "\u0645\u062E\u0631\u062C"
 --- !u!1 &1608493619
 GameObject:
   m_ObjectHideFlags: 0
@@ -6678,6 +6971,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628449780}
   m_CullTransparentMesh: 1
+--- !u!1 &1719906050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1719906051}
+  - component: {fileID: 1719906053}
+  - component: {fileID: 1719906052}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1719906051
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719906050}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 214664432}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1719906052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719906050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.49411765, g: 0.27058825, b: 0.16078432, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f382fceaafd3d5440aa33ecd3b7fccb6, type: 3}
+    m_FontSize: 60
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 60
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Russian
+--- !u!222 &1719906053
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719906050}
+  m_CullTransparentMesh: 1
 --- !u!1 &1779382241
 GameObject:
   m_ObjectHideFlags: 0
@@ -6811,6 +7183,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1779382241}
+  m_CullTransparentMesh: 1
+--- !u!1 &1797457248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1797457249}
+  - component: {fileID: 1797457251}
+  - component: {fileID: 1797457250}
+  m_Layer: 5
+  m_Name: Text (Legacy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1797457249
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797457248}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 808110024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1797457250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797457248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.49411765, g: 0.27058825, b: 0.16078432, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: f382fceaafd3d5440aa33ecd3b7fccb6, type: 3}
+    m_FontSize: 60
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 60
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Arabic
+--- !u!222 &1797457251
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797457248}
   m_CullTransparentMesh: 1
 --- !u!1 &1799471299
 GameObject:
@@ -6981,6 +7432,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Confirm
   hebrewText: "\u05DC\u05B0\u05D0\u05B7\u05E9\u05C1\u05B5\u05E8"
+  russianText: "\u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u0442\u044C"
+  arabicText: "\u064A\u062A\u0623\u0643\u062F"
 --- !u!1 &1848288247
 GameObject:
   m_ObjectHideFlags: 0
@@ -10248,6 +10701,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Setting
   hebrewText: "\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA"
+  russianText: "\u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
+  arabicText: "\u062C\u0644\u0633\u0629"
 --- !u!222 &4328852260993952139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10538,6 +10993,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Sound
   hebrewText: "\u05E7\u05D5\u05B9\u05DC"
+  russianText: "\u0437\u0432\u0443\u043A"
+  arabicText: "\u0635\u0648\u062A"
 --- !u!224 &5005955307800903701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10882,6 +11339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0fb72b07683c945947ecede93baf6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carMaterial: {fileID: 0}
+  lightBlueColor: {r: 0.4, g: 0.8, b: 1, a: 1}
+  pinkColor: {r: 1, g: 0.901, b: 0.984, a: 1}
 --- !u!222 &6019682329278010564
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11188,6 +11648,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Volume
   hebrewText: "\u05DB\u05BC\u05B6\u05E8\u05B6\u05DA"
+  russianText: "\u043E\u0431\u044A\u0435\u043C"
+  arabicText: "\u0645\u0642\u062F\u0627\u0631"
 --- !u!114 &7269984506900296184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11534,6 +11996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: ON/OFF
   hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
+  russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
+  arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
 --- !u!23 &8347539337201183935
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11740,6 +12204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: ON/OFF
   hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
+  russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
+  arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
 --- !u!4 &8982799163893019858
 Transform:
   m_ObjectHideFlags: 0
@@ -11792,6 +12258,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   englishText: Music
   hebrewText: "\u05DE\u05D5\u05BC\u05E1\u05B4\u05D9\u05E7\u05B8\u05D4"
+  russianText: "\u043C\u0443\u0437\u044B\u043A\u0430"
+  arabicText: "\u0645\u0648\u0633\u064A\u0642\u0649"
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

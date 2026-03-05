@@ -28,8 +28,10 @@ public class QuestionUISet
 public class QuestionManager : MonoBehaviour
 {
     [Header("Data")]
-    public QuesData englishQuesData;    // ← assign English scriptable object
+    public QuesData englishQuesData;
     public QuesData hebrewQuesData;
+    public QuesData russianQuesData;
+    public QuesData arabicQuesData;
 
 
     [Header("UI Sets")]
@@ -97,10 +99,24 @@ public class QuestionManager : MonoBehaviour
 
     void Start()
     {
-        if (LocalizationManager.isHebrew && hebrewQuesData != null)
-            quesData = hebrewQuesData;
-        else
-            quesData = englishQuesData;
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Hebrew:
+                quesData = hebrewQuesData != null ? hebrewQuesData : englishQuesData;
+                break;
+
+            case LocalizationManager.Language.Russian:
+                quesData = russianQuesData != null ? russianQuesData : englishQuesData;
+                break;
+
+            case LocalizationManager.Language.Arabic:
+                quesData = arabicQuesData != null ? arabicQuesData : englishQuesData;
+                break;
+
+            default:
+                quesData = englishQuesData;
+                break;
+        }
 
         car = FindObjectOfType<Car>();
         gasBar = FindObjectOfType<GasBar>();
@@ -232,7 +248,7 @@ public class QuestionManager : MonoBehaviour
         rt.localScale = Vector3.zero;
         cg.alpha = 0f;
 
-        // 🔥 Smooth professional open animation
+        // Smooth professional open animation
         rt.DOScale(Vector3.one, 0.5f)
           .SetEase(Ease.OutBack);
 
@@ -292,31 +308,26 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
-    // tts method to speak question and options sequentially with dynamic timing
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
         if (AndroidTTS.instance == null)
             yield break;
 
-        // 🔹 Speak Question First
+        // Speak Question
         AndroidTTS.instance.Speak(qa.questions);
 
-        // Wait depending on question length (dynamic delay)
-        float questionDelay = Mathf.Clamp(qa.questions.Length * 0.05f, 2f, 6f);
-        yield return new WaitForSeconds(questionDelay);
+        // wait for question speech
+        yield return new WaitForSeconds(2f);
 
-        // 🔹 Speak Options One By One
+        // Speak Options
         for (int i = 0; i < qa.options.Count; i++)
         {
             string optionText = qa.options[i];
 
-            // Optional: Add numbering voice
-            string speakText = "Option " + (i + 1) + ". " + optionText;
+            AndroidTTS.instance.Speak(optionText);
 
-            AndroidTTS.instance.Speak(speakText);
-
-            float optionDelay = Mathf.Clamp(optionText.Length * 0.05f, 1.5f, 4f);
-            yield return new WaitForSeconds(optionDelay);
+            // wait before speaking next option
+            yield return new WaitForSeconds(0.7f);
         }
     }
 
@@ -338,6 +349,9 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
+        //if (AndroidTTS.instance != null)
+        //    AndroidTTS.instance.Stop();
+
         if (isSceneUnloading) return;
 
         isCountingDown = false;
@@ -357,7 +371,8 @@ public class QuestionManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
-            ui.answerText.text = "No option selected!";
+            //ui.answerText.text = "No option selected!";
+            ShowAnswerPopup("No option selected!", Color.yellow);
 
             if (car != null)
             {
@@ -374,7 +389,8 @@ public class QuestionManager : MonoBehaviour
 
         if (isCorrect)
         {
-            ui.answerText.text = "Correct Answer!";
+            //ui.answerText.text = "Correct Answer!";
+            ShowAnswerPopup("Correct Answer!", Color.green);
             score++;
             UpdateScoreUI();
 
@@ -388,7 +404,8 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
-            ui.answerText.text = "Wrong Answer!";
+            //ui.answerText.text = "Wrong Answer!";
+            ShowAnswerPopup("Wrong Answer!", Color.red);
             life--;
             UpdateWrongAnswersUI();
 
@@ -419,6 +436,30 @@ public class QuestionManager : MonoBehaviour
         StartCoroutine(HideQuestionPanelAfterDelay());
     }
 
+    private void ShowAnswerPopup(string message, Color color)
+    {
+        ui.answerText.text = message;
+        ui.answerText.color = color;
+
+        CanvasGroup cg = ui.answerText.GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = ui.answerText.gameObject.AddComponent<CanvasGroup>();
+
+        // Reset
+        cg.alpha = 0;
+        ui.answerText.transform.localScale = Vector3.zero;
+
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(ui.answerText.transform.DOScale(1.2f, 0.25f).SetEase(Ease.OutBack));
+        seq.Join(cg.DOFade(1f, 0.2f));
+
+        seq.AppendInterval(1f);
+
+        seq.Append(ui.answerText.transform.DOScale(0.8f, 0.2f));
+        seq.Join(cg.DOFade(0f, 0.2f));
+    }
+
     void StartNextTest()
     {
         if (ui != null && ui.gameOver != null)
@@ -443,7 +484,7 @@ public class QuestionManager : MonoBehaviour
         rt.DOKill();
         cg.DOKill();
 
-        // 🔥 Smooth close animation
+        // Smooth close animation
         rt.DOScale(Vector3.zero, 0.3f)
           .SetEase(Ease.InBack);
 
@@ -489,7 +530,7 @@ public class QuestionManager : MonoBehaviour
         life = 3;
         score = 0;
 
-        ShuffleQuestions(); // ← reshuffle on restart so order is fresh
+        ShuffleQuestions(); // reshuffle on restart so order is fresh
 
         UpdateScoreUI();
         UpdateWrongAnswersUI();

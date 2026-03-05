@@ -2,17 +2,37 @@ using UnityEngine;
 
 public class LocalizationManager : MonoBehaviour
 {
-    public static bool isHebrew = false;
+    public enum Language
+    {
+        English,
+        Hebrew,
+        Russian,
+        Arabic
+    }
+
+    public static Language currentLanguage = Language.English;
 
     public void SetEnglish()
     {
-        isHebrew = false;
+        currentLanguage = Language.English;
         RefreshAll();
     }
 
     public void SetHebrew()
     {
-        isHebrew = true;
+        currentLanguage = Language.Hebrew;
+        RefreshAll();
+    }
+
+    public void SetRussian()
+    {
+        currentLanguage = Language.Russian;
+        RefreshAll();
+    }
+
+    public void SetArabic()
+    {
+        currentLanguage = Language.Arabic;
         RefreshAll();
     }
 

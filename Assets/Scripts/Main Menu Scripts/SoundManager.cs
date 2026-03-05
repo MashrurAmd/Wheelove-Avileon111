@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -21,8 +23,16 @@ public class SoundManager : MonoBehaviour
     public TMP_Text musicButtonText;
     public TMP_Text sfxButtonText;
 
+    [Header("Scene Music")]
+    public SceneMusicDatabase sceneMusicDatabase;
+
     private bool musicMuted = false;
     private bool sfxMuted = false;
+
+    private List<AudioClip> currentPlaylist;
+    private int currentTrackIndex;
+
+    private Coroutine playlistCoroutine;        // 3-3-26
 
     void Awake()
     {
@@ -34,6 +44,8 @@ public class SoundManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Start()
@@ -55,7 +67,82 @@ public class SoundManager : MonoBehaviour
         UpdateSfxUI();
 
         //PlayMainMenuMusic();
-        PlayMusic("MainMenu");
+        //PlayMusic("MainMenu");
+        PlaySceneMusic();
+    }
+
+    public void PlayMusicPlaylist(List<AudioClip> playlist)
+    {
+        if (playlistCoroutine != null)
+            StopCoroutine(playlistCoroutine);
+
+        playlistCoroutine = StartCoroutine(PlayPlaylistRoutine(playlist));
+    }
+
+    private void PlayCurrentTrack()
+    {
+        if (currentPlaylist == null || currentPlaylist.Count == 0)
+            return;
+
+        musicSource.clip = currentPlaylist[currentTrackIndex];
+        musicSource.Play();
+
+        Invoke(nameof(PlayNextTrack), musicSource.clip.length);
+    }
+
+    private void PlayNextTrack()
+    {
+        currentTrackIndex++;
+
+        if (currentTrackIndex >= currentPlaylist.Count)
+            currentTrackIndex = 0;
+
+        PlayCurrentTrack();
+    }
+
+    private IEnumerator PlayPlaylistRoutine(List<AudioClip> playlist)
+    {
+        currentPlaylist = playlist;
+        currentTrackIndex = 0;
+
+        while (true)
+        {
+            if (currentPlaylist == null || currentPlaylist.Count == 0)
+                yield break;
+
+            musicSource.clip = currentPlaylist[currentTrackIndex];
+            musicSource.loop = false;
+            musicSource.Play();
+
+            yield return new WaitForSeconds(musicSource.clip.length);
+
+            currentTrackIndex++;
+            if (currentTrackIndex >= currentPlaylist.Count)
+                currentTrackIndex = 0;
+        }
+    }
+   
+    // 3-3-26
+    public void PlaySceneMusic()
+    {
+        if (sceneMusicDatabase == null)
+            return;
+
+        string currentScene = UnityEngine.SceneManagement.SceneManager
+            .GetActiveScene().name;
+
+        SceneMusicData sceneData = sceneMusicDatabase.scenes
+            .Find(x => x.sceneName == currentScene);
+
+        if (sceneData != null && sceneData.playlist.Count > 0)
+        {
+            PlayMusicPlaylist(sceneData.playlist);
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlaySceneMusic();
     }
 
     public void SetVolume(float value)
@@ -94,22 +181,6 @@ public class SoundManager : MonoBehaviour
         sfxOffIcon.enabled = sfxMuted;
         sfxButtonText.text = sfxMuted ? "OFF" : "ON";
     }
-
-    //public void PlayMainMenuMusic()
-    //{
-    //    musicSource.Stop();
-    //    musicSource.clip = testMusicData.mainMenuMusic;
-    //    musicSource.loop = true;
-    //    musicSource.Play();
-    //}
-
-    //public void PlayGameplayMusic()
-    //{
-    //    musicSource.Stop();
-    //    musicSource.clip = testMusicData.gameplayMusic;
-    //    musicSource.loop = true;
-    //    musicSource.Play();
-    //}
 
     public void PlayMusic(string musicName)
     {
