@@ -128,7 +128,7 @@ public class AndroidTTS : MonoBehaviour
     private bool isReady = false;
     private bool isEnabled = true;
 
-    [Header("UI Buttons")]
+    [Header("UI Buttons — Assign in Inspector!")]
     public Button onButton;
     public Button offButton;
 
@@ -170,22 +170,6 @@ public class AndroidTTS : MonoBehaviour
         UpdateButtonState();
     }
 
-    // Runs every scene reload — auto finds and rewires buttons
-    void OnEnable()
-    {
-        if (instance == this)
-        {
-            if (onButton == null)
-                onButton = FindButtonByName("OnButton");
-
-            if (offButton == null)
-                offButton = FindButtonByName("OffButton");
-
-            WireUpButtons();
-            UpdateButtonState();
-        }
-    }
-
     // =====================
     // INIT
     // =====================
@@ -207,10 +191,8 @@ public class AndroidTTS : MonoBehaviour
         );
 #elif UNITY_IOS && !UNITY_EDITOR
         isReady = true;
-        Debug.Log("TTS Ready (iOS) ✅");
 #else
-        isReady = true;
-        Debug.Log("TTS Ready (Editor) ✅");
+        isReady = true; // Editor
 #endif
     }
 
@@ -224,25 +206,23 @@ public class AndroidTTS : MonoBehaviour
         {
             onButton.onClick.RemoveAllListeners();
             onButton.onClick.AddListener(EnableTTS);
+            Debug.Log("ON button wired ✅");
+        }
+        else
+        {
+            Debug.LogWarning("[AndroidTTS] ⚠️ onButton is NOT assigned in Inspector!");
         }
 
         if (offButton != null)
         {
             offButton.onClick.RemoveAllListeners();
             offButton.onClick.AddListener(DisableTTS);
+            Debug.Log("OFF button wired ✅");
         }
-    }
-
-    private Button FindButtonByName(string buttonName)
-    {
-        Button[] allButtons = FindObjectsOfType<Button>();
-        foreach (Button btn in allButtons)
+        else
         {
-            if (btn.gameObject.name == buttonName)
-                return btn;
+            Debug.LogWarning("[AndroidTTS] ⚠️ offButton is NOT assigned in Inspector!");
         }
-        Debug.LogWarning($"[AndroidTTS] Button not found: {buttonName}");
-        return null;
     }
 
     // =====================
@@ -254,7 +234,6 @@ public class AndroidTTS : MonoBehaviour
         isEnabled = true;
         UpdateButtonState();
 
-        // Immediately speak the current question
         QuestionManager qm = FindObjectOfType<QuestionManager>();
         if (qm != null)
             qm.ReadCurrentQuestion();
