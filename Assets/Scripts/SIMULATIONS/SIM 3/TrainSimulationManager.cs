@@ -4,10 +4,11 @@ using System.Collections;
 public class TrainSimulationManager : MonoBehaviour
 {
     [Header("Trigger Area")]
-    public SimulationZone triggerZone;      // ← changed from TriggerZone
+    public SimulationZone triggerZone;
 
     [Header("Train Settings")]
     public GameObject train;
+    public MoveOnX trainMover;
 
     [Header("Barrier Rod")]
     public Transform barrierRod;
@@ -22,6 +23,9 @@ public class TrainSimulationManager : MonoBehaviour
 
     [Header("Player Car")]
     public Car car;
+
+    [Header("Sound")]
+    public string trainSoundName = "TrainSound";
 
     private bool carInside = false;
     private bool rodRaised = false;
@@ -54,7 +58,7 @@ public class TrainSimulationManager : MonoBehaviour
         if (triggerZone.isPlayerInside && !carInside)
             OnCarEntered();
 
-        // Car exited — use justExited flag
+        // Car exited
         if (triggerZone.justExited && carInside)
         {
             triggerZone.ClearExitFlag();
@@ -69,13 +73,18 @@ public class TrainSimulationManager : MonoBehaviour
 
         Debug.Log("🚗 Car entered train crossing");
 
-        // Activate train
+        // Activate train and start moving
         if (train != null)
         {
             train.transform.position = trainStartPosition;
             train.transform.rotation = trainStartRotation;
             train.SetActive(true);
+            if (trainMover != null) trainMover.StartMoving();
         }
+
+        // Play train sound
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.PlaySFX(trainSoundName);
 
         // Stop any pending reset
         if (resetRoutine != null)
@@ -113,12 +122,10 @@ public class TrainSimulationManager : MonoBehaviour
 
     IEnumerator RaiseRodAfterDelay()
     {
-        // Wait for train to pass
         yield return new WaitForSeconds(waitBeforeRodUp);
 
         if (!carInside) yield break;
 
-        // Animate barrier rod raising
         float t = 0f;
         Quaternion start = barrierRod.localRotation;
         Quaternion target = Quaternion.Euler(
@@ -155,13 +162,18 @@ public class TrainSimulationManager : MonoBehaviour
         carInside = false;
         rodRaised = false;
 
+        // Stop train sound
+        if (SoundManager.Instance != null)
+            SoundManager.Instance.StopSFX();
+
         // Reset barrier
         if (barrierRod != null)
             barrierRod.localRotation = rodInitialRotation;
 
-        // Reset train
+        // Stop and reset train
         if (train != null)
         {
+            if (trainMover != null) trainMover.StopMoving();
             train.SetActive(false);
             train.transform.position = trainStartPosition;
             train.transform.rotation = trainStartRotation;

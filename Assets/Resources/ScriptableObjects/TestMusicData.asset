@@ -24,3 +24,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b88bd52f65702ee438a81241dbfb6553, type: 3}
   - audioName: Flickering
     clip: {fileID: 8300000, guid: 42f188efc4972e0489ec7b52dc71f999, type: 3}
+  - audioName: TrainSound
+    clip: {fileID: 8300000, guid: 69cc01563d1649d459d0882bb21e63d3, type: 3}

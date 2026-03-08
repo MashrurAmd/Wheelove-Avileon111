@@ -230,4 +230,11 @@ public class SoundManager : MonoBehaviour
     {
         PlaySFX("ButtonClick");
     }
+
+
+    public void StopSFX()
+    {
+        sfxSource.Stop();
+    }
+
 }
