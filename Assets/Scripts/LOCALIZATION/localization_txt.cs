@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -36,28 +36,45 @@ public class LocalizedText : MonoBehaviour
     public void Refresh()
     {
         string display = englishText;
+        bool isRTL = false;
 
         switch (LocalizationManager.currentLanguage)
         {
             case LocalizationManager.Language.Hebrew:
                 display = hebrewText;
+                isRTL = true;
                 break;
-
             case LocalizationManager.Language.Russian:
                 display = russianText;
                 break;
-
             case LocalizationManager.Language.Arabic:
                 display = arabicText;
+                isRTL = true;
                 break;
-
             case LocalizationManager.Language.English:
             default:
                 display = englishText;
                 break;
         }
 
-        if (tmpText != null) tmpText.text = display;
-        else if (uiText != null) uiText.text = display;
+        if (tmpText != null)
+        {
+            tmpText.text = display;
+
+            if (isRTL)
+            {
+                tmpText.isRightToLeftText = true;          // ← key fix
+                //tmpText.alignment = TextAlignmentOptions.Right;
+            }
+            else
+            {
+                tmpText.isRightToLeftText = false;
+                //tmpText.alignment = TextAlignmentOptions.Left;
+            }
+        }
+        else if (uiText != null)
+        {
+            uiText.text = display;
+        }
     }
 }
