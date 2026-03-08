@@ -64,12 +64,12 @@ public class LocalizedText : MonoBehaviour
             if (isRTL)
             {
                 tmpText.isRightToLeftText = true;          // ← key fix
-                //tmpText.alignment = TextAlignmentOptions.Right;
+
             }
             else
             {
                 tmpText.isRightToLeftText = false;
-                //tmpText.alignment = TextAlignmentOptions.Left;
+
             }
         }
         else if (uiText != null)
