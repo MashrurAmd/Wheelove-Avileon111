@@ -13,7 +13,11 @@ public class LocalizedText : MonoBehaviour
     [Header("Arabic")]
     public string arabicText;
     [Header("Amharic")]
-    public string amharicText;  // ← add this
+    public string amharicText;
+
+    [Header("Fonts")]
+    public TMP_FontAsset amharicFont;   // ← assign Noto Sans Ethiopic here
+    public TMP_FontAsset defaultFont;   // ← assign your normal TMP font here
 
     private TMP_Text tmpText;
     private Text uiText;
@@ -49,7 +53,7 @@ public class LocalizedText : MonoBehaviour
                 isRTL = true;
                 break;
             case LocalizationManager.Language.Amharic:
-                display = amharicText;  // ← Amharic is LTR, no RTL needed
+                display = amharicText;
                 break;
             case LocalizationManager.Language.English:
             default:
@@ -59,6 +63,13 @@ public class LocalizedText : MonoBehaviour
 
         if (tmpText != null)
         {
+            // ← Swap font for Amharic
+            if (LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic
+                && amharicFont != null)
+                tmpText.font = amharicFont;
+            else if (defaultFont != null)
+                tmpText.font = defaultFont;
+
             tmpText.text = display;
             tmpText.isRightToLeftText = isRTL;
         }

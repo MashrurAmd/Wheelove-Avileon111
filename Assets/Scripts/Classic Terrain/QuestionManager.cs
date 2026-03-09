@@ -34,6 +34,7 @@ public class QuestionManager : MonoBehaviour
     public QuesData hebrewQuesData;
     public QuesData russianQuesData;
     public QuesData arabicQuesData;
+    public QuesData amharicQuesData;  // ← add this
 
 
     [Header("UI Sets")]
@@ -106,15 +107,15 @@ public class QuestionManager : MonoBehaviour
             case LocalizationManager.Language.Hebrew:
                 quesData = hebrewQuesData != null ? hebrewQuesData : englishQuesData;
                 break;
-
             case LocalizationManager.Language.Russian:
                 quesData = russianQuesData != null ? russianQuesData : englishQuesData;
                 break;
-
             case LocalizationManager.Language.Arabic:
                 quesData = arabicQuesData != null ? arabicQuesData : englishQuesData;
                 break;
-
+            case LocalizationManager.Language.Amharic:      // ← add this
+                quesData = amharicQuesData != null ? amharicQuesData : englishQuesData;
+                break;
             default:
                 quesData = englishQuesData;
                 break;
