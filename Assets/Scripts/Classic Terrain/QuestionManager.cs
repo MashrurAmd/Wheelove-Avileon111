@@ -22,6 +22,13 @@ public class QuestionUISet
     public List<Image> emojisImages;
     public AndroidTTS tts;
 
+    [Header("Fonts")]
+    public TMP_FontAsset defaultFont;    // ← assign your normal font
+    public TMP_FontAsset amharicFont;    // ← assign Noto Sans Ethiopic
+
+    [Header("Legacy Fonts")]
+    public Font defaultLegacyFont;          // ← normal legacy font
+    public Font amharicLegacyFont;
 
 
 
@@ -84,6 +91,11 @@ public class QuestionManager : MonoBehaviour
     // ============================
     // UNITY EVENTS
     // ============================
+
+
+
+
+
 
     void OnEnable()
     {
@@ -237,6 +249,8 @@ public class QuestionManager : MonoBehaviour
         GameObject panel = ui.questionPanel;
         panel.SetActive(true);
 
+        SwapFontForLanguage();
+
         RectTransform rt = panel.GetComponent<RectTransform>();
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
 
@@ -311,6 +325,62 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+
+
+
+
+
+    void SwapFontForLanguage()
+    {
+        if (ui == null) return;
+
+        bool isAmharic = LocalizationManager.currentLanguage ==
+                         LocalizationManager.Language.Amharic;
+
+        TMP_FontAsset targetTMPFont = isAmharic ? ui.amharicFont : ui.defaultFont;
+        Font targetLegacyFont = isAmharic ? ui.amharicLegacyFont : ui.defaultLegacyFont;
+
+        // ← TMP texts
+        if (targetTMPFont != null)
+        {
+            if (ui.questionText != null)
+                ui.questionText.font = targetTMPFont;
+
+            if (ui.answerText != null)
+                ui.answerText.font = targetTMPFont;
+
+            if (ui.timerText != null)
+                ui.timerText.font = targetTMPFont;
+
+            foreach (var toggle in ui.optionToggles)
+            {
+                if (toggle == null) continue;
+                TMP_Text tmp = toggle.GetComponentInChildren<TMP_Text>();
+                if (tmp != null)
+                    tmp.font = targetTMPFont;
+            }
+        }
+
+        // ← Legacy texts
+        if (targetLegacyFont != null)
+        {
+            if (ui.scoreText != null)
+                ui.scoreText.font = targetLegacyFont;
+
+            if (ui.wrongAnswersText != null)
+                ui.wrongAnswersText.font = targetLegacyFont;
+
+            foreach (var label in ui.optionLabels)
+            {
+                if (label != null)
+                    label.font = targetLegacyFont;
+            }
+        }
+    }
+
+
+
+
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
         if (AndroidTTS.instance == null)
@@ -352,8 +422,7 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
-        //if (AndroidTTS.instance != null)
-        //    AndroidTTS.instance.Stop();
+
 
         if (isSceneUnloading) return;
 
