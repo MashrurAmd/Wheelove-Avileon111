@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Amharic1
   m_EditorClassIdentifier: 
   tests:
-  - testsName: Test1
+  - testsName: " \u133D\u1211\u134D"
     quesAnswers:
     - questions: "\u12E8\u1273\u1238\u1308 \u121D\u120D\u12AD\u1275 \u12E8\u121A\u1296\u1228\u12CD
         \u121D\u1295\u12F5\u1290\u12CD?"

@@ -6,16 +6,14 @@ public class LocalizedText : MonoBehaviour
 {
     [Header("English")]
     public string englishText;
-
     [Header("Hebrew")]
     public string hebrewText;
-
     [Header("Russian")]
     public string russianText;
-
     [Header("Arabic")]
     public string arabicText;
-
+    [Header("Amharic")]
+    public string amharicText;  // ← add this
 
     private TMP_Text tmpText;
     private Text uiText;
@@ -29,7 +27,6 @@ public class LocalizedText : MonoBehaviour
 
     void OnEnable()
     {
-        // Every time this panel becomes active, refresh with current language
         Refresh();
     }
 
@@ -51,6 +48,9 @@ public class LocalizedText : MonoBehaviour
                 display = arabicText;
                 isRTL = true;
                 break;
+            case LocalizationManager.Language.Amharic:
+                display = amharicText;  // ← Amharic is LTR, no RTL needed
+                break;
             case LocalizationManager.Language.English:
             default:
                 display = englishText;
@@ -60,17 +60,7 @@ public class LocalizedText : MonoBehaviour
         if (tmpText != null)
         {
             tmpText.text = display;
-
-            if (isRTL)
-            {
-                tmpText.isRightToLeftText = true;          // ← key fix
-
-            }
-            else
-            {
-                tmpText.isRightToLeftText = false;
-
-            }
+            tmpText.isRightToLeftText = isRTL;
         }
         else if (uiText != null)
         {
