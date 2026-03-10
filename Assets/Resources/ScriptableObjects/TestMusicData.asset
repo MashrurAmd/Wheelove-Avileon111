@@ -26,3 +26,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 42f188efc4972e0489ec7b52dc71f999, type: 3}
   - audioName: TrainSound
     clip: {fileID: 8300000, guid: 69cc01563d1649d459d0882bb21e63d3, type: 3}
+  - audioName: QuestionPopup
+    clip: {fileID: 8300000, guid: 66adceb41c98f7a4084b447389a7adf6, type: 3}
+  - audioName: Tap
+    clip: {fileID: 8300000, guid: 829aa0f4bbc2a8a4299eafee3f560209, type: 3}

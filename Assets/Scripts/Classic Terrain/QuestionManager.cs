@@ -97,10 +97,6 @@ public class QuestionManager : MonoBehaviour
     // ============================
 
 
-
-
-
-
     void OnEnable()
     {
         SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -308,6 +304,13 @@ public class QuestionManager : MonoBehaviour
                 ui.optionToggles[i].gameObject.SetActive(true);
                 ui.optionToggles[i].isOn = false;
                 ui.optionToggles[i].group = ui.toggleGroup;
+
+                int index = i; // capture index for lambda
+                ui.optionToggles[i].onValueChanged.RemoveAllListeners();
+                ui.optionToggles[i].onValueChanged.AddListener((isOn) =>
+                {
+                    if (isOn) SoundManager.Instance?.PlaySFX("Tap");
+                });
             }
             else
             {
@@ -330,10 +333,6 @@ public class QuestionManager : MonoBehaviour
             }
         }
     }
-
-
-
-
 
 
     void SwapFontForLanguage()
@@ -383,9 +382,6 @@ public class QuestionManager : MonoBehaviour
             }
         }
     }
-
-
-
 
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
@@ -497,13 +493,10 @@ public class QuestionManager : MonoBehaviour
             isCorrect = selectedOption.Trim().ToLower() == qa.answers.Trim().ToLower();
         }
 
-
-        //SoundManager.Instance?.PlaySFX("CorrectAnswer");
-        //SoundManager.Instance?.PlaySFX("WrongAnswer");
-
-
         if (isCorrect)
         {
+            SoundManager.Instance?.PlaySFX("CorrectAnswer");
+
             ShowAnswerPopup("Correct Answer!", Color.green);
             score++;
             UpdateScoreUI();
