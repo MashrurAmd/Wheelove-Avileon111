@@ -271,7 +271,7 @@ public class QuestionManager : MonoBehaviour
 
         cg.DOFade(1f, 0.4f);
 
-
+        SoundManager.Instance?.PlaySFX("QuestionPopup");
 
         if (useTimer)
         {
@@ -495,6 +495,8 @@ public class QuestionManager : MonoBehaviour
 
         if (isCorrect)
         {
+            SoundManager.Instance?.PlaySFX("CorrectAnswer");
+
             //ui.answerText.text = "Correct Answer!";
             ShowAnswerPopup("Correct Answer!", Color.green);
             score++;
@@ -510,6 +512,8 @@ public class QuestionManager : MonoBehaviour
         }
         else
         {
+            SoundManager.Instance?.PlaySFX("WrongAnswer");
+
             //ui.answerText.text = "Wrong Answer!";
             ShowAnswerPopup("Wrong Answer!", Color.red);
             life--;
