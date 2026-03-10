@@ -12,7 +12,7 @@ public class QuestionUISet
     public GameObject questionPanel;
     public TMP_Text questionText;
     public List<Toggle> optionToggles;
-    public List<Text> optionLabels;
+    public List<TMP_Text> optionLabels;
     public ToggleGroup toggleGroup;
     public TMP_Text timerText;
     public TMP_Text answerText;
@@ -339,8 +339,9 @@ public class QuestionManager : MonoBehaviour
     {
         if (ui == null) return;
 
-        bool isAmharic = LocalizationManager.currentLanguage ==
-                         LocalizationManager.Language.Amharic;
+        bool isAmharic = LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic;
+        bool isRTL = LocalizationManager.currentLanguage == LocalizationManager.Language.Arabic ||
+                     LocalizationManager.currentLanguage == LocalizationManager.Language.Hebrew;
 
         TMP_FontAsset targetTMPFont = isAmharic ? ui.amharicFont : ui.defaultFont;
         Font targetLegacyFont = isAmharic ? ui.amharicLegacyFont : ui.defaultLegacyFont;
@@ -349,7 +350,11 @@ public class QuestionManager : MonoBehaviour
         if (targetTMPFont != null)
         {
             if (ui.questionText != null)
+            {
                 ui.questionText.font = targetTMPFont;
+                ui.questionText.isRightToLeftText = isRTL;
+                ui.questionText.alignment = isRTL ? TextAlignmentOptions.Right : TextAlignmentOptions.Left;
+            }
 
             if (ui.answerText != null)
                 ui.answerText.font = targetTMPFont;
@@ -362,7 +367,11 @@ public class QuestionManager : MonoBehaviour
                 if (toggle == null) continue;
                 TMP_Text tmp = toggle.GetComponentInChildren<TMP_Text>();
                 if (tmp != null)
+                {
                     tmp.font = targetTMPFont;
+                    tmp.isRightToLeftText = isRTL;
+                    tmp.alignment = isRTL ? TextAlignmentOptions.Right : TextAlignmentOptions.Left;
+                }
             }
         }
 
@@ -375,10 +384,15 @@ public class QuestionManager : MonoBehaviour
             if (ui.wrongAnswersText != null)
                 ui.wrongAnswersText.font = targetLegacyFont;
 
+            // Replace legacy label loop with this:
             foreach (var label in ui.optionLabels)
             {
                 if (label != null)
-                    label.font = targetLegacyFont;
+                {
+                    label.font = targetTMPFont;
+                    label.isRightToLeftText = isRTL;
+                    label.alignment = isRTL ? TextAlignmentOptions.Right : TextAlignmentOptions.Left;
+                }
             }
         }
     }
