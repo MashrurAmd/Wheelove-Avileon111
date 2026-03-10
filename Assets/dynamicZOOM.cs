@@ -20,22 +20,22 @@ public class CameraSwapper : MonoBehaviour
 
     private bool isFirstPerson = true;  // ← tracks current manual state
 
-    void Update()
-    {
-        if (manualOverride) return;  // ← skip auto switching if manual
+    //void Update()
+    //{
+    //    if (manualOverride) return;  // ← skip auto switching if manual
 
-        if (path == null || car == null) return;
+    //    if (path == null || car == null) return;
 
-        float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
-        Vector3 forward1 = path.EvaluateTangent(nearest);
-        Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
-        float angle = Vector3.Angle(forward1, forward2);
+    //    float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
+    //    Vector3 forward1 = path.EvaluateTangent(nearest);
+    //    Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
+    //    float angle = Vector3.Angle(forward1, forward2);
 
-        if (angle > curveThreshold)
-            SetThirdPerson();
-        else
-            SetFirstPerson();
-    }
+    //    if (angle > curveThreshold)
+    //        SetThirdPerson();
+    //    else
+    //        SetFirstPerson();
+    //}
 
     // ← Assign this to your button onClick
     public void ToggleCamera()
