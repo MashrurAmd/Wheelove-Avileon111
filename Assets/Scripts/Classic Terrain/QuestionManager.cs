@@ -424,6 +424,20 @@ public class QuestionManager : MonoBehaviour
     {
 
 
+        Debug.Log("=== CheckAnswer CALLED ===");
+        Debug.Log($"Language: {LocalizationManager.currentLanguage}");
+        Debug.Log($"ui null: {ui == null}");
+        Debug.Log($"isSceneUnloading: {isSceneUnloading}");
+        Debug.Log($"shuffledQuestions count: {shuffledQuestions?.Count}");
+        Debug.Log($"currentQuestionIndex: {currentQuestionIndex}");
+
+        for (int i = 0; i < ui.optionToggles.Count; i++)
+        {
+            Debug.Log($"Toggle {i} isOn: {ui.optionToggles[i].isOn} | Label: '{ui.optionLabels[i].text}'");
+        }
+
+
+
         if (isSceneUnloading) return;
 
         isCountingDown = false;
@@ -456,8 +470,28 @@ public class QuestionManager : MonoBehaviour
             return;
         }
 
-        bool isCorrect = selectedOption.Trim().ToLower() ==
-                         qa.answers.Trim().ToLower();
+        bool isCorrect = false;
+
+        if (LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic)
+        {
+            string cleanSelected = CleanString(selectedOption);
+            string cleanAnswer = CleanString(qa.answers);
+
+            Debug.Log($"Clean Selected: '{cleanSelected}'");
+            Debug.Log($"Clean Answer: '{cleanAnswer}'");
+            Debug.Log($"Match: {cleanSelected == cleanAnswer}");
+
+            isCorrect = cleanSelected == cleanAnswer;
+
+            //this line is printed 
+        }
+        else
+        {
+            // ← Normal comparison for other languages
+            isCorrect = selectedOption.Trim().ToLower() == qa.answers.Trim().ToLower();
+        }
+
+
 
         if (isCorrect)
         {
@@ -531,6 +565,22 @@ public class QuestionManager : MonoBehaviour
         seq.Append(ui.answerText.transform.DOScale(0.8f, 0.2f));
         seq.Join(cg.DOFade(0f, 0.2f));
     }
+
+
+    string CleanString(string input)
+    {
+        if (string.IsNullOrEmpty(input)) return "";
+
+        // Remove all whitespace types including non-breaking spaces
+        return input.Trim()
+                    .Replace("\u00A0", "")   // non-breaking space
+                    .Replace("\u200B", "")   // zero-width space
+                    .Replace("\u200C", "")   // zero-width non-joiner
+                    .Replace(" ", " ")       // normalize spaces
+                    .Trim();
+    }
+
+
 
     void StartNextTest()
     {
