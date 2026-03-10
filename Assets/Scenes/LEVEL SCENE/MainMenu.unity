@@ -1536,7 +1536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.999878, y: 0}
+  m_AnchoredPosition: {x: -2.9997559, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &430180793
@@ -5625,9 +5625,9 @@ MonoBehaviour:
   hebrewText: "\u05DE\u05DB\u05D5\u05E0\u05D9\u05EA \u05DB\u05D7\u05D5\u05DC\u05D4"
   russianText: "\u0441\u0438\u043D\u0438\u0439"
   arabicText: "\u0623\u0632\u0631\u0642"
-  amharicText: 
-  amharicFont: {fileID: 0}
-  defaultFont: {fileID: 0}
+  amharicText: " \u1230\u121B\u12EB\u12CA"
+  amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
 --- !u!1 &1242843927
 GameObject:
   m_ObjectHideFlags: 0
@@ -6845,9 +6845,9 @@ MonoBehaviour:
   hebrewText: "\u05DE\u05DB\u05D5\u05E0\u05D9\u05EA \u05D5\u05E8\u05D5\u05D3\u05D4"
   russianText: "\u0440\u043E\u0437\u043E\u0432\u044B\u0439"
   arabicText: "\u0644\u0648\u0646 \u0627\u0644\u0642\u0631\u0646\u0641\u0644"
-  amharicText: 
-  amharicFont: {fileID: 0}
-  defaultFont: {fileID: 0}
+  amharicText: " \u122E\u12DD"
+  amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
 --- !u!1 &1531015728
 GameObject:
   m_ObjectHideFlags: 0
