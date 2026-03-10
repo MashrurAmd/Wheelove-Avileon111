@@ -658,4 +658,9 @@ public class QuestionManager : MonoBehaviour
         UpdateWrongAnswersUI();
     }
 
+    public bool AllQuestionsAnswered()
+    {
+        return currentQuestionIndex >= shuffledQuestions.Count;
+    }
+
 }

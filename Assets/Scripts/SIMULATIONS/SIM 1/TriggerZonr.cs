@@ -7,8 +7,11 @@ public class TriggerZone : MonoBehaviour
 {
     [Header("Trigger State")]
     public bool isTriggered = false;
-
     private bool hasTriggered = false;
+
+    [Header("Collectible Settings")]
+    public int maxTriggerCount = 2; // ← how many questions this collectible will show
+    private int triggerCount = 0;   // ← how many times it has been triggered
 
     [Header("Congratulations & Scene")]
     public GameObject congratulationsPanel;
@@ -17,18 +20,14 @@ public class TriggerZone : MonoBehaviour
 
     private void Awake()
     {
-        // Ensure the BoxCollider is set to trigger
         BoxCollider box = GetComponent<BoxCollider>();
         box.isTrigger = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player"))
-            return;
-
-        if (hasTriggered)
-            return;
+        if (!other.CompareTag("Player")) return;
+        if (hasTriggered) return;
 
         hasTriggered = true;
         isTriggered = true;
@@ -38,9 +37,15 @@ public class TriggerZone : MonoBehaviour
         // ===============================
         if (CompareTag("Collectible"))
         {
+            // ← Stop if this collectible has been used maxTriggerCount times
+            if (triggerCount >= maxTriggerCount)
+                return;
+
+            triggerCount++;
+
             Car car = other.GetComponent<Car>();
             if (car != null)
-                car.PauseCar(); // Stop car until player answers
+                car.PauseCar();
 
             QuestionManager qm = FindObjectOfType<QuestionManager>();
             if (qm != null && qm.isActiveAndEnabled)
@@ -49,22 +54,38 @@ public class TriggerZone : MonoBehaviour
         // ===============================
         // 🏁 FINISH LINE
         // ===============================
+
+        //FOR TESTING - ALLOW FINISH WITHOUT QUESTIONS
+        //else if (CompareTag("Finish"))
+        //{
+        //    StartCoroutine(ShowPanelAndLoadScene());
+        //}
+
         else if (CompareTag("Finish"))
         {
+            // ← Only load next scene if all questions are answered
+            QuestionManager qm = FindObjectOfType<QuestionManager>();
+            if (qm != null && !qm.AllQuestionsAnswered())
+                return; // ← block finish until all questions done
+
             StartCoroutine(ShowPanelAndLoadScene());
         }
+
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.CompareTag("Player"))
-            return;
+        if (!other.CompareTag("Player")) return;
 
-        // Reset collectible trigger so it can be triggered again next time
         if (CompareTag("Collectible"))
         {
-            hasTriggered = false;
-            isTriggered = false;
+            // ← Only reset if still has triggers remaining
+            if (triggerCount < maxTriggerCount)
+            {
+                hasTriggered = false;
+                isTriggered = false;
+            }
         }
     }
 

@@ -20,6 +20,10 @@ public class CameraSwapper : MonoBehaviour
 
     private bool isFirstPerson = true;  // ← tracks current manual state
 
+
+    // Auto zoom logic based on path curvature (optional) in the update function 
+
+
     //void Update()
     //{
     //    if (manualOverride) return;  // ← skip auto switching if manual
