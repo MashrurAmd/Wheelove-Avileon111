@@ -15,9 +15,13 @@ public class LocalizedText : MonoBehaviour
     [Header("Amharic")]
     public string amharicText;
 
-    [Header("Fonts")]
-    public TMP_FontAsset amharicFont;   // ← assign Noto Sans Ethiopic here
-    public TMP_FontAsset defaultFont;   // ← assign your normal TMP font here
+    [Header("TMP Fonts")]
+    public TMP_FontAsset amharicFont;    // ← Noto Sans Ethiopic TMP
+    public TMP_FontAsset defaultFont;    // ← your normal TMP font
+
+    [Header("Legacy Fonts")]
+    public Font amharicLegacyFont;       // ← Noto Sans Ethiopic legacy .ttf
+    public Font defaultLegacyFont;       // ← your normal legacy font
 
     private TMP_Text tmpText;
     private Text uiText;
@@ -38,6 +42,7 @@ public class LocalizedText : MonoBehaviour
     {
         string display = englishText;
         bool isRTL = false;
+        bool isAmharic = LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic;
 
         switch (LocalizationManager.currentLanguage)
         {
@@ -63,11 +68,10 @@ public class LocalizedText : MonoBehaviour
 
         if (tmpText != null)
         {
-            // ← Swap font for Amharic
-            if (LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic
-                && amharicFont != null)
+            // ← Swap TMP font
+            if (isAmharic && amharicFont != null)
                 tmpText.font = amharicFont;
-            else if (defaultFont != null)
+            else if (!isAmharic && defaultFont != null)
                 tmpText.font = defaultFont;
 
             tmpText.text = display;
@@ -75,6 +79,12 @@ public class LocalizedText : MonoBehaviour
         }
         else if (uiText != null)
         {
+            // ← Swap legacy font
+            if (isAmharic && amharicLegacyFont != null)
+                uiText.font = amharicLegacyFont;
+            else if (!isAmharic && defaultLegacyFont != null)
+                uiText.font = defaultLegacyFont;
+
             uiText.text = display;
         }
     }
