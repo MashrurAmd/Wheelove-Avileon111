@@ -30,6 +30,8 @@ public class QuestionUISet
     public Font defaultLegacyFont;          // ← normal legacy font
     public Font amharicLegacyFont;
 
+    
+
 
 
 }
@@ -81,6 +83,8 @@ public class QuestionManager : MonoBehaviour
 
     //Shuffling mechanism 
     private List<QuesAnswer> shuffledQuestions = new List<QuesAnswer>();
+
+    private TriggerZone currentTriggerZone;
 
 
 
@@ -223,8 +227,10 @@ public class QuestionManager : MonoBehaviour
     // QUESTION FLOW
     // ============================
 
-    public void ShowNextQuestion()
+    public void ShowNextQuestion(TriggerZone zone = null)
     {
+        currentTriggerZone = zone; // ← store reference
+
         if (isSceneUnloading) return;
         if (ui == null || ui.questionPanel == null) return;
         if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
@@ -492,12 +498,12 @@ public class QuestionManager : MonoBehaviour
         }
 
 
+        //SoundManager.Instance?.PlaySFX("CorrectAnswer");
+        //SoundManager.Instance?.PlaySFX("WrongAnswer");
+
 
         if (isCorrect)
         {
-            SoundManager.Instance?.PlaySFX("CorrectAnswer");
-
-            //ui.answerText.text = "Correct Answer!";
             ShowAnswerPopup("Correct Answer!", Color.green);
             score++;
             UpdateScoreUI();
@@ -507,6 +513,13 @@ public class QuestionManager : MonoBehaviour
 
             if (car != null)
                 car.ResumeDriving();
+
+            // ← Notify zone that question was answered correctly
+            if (currentTriggerZone != null)
+            {
+                currentTriggerZone.OnQuestionAnsweredCorrectly();
+                currentTriggerZone = null;
+            }
 
             currentQuestionIndex++;
         }
