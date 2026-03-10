@@ -469,25 +469,25 @@ public class QuestionManager : MonoBehaviour
             StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
-
         bool isCorrect = false;
 
         if (LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic)
         {
-            string cleanSelected = CleanString(selectedOption);
-            string cleanAnswer = CleanString(qa.answers);
-
-            Debug.Log($"Clean Selected: '{cleanSelected}'");
-            Debug.Log($"Clean Answer: '{cleanAnswer}'");
-            Debug.Log($"Match: {cleanSelected == cleanAnswer}");
-
-            isCorrect = cleanSelected == cleanAnswer;
-
-            //this line is printed 
+            // ← Check by selected toggle index instead of text
+            int selectedIndex = -1;
+            for (int i = 0; i < ui.optionToggles.Count; i++)
+            {
+                if (ui.optionToggles[i].isOn)
+                {
+                    selectedIndex = i;
+                    break;
+                }
+            }
+            Debug.Log($"Selected Index: {selectedIndex} | Correct Index: {qa.correctAnswerIndex}");
+            isCorrect = selectedIndex == qa.correctAnswerIndex;
         }
         else
         {
-            // ← Normal comparison for other languages
             isCorrect = selectedOption.Trim().ToLower() == qa.answers.Trim().ToLower();
         }
 
