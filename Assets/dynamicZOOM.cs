@@ -11,23 +11,30 @@ public class CameraSwapper : MonoBehaviour
     public CinemachineSmoothPath path;
     public Transform car;
     public float checkDistance = 2f;
-
-    [Tooltip("Higher = only switches on very sharp curves. Try 20-45")]
     public float curveThreshold = 30f;
 
+    [Header("Camera Offset On Turns")]
+    public float turnOffsetAmount = 1.5f;      // ← how much to shift sideways
+    public float offsetSmoothSpeed = 3f;       // ← how smooth the shift is
+
     [Header("Manual Override")]
-    public bool manualOverride = false;  // ← when true, auto switching stops
+    public bool manualOverride = false;
+    private bool isFirstPerson = true;
 
-    private bool isFirstPerson = true;  // ← tracks current manual state
+    private CinemachineTransposer thirdPersonTransposer;
+    private Vector3 defaultOffset;
 
+    void Start()
+    {
+        // ← Get the transposer from the 3rd person cam to modify its offset
+        thirdPersonTransposer = thirdPersonCam.GetCinemachineComponent<CinemachineTransposer>();
 
-    // Auto zoom logic based on path curvature (optional) in the update function 
-
+        if (thirdPersonTransposer != null)
+            defaultOffset = thirdPersonTransposer.m_FollowOffset;
+    }
 
     void Update()
     {
-        if (manualOverride) return;  // ← skip auto switching if manual
-
         if (path == null || car == null) return;
 
         float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
@@ -35,24 +42,61 @@ public class CameraSwapper : MonoBehaviour
         Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
         float angle = Vector3.Angle(forward1, forward2);
 
-        if (angle > curveThreshold)
-            SetThirdPerson();
-        else
-            SetFirstPerson();
+        // ← Detect turn direction using cross product
+        Vector3 cross = Vector3.Cross(forward1.normalized, forward2.normalized);
+        float turnDirection = cross.y; // positive = left turn, negative = right turn
+
+        if (!manualOverride)
+        {
+            if (angle > curveThreshold)
+                SetThirdPerson();
+            else
+                SetFirstPerson();
+        }
+
+        if (!isFirstPerson && thirdPersonTransposer != null)
+        {
+            float targetX = 0f;
+
+            if (angle > curveThreshold)
+            {
+                if (turnDirection > 0.01f)
+                    targetX = turnOffsetAmount;    // left turn → shift right
+                else if (turnDirection < -0.01f)
+                    targetX = -turnOffsetAmount;   // right turn → shift left
+            }
+
+            Vector3 targetOffset = new Vector3(
+                defaultOffset.x + targetX,
+                defaultOffset.y,
+                defaultOffset.z
+            );
+
+            thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+                thirdPersonTransposer.m_FollowOffset,
+                targetOffset,
+                Time.deltaTime * offsetSmoothSpeed
+            );
+        }
+        else if (isFirstPerson && thirdPersonTransposer != null)
+        {
+            thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+                thirdPersonTransposer.m_FollowOffset,
+                defaultOffset,
+                Time.deltaTime * offsetSmoothSpeed
+            );
+        }
     }
 
-    // ← Assign this to your button onClick
     public void ToggleCamera()
     {
-        manualOverride = true;  // stop auto switching when user manually toggles
-
+        manualOverride = true;
         if (isFirstPerson)
             SetThirdPerson();
         else
             SetFirstPerson();
     }
 
-    // ← Call this to re-enable auto switching
     public void EnableAutoSwitch()
     {
         manualOverride = false;
