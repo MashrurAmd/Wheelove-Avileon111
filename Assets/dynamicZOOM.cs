@@ -51,6 +51,7 @@ public class CameraSwapper : MonoBehaviour
 
     void Update()
     {
+        //Debug.DrawLine(car.position, car.position + car.forward * 5, Color.red);
 
         if (!introComplete) return; // ← wait for intro to finish
 
