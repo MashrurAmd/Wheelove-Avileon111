@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Cinemachine;
 
 public class CameraSwapper : MonoBehaviour
@@ -14,8 +15,10 @@ public class CameraSwapper : MonoBehaviour
     public float curveThreshold = 30f;
 
     [Header("Camera Offset On Turns")]
-    public float turnOffsetAmount = 1.5f;      // ← how much to shift sideways
-    public float offsetSmoothSpeed = 3f;       // ← how smooth the shift is
+    public float turnOffsetAmount = 1.5f;
+    public float turnOffsetY = 1f;
+    public float turnOffsetZ = 0f;         // ← add this
+    public float offsetSmoothSpeed = 3f;
 
     [Header("Manual Override")]
     public bool manualOverride = false;
@@ -24,17 +27,33 @@ public class CameraSwapper : MonoBehaviour
     private CinemachineTransposer thirdPersonTransposer;
     private Vector3 defaultOffset;
 
+    [Header("Intro Zoom")]
+    public float introDuration = 2.5f;        // ← how long the zoom takes
+    public Vector3 introStartOffset = new Vector3(0, 15, -25); // ← far away start position
+    public bool playIntroOnStart = true;
+
+    private bool introComplete = false;
+
     void Start()
     {
-        // ← Get the transposer from the 3rd person cam to modify its offset
         thirdPersonTransposer = thirdPersonCam.GetCinemachineComponent<CinemachineTransposer>();
 
         if (thirdPersonTransposer != null)
             defaultOffset = thirdPersonTransposer.m_FollowOffset;
+
+        SetThirdPerson();
+
+        if (playIntroOnStart)
+            StartCoroutine(PlayIntroZoom());
+        else
+            introComplete = true;
     }
 
     void Update()
     {
+
+        if (!introComplete) return; // ← wait for intro to finish
+
         if (path == null || car == null) return;
 
         float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
@@ -68,9 +87,10 @@ public class CameraSwapper : MonoBehaviour
 
             Vector3 targetOffset = new Vector3(
                 defaultOffset.x + targetX,
-                defaultOffset.y,
-                defaultOffset.z
+                defaultOffset.y + (angle > curveThreshold ? turnOffsetY : 0f),
+                defaultOffset.z + (angle > curveThreshold ? turnOffsetZ : 0f)  // ← add Z
             );
+
 
             thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
                 thirdPersonTransposer.m_FollowOffset,
@@ -86,6 +106,7 @@ public class CameraSwapper : MonoBehaviour
                 Time.deltaTime * offsetSmoothSpeed
             );
         }
+
     }
 
     public void ToggleCamera()
@@ -115,4 +136,40 @@ public class CameraSwapper : MonoBehaviour
         thirdPersonCam.Priority = 20;
         firstPersonCam.Priority = 10;
     }
+
+
+    IEnumerator PlayIntroZoom()
+    {
+        introComplete = false;
+
+        // ← Set camera to far start position
+        if (thirdPersonTransposer != null)
+            thirdPersonTransposer.m_FollowOffset = introStartOffset;
+
+        float elapsed = 0f;
+
+        while (elapsed < introDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / introDuration;
+
+            // ← Smooth ease in
+            float smoothT = t * t * (3f - 2f * t);
+
+            if (thirdPersonTransposer != null)
+                thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+                    introStartOffset,
+                    defaultOffset,
+                    smoothT
+                );
+
+            yield return null;
+        }
+
+        if (thirdPersonTransposer != null)
+            thirdPersonTransposer.m_FollowOffset = defaultOffset;
+
+        introComplete = true;
+    }
+
 }
