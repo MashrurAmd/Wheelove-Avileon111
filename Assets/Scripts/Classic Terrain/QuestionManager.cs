@@ -23,12 +23,15 @@ public class QuestionUISet
     public AndroidTTS tts;
 
     [Header("Fonts")]
-    public TMP_FontAsset defaultFont;    // ← assign your normal font
-    public TMP_FontAsset amharicFont;    // ← assign Noto Sans Ethiopic
+    public TMP_FontAsset defaultFont;
+    public TMP_FontAsset amharicFont;
+    public TMP_FontAsset russianFont;    // ← add this
 
     [Header("Legacy Fonts")]
     public Font defaultLegacyFont;          // ← normal legacy font
     public Font amharicLegacyFont;
+
+
 
     
 
@@ -340,11 +343,18 @@ public class QuestionManager : MonoBehaviour
         if (ui == null) return;
 
         bool isAmharic = LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic;
+        bool isRussian = LocalizationManager.currentLanguage == LocalizationManager.Language.Russian;
         bool isRTL = LocalizationManager.currentLanguage == LocalizationManager.Language.Arabic ||
                      LocalizationManager.currentLanguage == LocalizationManager.Language.Hebrew;
 
-        TMP_FontAsset targetTMPFont = isAmharic ? ui.amharicFont : ui.defaultFont;
+        // ← Pick correct font
+        TMP_FontAsset targetTMPFont;
+        if (isAmharic) targetTMPFont = ui.amharicFont;
+        else if (isRussian && ui.russianFont != null) targetTMPFont = ui.russianFont;
+        else targetTMPFont = ui.defaultFont;
+
         Font targetLegacyFont = isAmharic ? ui.amharicLegacyFont : ui.defaultLegacyFont;
+
 
         // ← TMP texts
         if (targetTMPFont != null)
