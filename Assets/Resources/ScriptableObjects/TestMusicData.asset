@@ -21,7 +21,7 @@ MonoBehaviour:
   - audioName: CorrectAnswer
     clip: {fileID: 8300000, guid: e138a4c4cf9efd64082bd64467300d64, type: 3}
   - audioName: WrongAnswer
-    clip: {fileID: 8300000, guid: b88bd52f65702ee438a81241dbfb6553, type: 3}
+    clip: {fileID: 8300000, guid: e4a7e3c9b646fef47a0db05f1af123dd, type: 3}
   - audioName: Flickering
     clip: {fileID: 8300000, guid: 42f188efc4972e0489ec7b52dc71f999, type: 3}
   - audioName: TrainSound
@@ -30,3 +30,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 66adceb41c98f7a4084b447389a7adf6, type: 3}
   - audioName: Tap
     clip: {fileID: 8300000, guid: 829aa0f4bbc2a8a4299eafee3f560209, type: 3}
+  - audioName: GasRefill
+    clip: {fileID: 8300000, guid: f03c6ffcb9fdfb54f84b147eedb2279c, type: 3}
