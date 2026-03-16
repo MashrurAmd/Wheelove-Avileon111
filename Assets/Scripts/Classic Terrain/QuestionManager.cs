@@ -297,7 +297,11 @@ public class QuestionManager : MonoBehaviour
 
         //ui.tts.Speak(qa.questions);     // tts added here
         //AndroidTTS.instance.Speak(qa.questions);
-        StartCoroutine(SpeakQuestionAndOptions(qa));
+        //StartCoroutine(SpeakQuestionAndOptions(qa));
+
+        // Only auto-speak if TTS is enabled
+        if (AndroidTTS.instance != null && AndroidTTS.instance.IsEnabled())
+            StartCoroutine(SpeakQuestionAndOptions(qa));
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
@@ -467,15 +471,25 @@ public class QuestionManager : MonoBehaviour
     }
 
     // read current question using TTS (can be called from a button)
+    //public void ReadCurrentQuestion()
+    //{
+    //    if (levelTestIndex >= quesData.tests.Count) return;
+    //    if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
+
+    //    var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
+    //    AndroidTTS.instance.Speak(qa.questions);
+    //}
     public void ReadCurrentQuestion()
     {
-        if (levelTestIndex >= quesData.tests.Count) return;
-        if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
+        if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
+        if (currentQuestionIndex >= shuffledQuestions.Count) return;
 
-        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
-        AndroidTTS.instance.Speak(qa.questions);
+        // Stop any existing speech first
+        AndroidTTS.instance?.Stop();
+
+        var qa = shuffledQuestions[currentQuestionIndex];
+        StartCoroutine(SpeakQuestionAndOptions(qa));
     }
-
 
 
     // ============================
@@ -661,6 +675,8 @@ public class QuestionManager : MonoBehaviour
     IEnumerator HideQuestionPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
+
+        AndroidTTS.instance?.Stop();
 
         if (ui == null || ui.questionPanel == null)
             yield break;
