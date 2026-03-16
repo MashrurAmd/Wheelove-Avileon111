@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections;
 using System.Runtime.InteropServices;
-using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AndroidTTS : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class AndroidTTS : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -50,6 +53,36 @@ public class AndroidTTS : MonoBehaviour
         InitTTS();
         WireUpButtons();
         UpdateButtonState();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Small delay to let scene fully initialize
+        StartCoroutine(RewireAfterSceneLoad());
+    }
+
+    private IEnumerator RewireAfterSceneLoad()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        // Find fresh buttons in the new scene
+        Button[] allButtons = FindObjectsOfType<Button>();
+        foreach (Button btn in allButtons)
+        {
+            if (btn.gameObject.name == "OnButton")
+                onButton = btn;
+            else if (btn.gameObject.name == "OffButton")
+                offButton = btn;
+        }
+
+        WireUpButtons();
+        UpdateButtonState();
+        Debug.Log("Buttons rewired after scene load ✅");
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     // =====================
