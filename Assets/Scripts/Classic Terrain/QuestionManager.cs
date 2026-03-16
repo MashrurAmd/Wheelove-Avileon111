@@ -397,27 +397,63 @@ public class QuestionManager : MonoBehaviour
         }
     }
 
+    //IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
+    //{
+    //    if (AndroidTTS.instance == null)
+    //        yield break;
+
+    //    // Speak Question
+    //    AndroidTTS.instance.Speak(qa.questions);
+
+    //    // wait for question speech
+    //    yield return new WaitForSeconds(2f);
+
+    //    // Speak Options
+    //    for (int i = 0; i < qa.options.Count; i++)
+    //    {
+    //        string optionText = qa.options[i];
+
+    //        AndroidTTS.instance.Speak(optionText);
+
+    //        // wait before speaking next option
+    //        yield return new WaitForSeconds(0.7f);
+    //    }
+    //}
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
         if (AndroidTTS.instance == null)
             yield break;
 
-        // Speak Question
+        // Speak Question — wait based on word count
         AndroidTTS.instance.Speak(qa.questions);
+        yield return new WaitForSeconds(EstimateSpeakDuration(qa.questions));
 
-        // wait for question speech
-        yield return new WaitForSeconds(2f);
+        // Small gap between question and options
+        yield return new WaitForSeconds(0.5f);
 
-        // Speak Options
+        // Speak each option — wait based on word count
         for (int i = 0; i < qa.options.Count; i++)
         {
             string optionText = qa.options[i];
-
             AndroidTTS.instance.Speak(optionText);
+            yield return new WaitForSeconds(EstimateSpeakDuration(optionText));
 
-            // wait before speaking next option
-            yield return new WaitForSeconds(0.7f);
+            // Small gap between options
+            yield return new WaitForSeconds(0.4f);
         }
+    }
+
+    // Estimates how long a text will take to speak
+    // based on average speaking speed (~2.5 words per second)
+    private float EstimateSpeakDuration(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return 1f;
+
+        int wordCount = text.Trim().Split(' ').Length;
+        float duration = wordCount / 2.5f;
+
+        // Minimum 1.5 seconds, maximum 10 seconds
+        return Mathf.Clamp(duration, 1.5f, 10f);
     }
 
     // read current question using TTS (can be called from a button)
