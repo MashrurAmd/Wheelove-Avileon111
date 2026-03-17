@@ -682,37 +682,71 @@ public class QuestionManager : MonoBehaviour
             ui.gameOver.SetActive(true);
     }
 
+    //IEnumerator HideQuestionPanelAfterDelay()
+    //{
+    //    yield return new WaitForSeconds(1.5f); // ← slightly longer for mobile
+
+    //    AndroidTTS.instance?.Stop();
+
+    //    if (isSceneUnloading) yield break; // ← add this check
+    //    if (ui == null || ui.questionPanel == null) yield break;
+
+    //    GameObject panel = ui.questionPanel;
+    //    if (!panel.activeInHierarchy) yield break; // ← already hidden
+
+    //    RectTransform rt = panel.GetComponent<RectTransform>();
+    //    CanvasGroup cg = panel.GetComponent<CanvasGroup>();
+
+    //    if (cg == null)
+    //        cg = panel.AddComponent<CanvasGroup>();
+
+    //    rt.DOKill();
+    //    cg.DOKill();
+
+    //    rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
+    //    cg.DOFade(0f, 0.25f);
+
+    //    yield return new WaitForSeconds(0.35f);
+
+    //    if (panel != null)
+    //        panel.SetActive(false);
+
+    //    if (car != null)
+    //        car.ResumeDriving(); // ← ensure car always resumes
+    //}
     IEnumerator HideQuestionPanelAfterDelay()
     {
-        yield return new WaitForSeconds(1.5f); // ← slightly longer for mobile
+        yield return new WaitForSeconds(1f);
 
         AndroidTTS.instance?.Stop();
 
-        if (isSceneUnloading) yield break; // ← add this check
-        if (ui == null || ui.questionPanel == null) yield break;
+        if (ui == null || ui.questionPanel == null)
+            yield break;
+
+        if (!ui.questionPanel.activeSelf)
+            yield break; // already hidden, skip
 
         GameObject panel = ui.questionPanel;
-        if (!panel.activeInHierarchy) yield break; // ← already hidden
-
         RectTransform rt = panel.GetComponent<RectTransform>();
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
 
         if (cg == null)
             cg = panel.AddComponent<CanvasGroup>();
 
-        rt.DOKill();
-        cg.DOKill();
+        // ← Kill ALL tweens on panel before starting close animation
+        DOTween.Kill(rt);
+        DOTween.Kill(cg);
 
         rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         cg.DOFade(0f, 0.25f);
 
         yield return new WaitForSeconds(0.35f);
 
-        if (panel != null)
-            panel.SetActive(false);
+        panel.SetActive(false);
 
+        // ← Resume car AFTER panel is fully hidden
         if (car != null)
-            car.ResumeDriving(); // ← ensure car always resumes
+            car.ResumeDriving();
     }
 
 
