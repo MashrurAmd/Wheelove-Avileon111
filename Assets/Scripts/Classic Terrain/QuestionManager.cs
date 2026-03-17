@@ -576,7 +576,12 @@ public class QuestionManager : MonoBehaviour
             UpdateScoreUI();
 
             if (gasBar != null)
+            {
                 gasBar.AddGas(0.2f);
+                SoundManager.Instance?.PlaySFX("GasRefill");
+            }
+                
+
 
             if (car != null)
                 car.ResumeDriving();
