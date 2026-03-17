@@ -116,7 +116,12 @@ public class QuestionManager : MonoBehaviour
     }
 
     void Start()
+
+
     {
+
+        DOTween.Init();
+
         switch (LocalizationManager.currentLanguage)
         {
             case LocalizationManager.Language.Hebrew:
@@ -679,14 +684,15 @@ public class QuestionManager : MonoBehaviour
 
     IEnumerator HideQuestionPanelAfterDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f); // ← slightly longer for mobile
 
         AndroidTTS.instance?.Stop();
 
-        if (ui == null || ui.questionPanel == null)
-            yield break;
+        if (isSceneUnloading) yield break; // ← add this check
+        if (ui == null || ui.questionPanel == null) yield break;
 
         GameObject panel = ui.questionPanel;
+        if (!panel.activeInHierarchy) yield break; // ← already hidden
 
         RectTransform rt = panel.GetComponent<RectTransform>();
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
@@ -697,15 +703,16 @@ public class QuestionManager : MonoBehaviour
         rt.DOKill();
         cg.DOKill();
 
-        // Smooth close animation
-        rt.DOScale(Vector3.zero, 0.3f)
-          .SetEase(Ease.InBack);
-
+        rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         cg.DOFade(0f, 0.25f);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.35f);
 
-        panel.SetActive(false);
+        if (panel != null)
+            panel.SetActive(false);
+
+        if (car != null)
+            car.ResumeDriving(); // ← ensure car always resumes
     }
 
 

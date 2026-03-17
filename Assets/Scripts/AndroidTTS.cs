@@ -3,6 +3,15 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
+
+
+
+
+//#if UNITY_EDITOR
+//using System.Speech.Synthesis;
+//#endif
+
 
 public class AndroidTTS : MonoBehaviour
 {
@@ -11,13 +20,12 @@ public class AndroidTTS : MonoBehaviour
     private bool isReady = false;
     private bool isEnabled = true;
 
-    [Header("UI Buttons — Assign in Inspector!")]
-    public Button onButton;
-    public Button offButton;
+
+
 
 #if UNITY_IOS && !UNITY_EDITOR
     [DllImport("__Internal")]
-    private static extern void _IOSSpeak(string text);
+    private static extern void _IOSSpeak(string text, string languageCode);
 
     [DllImport("__Internal")]
     private static extern void _IOSStop();
@@ -28,18 +36,12 @@ public class AndroidTTS : MonoBehaviour
     private AndroidJavaObject activity;
 #endif
 
-    // =====================
-    // UNITY EVENTS
-    // =====================
-
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -51,131 +53,47 @@ public class AndroidTTS : MonoBehaviour
     void Start()
     {
         InitTTS();
-        WireUpButtons();
-        UpdateButtonState();
     }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Small delay to let scene fully initialize
-        StartCoroutine(RewireAfterSceneLoad());
-    }
-
-    private IEnumerator RewireAfterSceneLoad()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        // Find fresh buttons in the new scene
-        Button[] allButtons = FindObjectsOfType<Button>();
-        foreach (Button btn in allButtons)
-        {
-            if (btn.gameObject.name == "OnButton")
-                onButton = btn;
-            else if (btn.gameObject.name == "OffButton")
-                offButton = btn;
-        }
-
-        WireUpButtons();
-        UpdateButtonState();
-        Debug.Log("Buttons rewired after scene load ✅");
-    }
-
-    void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    // =====================
-    // INIT
-    // =====================
 
     private void InitTTS()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        }
+    using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+    {
+        activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+    }
 
-        tts = new AndroidJavaObject("android.speech.tts.TextToSpeech", activity,
-            new TTSInitListener(() =>
-            {
-                isReady = true;
-                Debug.Log("TTS Ready ✅");
-            })
-        );
+    tts = new AndroidJavaObject("android.speech.tts.TextToSpeech", activity,
+        new TTSInitListener(() =>
+        {
+            isReady = true;
+            Debug.Log("TTS Ready ✅");
+            // ← Set language immediately after init
+            SetTTSLanguage();
+        })
+    );
 #elif UNITY_IOS && !UNITY_EDITOR
-        isReady = true;
+    isReady = true;
 #else
-        isReady = true; // Editor
+        isReady = true;
 #endif
     }
 
-    // =====================
-    // BUTTON WIRING
-    // =====================
+    public bool IsEnabled() => isEnabled;
 
-    private void WireUpButtons()
-    {
-        if (onButton != null)
-        {
-            onButton.onClick.RemoveAllListeners();
-            onButton.onClick.AddListener(EnableTTS);
-            Debug.Log("ON button wired ✅");
-        }
-        else
-        {
-            Debug.LogWarning("[AndroidTTS] ⚠️ onButton is NOT assigned in Inspector!");
-        }
-
-        if (offButton != null)
-        {
-            offButton.onClick.RemoveAllListeners();
-            offButton.onClick.AddListener(DisableTTS);
-            Debug.Log("OFF button wired ✅");
-        }
-        else
-        {
-            Debug.LogWarning("[AndroidTTS] ⚠️ offButton is NOT assigned in Inspector!");
-        }
-    }
-
-    public bool IsEnabled()
-    {
-        return isEnabled;
-    }
-
-    // =====================
-    // PUBLIC CONTROLS
-    // =====================
-
-    //public void EnableTTS()
-    //{
-    //    isEnabled = true;
-    //    UpdateButtonState();
-
-    //    QuestionManager qm = FindObjectOfType<QuestionManager>();
-    //    if (qm != null)
-    //        qm.ReadCurrentQuestion();
-
-    //    Debug.Log("TTS Enabled ✅");
-    //}
-
-    //public void DisableTTS()
-    //{
-    //    isEnabled = false;
-    //    Stop();
-    //    UpdateButtonState();
-    //    Debug.Log("TTS Disabled 🔇");
-    //}
+    // ← Just call these directly from button onClick in Inspector
     public void EnableTTS()
     {
         isEnabled = true;
-        UpdateButtonState();
         Debug.Log("TTS Enabled ✅");
-
-        // Re-speak current question + options
         StartCoroutine(SpeakAfterDelay());
+    }
+
+    public void DisableTTS()
+    {
+        isEnabled = false;
+        Stop();
+        Debug.Log("TTS Disabled 🔇");
     }
 
     private IEnumerator SpeakAfterDelay()
@@ -184,16 +102,6 @@ public class AndroidTTS : MonoBehaviour
         QuestionManager qm = FindObjectOfType<QuestionManager>();
         if (qm != null)
             qm.ReadCurrentQuestion();
-        else
-            Debug.LogWarning("[AndroidTTS] QuestionManager not found!");
-    }
-
-    public void DisableTTS()
-    {
-        isEnabled = false;
-        Stop();
-        UpdateButtonState();
-        Debug.Log("TTS Disabled 🔇");
     }
 
     public void Speak(string text)
@@ -201,11 +109,35 @@ public class AndroidTTS : MonoBehaviour
         if (!isEnabled || !isReady || string.IsNullOrEmpty(text)) return;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        tts?.Call<int>("speak", text, 0, null, null);
+    SetTTSLanguage(); // ← ensure correct language
+    
+    // Check if language is available
+    using (AndroidJavaObject locale = new AndroidJavaObject(
+        "java.util.Locale", GetLanguageCode(), GetCountryCode()))
+    {
+        int langAvailable = tts.Call<int>("isLanguageAvailable", locale);
+        Debug.Log($"Language available check: {langAvailable}"); 
+        // 1 = available, 0 = missing data, -1 = not supported, -2 = not set
+        
+        if (langAvailable < 0)
+        {
+            Debug.LogWarning($"TTS language not available: {GetLanguageCode()} — falling back to English");
+            // ← Open language install intent on device
+            using (AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent"))
+            {
+                intent.Call<AndroidJavaObject>("setAction", "com.android.settings.TTS_SETTINGS");
+                activity.Call("startActivity", intent);
+            }
+            return;
+        }
+    }
+    
+    tts?.Call<int>("speak", text, 0, null, null);
 #elif UNITY_IOS && !UNITY_EDITOR
-        _IOSSpeak(text);
+    _IOSSpeak(text, GetIOSLanguageCode());
 #else
         Debug.Log($"[TTS Editor] {text}");
+        SpeakInEditor(text);
 #endif
     }
 
@@ -218,40 +150,95 @@ public class AndroidTTS : MonoBehaviour
 #endif
     }
 
-    // =====================
-    // UI STATE
-    // =====================
-
-    private void UpdateButtonState()
+    private void SetTTSLanguage()
     {
-        // OnButton  → visible when TTS is OFF (press to turn ON)
-        if (onButton != null)
-            onButton.gameObject.SetActive(!isEnabled);
-
-        // OffButton → visible when TTS is ON (press to turn OFF)
-        if (offButton != null)
-            offButton.gameObject.SetActive(isEnabled);
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (tts == null || !isReady) return;
+        string langCode = GetLanguageCode();
+        string countryCode = GetCountryCode();
+        using (AndroidJavaObject locale = new AndroidJavaObject("java.util.Locale", langCode, countryCode))
+        {
+            tts.Call<int>("setLanguage", locale);
+        }
+#endif
     }
 
-    // =====================
-    // ANDROID TTS LISTENER
-    // =====================
+    private string GetLanguageCode()
+    {
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Arabic: return "ar";
+            case LocalizationManager.Language.Hebrew: return "iw";
+            case LocalizationManager.Language.Russian: return "ru";
+            case LocalizationManager.Language.Amharic: return "am";
+            default: return "en";
+        }
+    }
+
+    private string GetCountryCode()
+    {
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Arabic: return "SA";
+            case LocalizationManager.Language.Hebrew: return "IL";
+            case LocalizationManager.Language.Russian: return "RU";
+            case LocalizationManager.Language.Amharic: return "ET";
+            default: return "US";
+        }
+    }
+
+    private string GetIOSLanguageCode()
+    {
+        switch (LocalizationManager.currentLanguage)
+        {
+            case LocalizationManager.Language.Arabic: return "ar-SA";
+            case LocalizationManager.Language.Hebrew: return "he-IL";
+            case LocalizationManager.Language.Russian: return "ru-RU";
+            case LocalizationManager.Language.Amharic: return "am-ET";
+            default: return "en-US";
+        }
+    }
+
+    private void SpeakInEditor(string text)
+    {
+#if UNITY_EDITOR
+        try
+        {
+            string escaped = text.Replace("\"", "").Replace("'", "");
+            string psCommand = $"Add-Type -AssemblyName System.Speech; " +
+                              $"$s = New-Object System.Speech.Synthesis.SpeechSynthesizer; " +
+                              $"$s.Speak('{escaped}');";
+
+            System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-NoProfile -NonInteractive -Command \"{psCommand}\"",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = false
+            };
+
+            System.Diagnostics.Process.Start(psi);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[TTS Editor] Could not speak: {e.Message}");
+        }
+#endif
+    }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     private class TTSInitListener : AndroidJavaProxy
     {
         private System.Action callback;
-
         public TTSInitListener(System.Action cb)
             : base("android.speech.tts.TextToSpeech$OnInitListener")
         {
             callback = cb;
         }
-
         public void onInit(int status)
         {
-            if (status == 0)
-                callback?.Invoke();
+            if (status == 0) callback?.Invoke();
         }
     }
 #endif
