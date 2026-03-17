@@ -68,14 +68,86 @@ public class AndroidTTS : MonoBehaviour
         {
             isReady = true;
             Debug.Log("TTS Ready ✅");
-            // ← Set language immediately after init
-            SetTTSLanguage();
+            // ← Auto download all languages on first init
+            StartCoroutine(DownloadAllLanguages());
         })
     );
 #elif UNITY_IOS && !UNITY_EDITOR
     isReady = true;
 #else
         isReady = true;
+#endif
+    }
+
+    private IEnumerator DownloadAllLanguages()
+    {
+        yield return new WaitForSeconds(1f);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+    string[][] languages = new string[][]
+    {
+        new string[] { "ar", "SA" },  // Arabic
+        new string[] { "iw", "IL" },  // Hebrew
+        new string[] { "ru", "RU" },  // Russian
+        new string[] { "am", "ET" },  // Amharic
+        new string[] { "en", "US" },  // English
+    };
+
+    foreach (var lang in languages)
+    {
+        using (AndroidJavaObject locale = new AndroidJavaObject(
+            "java.util.Locale", lang[0], lang[1]))
+        {
+            int available = tts.Call<int>("isLanguageAvailable", locale);
+            Debug.Log($"Language {lang[0]} available: {available}");
+
+            // -2 = not supported, -1 = missing data, 0 = available, 1 = country available, 2 = exact match
+            if (available == -1) // missing data only — trigger download
+            {
+                Debug.Log($"Downloading voice for {lang[0]}...");
+                TriggerVoiceDownload(lang[0], lang[1]);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+    }
+#endif
+        yield return null;
+    }
+
+    private void TriggerVoiceDownload(string langCode, string countryCode)
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+    try
+    {
+        // ← This triggers silent background download of voice pack
+        using (AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent"))
+        {
+            intent.Call<AndroidJavaObject>("setAction", 
+                "com.android.settings.TTS_SETTINGS");
+            
+            // Try Google TTS engine first
+            using (AndroidJavaObject googleIntent = new AndroidJavaObject("android.content.Intent",
+                "android.speech.tts.engine.INSTALL_TTS_DATA"))
+            {
+                googleIntent.Call<AndroidJavaObject>("setPackage", 
+                    "com.google.android.tts");
+                
+                try
+                {
+                    activity.Call("startActivity", googleIntent);
+                    Debug.Log($"Google TTS install triggered for {langCode}");
+                }
+                catch
+                {
+                    Debug.LogWarning($"Could not trigger Google TTS install for {langCode}");
+                }
+            }
+        }
+    }
+    catch (System.Exception e)
+    {
+        Debug.LogWarning($"Voice download failed for {langCode}: {e.Message}");
+    }
 #endif
     }
 
