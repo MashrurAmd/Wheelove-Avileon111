@@ -34,6 +34,8 @@ public class CameraSwapper : MonoBehaviour
 
     private bool introComplete = false;
 
+    private Vector3 currentOffsetVelocity = Vector3.zero; // ← add this field
+
     void Start()
     {
         thirdPersonTransposer = thirdPersonCam.GetCinemachineComponent<CinemachineTransposer>();
@@ -81,30 +83,32 @@ public class CameraSwapper : MonoBehaviour
             if (angle > curveThreshold)
             {
                 if (turnDirection > 0.01f)
-                    targetX = turnOffsetAmount;    // left turn → shift right
+                    targetX = turnOffsetAmount;
                 else if (turnDirection < -0.01f)
-                    targetX = -turnOffsetAmount;   // right turn → shift left
+                    targetX = -turnOffsetAmount;
             }
 
             Vector3 targetOffset = new Vector3(
                 defaultOffset.x + targetX,
                 defaultOffset.y + (angle > curveThreshold ? turnOffsetY : 0f),
-                defaultOffset.z + (angle > curveThreshold ? turnOffsetZ : 0f)  // ← add Z
+                defaultOffset.z + (angle > curveThreshold ? turnOffsetZ : 0f)
             );
 
-
-            thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+            // ← SmoothDamp instead of Lerp — much smoother
+            thirdPersonTransposer.m_FollowOffset = Vector3.SmoothDamp(
                 thirdPersonTransposer.m_FollowOffset,
                 targetOffset,
-                Time.deltaTime * offsetSmoothSpeed
+                ref currentOffsetVelocity,
+                offsetSmoothSpeed  // ← this is now smoothTime in seconds, try 0.5 to 1.5
             );
         }
         else if (isFirstPerson && thirdPersonTransposer != null)
         {
-            thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+            thirdPersonTransposer.m_FollowOffset = Vector3.SmoothDamp(
                 thirdPersonTransposer.m_FollowOffset,
                 defaultOffset,
-                Time.deltaTime * offsetSmoothSpeed
+                ref currentOffsetVelocity,
+                offsetSmoothSpeed
             );
         }
 
