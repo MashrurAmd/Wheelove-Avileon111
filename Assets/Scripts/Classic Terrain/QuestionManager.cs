@@ -682,62 +682,27 @@ public class QuestionManager : MonoBehaviour
             ui.gameOver.SetActive(true);
     }
 
-    //IEnumerator HideQuestionPanelAfterDelay()
-    //{
-    //    yield return new WaitForSeconds(1.5f); // ← slightly longer for mobile
-
-    //    AndroidTTS.instance?.Stop();
-
-    //    if (isSceneUnloading) yield break; // ← add this check
-    //    if (ui == null || ui.questionPanel == null) yield break;
-
-    //    GameObject panel = ui.questionPanel;
-    //    if (!panel.activeInHierarchy) yield break; // ← already hidden
-
-    //    RectTransform rt = panel.GetComponent<RectTransform>();
-    //    CanvasGroup cg = panel.GetComponent<CanvasGroup>();
-
-    //    if (cg == null)
-    //        cg = panel.AddComponent<CanvasGroup>();
-
-    //    rt.DOKill();
-    //    cg.DOKill();
-
-    //    rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
-    //    cg.DOFade(0f, 0.25f);
-
-    //    yield return new WaitForSeconds(0.35f);
-
-    //    if (panel != null)
-    //        panel.SetActive(false);
-
-    //    if (car != null)
-    //        car.ResumeDriving(); // ← ensure car always resumes
-    //}
-
     IEnumerator HideQuestionPanelAfterDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f); // ← slightly longer for mobile
 
-        // Stop TTS when panel closes
         AndroidTTS.instance?.Stop();
 
-        if (isSceneUnloading) yield break;
+        if (isSceneUnloading) yield break; // ← add this check
         if (ui == null || ui.questionPanel == null) yield break;
-        if (!ui.questionPanel.activeInHierarchy) yield break; // already hidden
 
         GameObject panel = ui.questionPanel;
+        if (!panel.activeInHierarchy) yield break; // ← already hidden
+
         RectTransform rt = panel.GetComponent<RectTransform>();
         CanvasGroup cg = panel.GetComponent<CanvasGroup>();
 
         if (cg == null)
             cg = panel.AddComponent<CanvasGroup>();
 
-        // Kill tweens using DOKill() on the component (correct way)
         rt.DOKill();
         cg.DOKill();
 
-        // Close animation
         rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         cg.DOFade(0f, 0.25f);
 
@@ -745,7 +710,42 @@ public class QuestionManager : MonoBehaviour
 
         if (panel != null)
             panel.SetActive(false);
+
+        if (car != null)
+            car.ResumeDriving(); // ← ensure car always resumes
     }
+
+    //IEnumerator HideQuestionPanelAfterDelay()
+    //{
+    //    yield return new WaitForSeconds(1f);
+
+    //    // Stop TTS when panel closes
+    //    AndroidTTS.instance?.Stop();
+
+    //    if (isSceneUnloading) yield break;
+    //    if (ui == null || ui.questionPanel == null) yield break;
+    //    if (!ui.questionPanel.activeInHierarchy) yield break; // already hidden
+
+    //    GameObject panel = ui.questionPanel;
+    //    RectTransform rt = panel.GetComponent<RectTransform>();
+    //    CanvasGroup cg = panel.GetComponent<CanvasGroup>();
+
+    //    if (cg == null)
+    //        cg = panel.AddComponent<CanvasGroup>();
+
+    //    // Kill tweens using DOKill() on the component (correct way)
+    //    rt.DOKill();
+    //    cg.DOKill();
+
+    //    // Close animation
+    //    rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
+    //    cg.DOFade(0f, 0.25f);
+
+    //    yield return new WaitForSeconds(0.35f);
+
+    //    if (panel != null)
+    //        panel.SetActive(false);
+    //}
 
 
 
