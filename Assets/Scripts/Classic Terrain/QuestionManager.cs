@@ -714,17 +714,17 @@ public class QuestionManager : MonoBehaviour
     //    if (car != null)
     //        car.ResumeDriving(); // ← ensure car always resumes
     //}
+
     IEnumerator HideQuestionPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
 
+        // Stop TTS when panel closes
         AndroidTTS.instance?.Stop();
 
-        if (ui == null || ui.questionPanel == null)
-            yield break;
-
-        if (!ui.questionPanel.activeSelf)
-            yield break; // already hidden, skip
+        if (isSceneUnloading) yield break;
+        if (ui == null || ui.questionPanel == null) yield break;
+        if (!ui.questionPanel.activeInHierarchy) yield break; // already hidden
 
         GameObject panel = ui.questionPanel;
         RectTransform rt = panel.GetComponent<RectTransform>();
@@ -733,20 +733,18 @@ public class QuestionManager : MonoBehaviour
         if (cg == null)
             cg = panel.AddComponent<CanvasGroup>();
 
-        // ← Kill ALL tweens on panel before starting close animation
-        DOTween.Kill(rt);
-        DOTween.Kill(cg);
+        // Kill tweens using DOKill() on the component (correct way)
+        rt.DOKill();
+        cg.DOKill();
 
+        // Close animation
         rt.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         cg.DOFade(0f, 0.25f);
 
         yield return new WaitForSeconds(0.35f);
 
-        panel.SetActive(false);
-
-        // ← Resume car AFTER panel is fully hidden
-        if (car != null)
-            car.ResumeDriving();
+        if (panel != null)
+            panel.SetActive(false);
     }
 
 
