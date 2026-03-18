@@ -476,25 +476,27 @@ public class QuestionManager : MonoBehaviour
     }
 
     // read current question using TTS (can be called from a button)
-    //public void ReadCurrentQuestion()
-    //{
-    //    if (levelTestIndex >= quesData.tests.Count) return;
-    //    if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
-
-    //    var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
-    //    AndroidTTS.instance.Speak(qa.questions);
-    //}
     public void ReadCurrentQuestion()
     {
-        if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
-        if (currentQuestionIndex >= shuffledQuestions.Count) return;
+        if (levelTestIndex >= quesData.tests.Count) return;
+        if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
 
-        // Stop any existing speech first
         AndroidTTS.instance?.Stop();
 
-        var qa = shuffledQuestions[currentQuestionIndex];
-        StartCoroutine(SpeakQuestionAndOptions(qa));
+        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
+        AndroidTTS.instance.Speak(qa.questions);
     }
+    //public void ReadCurrentQuestion()
+    //{
+    //    if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
+    //    if (currentQuestionIndex >= shuffledQuestions.Count) return;
+
+    //    // Stop any existing speech first
+    //    AndroidTTS.instance?.Stop();
+
+    //    var qa = shuffledQuestions[currentQuestionIndex];
+    //    StartCoroutine(SpeakQuestionAndOptions(qa));
+    //}
 
 
     // ============================
