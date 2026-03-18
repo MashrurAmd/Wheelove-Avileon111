@@ -302,11 +302,11 @@ public class QuestionManager : MonoBehaviour
 
         //ui.tts.Speak(qa.questions);     // tts added here
         //AndroidTTS.instance.Speak(qa.questions);
-        //StartCoroutine(SpeakQuestionAndOptions(qa));
+        StartCoroutine(SpeakQuestionAndOptions(qa));
 
         // Only auto-speak if TTS is enabled
-        if (AndroidTTS.instance != null && AndroidTTS.instance.IsEnabled())
-            StartCoroutine(SpeakQuestionAndOptions(qa));
+        //if (AndroidTTS.instance != null && AndroidTTS.instance.IsEnabled())
+        //    StartCoroutine(SpeakQuestionAndOptions(qa));
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
