@@ -33,8 +33,6 @@ public class QuestionUISet
 
 
 
-
-
     
 
 
@@ -90,9 +88,6 @@ public class QuestionManager : MonoBehaviour
     private List<QuesAnswer> shuffledQuestions = new List<QuesAnswer>();
 
     private TriggerZone currentTriggerZone;
-
-    private Coroutine speakCoroutine = null;
-    private bool answerSubmitted = false;
 
 
 
@@ -307,10 +302,7 @@ public class QuestionManager : MonoBehaviour
 
         //ui.tts.Speak(qa.questions);     // tts added here
         //AndroidTTS.instance.Speak(qa.questions);
-        answerSubmitted = false;
-        if (speakCoroutine != null)
-            StopCoroutine(speakCoroutine);
-        speakCoroutine = StartCoroutine(SpeakQuestionAndOptions(qa));
+        StartCoroutine(SpeakQuestionAndOptions(qa));
 
         // Only auto-speak if TTS is enabled
         //if (AndroidTTS.instance != null && AndroidTTS.instance.IsEnabled())
@@ -448,44 +440,26 @@ public class QuestionManager : MonoBehaviour
     //}
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
-        if (AndroidTTS.instance == null) yield break;
+        if (AndroidTTS.instance == null)
+            yield break;
 
-        answerSubmitted = false;
-
+        // Speak Question — wait based on word count
         AndroidTTS.instance.Speak(qa.questions);
+        yield return new WaitForSeconds(EstimateSpeakDuration(qa.questions));
 
-        float elapsed = 0f;
-        float duration = EstimateSpeakDuration(qa.questions);
-        while (elapsed < duration)
-        {
-            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+        // Small gap between question and options
         yield return new WaitForSeconds(0.5f);
 
+        // Speak each option — wait based on word count
         for (int i = 0; i < qa.options.Count; i++)
         {
-            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+            string optionText = qa.options[i];
+            AndroidTTS.instance.Speak(optionText);
+            yield return new WaitForSeconds(EstimateSpeakDuration(optionText));
 
-            AndroidTTS.instance.Speak(qa.options[i]);
-
-            float optElapsed = 0f;
-            float optDuration = EstimateSpeakDuration(qa.options[i]);
-            while (optElapsed < optDuration)
-            {
-                if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
-                optElapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+            // Small gap between options
             yield return new WaitForSeconds(0.4f);
         }
-
-        speakCoroutine = null;
     }
 
     // Estimates how long a text will take to speak
@@ -531,25 +505,28 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
-        // ← Stop TTS immediately
-        answerSubmitted = true;
-        if (speakCoroutine != null)
+
+
+        Debug.Log("=== CheckAnswer CALLED ===");
+        Debug.Log($"Language: {LocalizationManager.currentLanguage}");
+        Debug.Log($"ui null: {ui == null}");
+        Debug.Log($"isSceneUnloading: {isSceneUnloading}");
+        Debug.Log($"shuffledQuestions count: {shuffledQuestions?.Count}");
+        Debug.Log($"currentQuestionIndex: {currentQuestionIndex}");
+
+        for (int i = 0; i < ui.optionToggles.Count; i++)
         {
-            StopCoroutine(speakCoroutine);
-            speakCoroutine = null;
+            Debug.Log($"Toggle {i} isOn: {ui.optionToggles[i].isOn} | Label: '{ui.optionLabels[i].text}'");
         }
-        AndroidTTS.instance?.Stop();
 
-        UpdateUISet(); // ← force ui assignment
 
-        if (ui == null) return;
+
         if (isSceneUnloading) return;
-        if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
-        if (currentQuestionIndex >= shuffledQuestions.Count) return;
 
         isCountingDown = false;
 
         var qa = shuffledQuestions[currentQuestionIndex];
+
         string selectedOption = "";
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
@@ -563,25 +540,33 @@ public class QuestionManager : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(selectedOption))
         {
+            //ui.answerText.text = "No option selected!";
             ShowAnswerPopup("No option selected!", Color.yellow);
+
             if (car != null)
             {
                 car.MoveBackByWaypoints(3);
                 car.ResumeDriving();
             }
+
             StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
-
         bool isCorrect = false;
 
         if (LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic)
         {
+            // ← Check by selected toggle index instead of text
             int selectedIndex = -1;
             for (int i = 0; i < ui.optionToggles.Count; i++)
             {
-                if (ui.optionToggles[i].isOn) { selectedIndex = i; break; }
+                if (ui.optionToggles[i].isOn)
+                {
+                    selectedIndex = i;
+                    break;
+                }
             }
+            Debug.Log($"Selected Index: {selectedIndex} | Correct Index: {qa.correctAnswerIndex}");
             isCorrect = selectedIndex == qa.correctAnswerIndex;
         }
         else
@@ -592,6 +577,7 @@ public class QuestionManager : MonoBehaviour
         if (isCorrect)
         {
             SoundManager.Instance?.PlaySFX("CorrectAnswer");
+
             ShowAnswerPopup("Correct Answer!", Color.green);
             score++;
             UpdateScoreUI();
@@ -601,10 +587,13 @@ public class QuestionManager : MonoBehaviour
                 gasBar.AddGas(0.2f);
                 SoundManager.Instance?.PlaySFX("GasRefill");
             }
+                
+
 
             if (car != null)
                 car.ResumeDriving();
 
+            // ← Notify zone that question was answered correctly
             if (currentTriggerZone != null)
             {
                 currentTriggerZone.OnQuestionAnsweredCorrectly();
@@ -616,6 +605,8 @@ public class QuestionManager : MonoBehaviour
         else
         {
             SoundManager.Instance?.PlaySFX("WrongAnswer");
+
+            //ui.answerText.text = "Wrong Answer!";
             ShowAnswerPopup("Wrong Answer!", Color.red);
             life--;
             UpdateWrongAnswersUI();
@@ -623,9 +614,20 @@ public class QuestionManager : MonoBehaviour
             if (car != null)
             {
                 wrongAnswerCount++;
-                if (wrongAnswerCount == 1) car.MoveBackByWaypoints(3);
-                else if (wrongAnswerCount == 2) car.MoveBackByWaypoints(5);
-                else car.RespawnAtStart();
+
+                if (wrongAnswerCount == 1)
+                {
+                    car.MoveBackByWaypoints(3);
+                }
+                else if (wrongAnswerCount == 2)
+                {
+                    car.MoveBackByWaypoints(5);
+                }
+                else
+                {
+                    car.RespawnAtStart();
+                }
+
                 car.ResumeDriving();
             }
 
