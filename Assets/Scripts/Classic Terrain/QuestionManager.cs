@@ -655,12 +655,22 @@ public class QuestionManager : MonoBehaviour
             }
 
             if (life <= 0)
-                StartCoroutine(RestartAfterDelay());
+            {
+                life = 3; // ← reset for next game
+                //GameManager.globalLife = 3;
+                StartCoroutine(LoadMainMenuAfterDelay());
+            }
 
             StartCoroutine(HideQuestionPanelAfterDelay());
         }
 
         //StartCoroutine(HideQuestionPanelAfterDelay());
+    }
+
+    IEnumerator LoadMainMenuAfterDelay()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("MainMenu"); // ← make sure this matches your main menu scene name exactly
     }
 
     private void ShowAnswerPopup(string message, Color color)
