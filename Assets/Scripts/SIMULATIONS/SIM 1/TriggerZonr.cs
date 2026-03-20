@@ -9,10 +9,6 @@ public class TriggerZone : MonoBehaviour
     public bool isTriggered = false;
     private bool hasTriggered = false;
 
-    [Header("Collectible Settings")]
-    public int maxTriggerCount = 2;
-    private int triggerCount = 0;
-
     [Header("Congratulations & Scene")]
     public GameObject congratulationsPanel;
     public string nextSceneName;
@@ -28,7 +24,6 @@ public class TriggerZone : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         if (hasTriggered) return;
-        if (triggerCount >= maxTriggerCount) return;
 
         hasTriggered = true;
         isTriggered = true;
@@ -41,14 +36,11 @@ public class TriggerZone : MonoBehaviour
 
             QuestionManager qm = FindObjectOfType<QuestionManager>();
             if (qm != null && qm.isActiveAndEnabled)
-                qm.ShowNextQuestion(this); // ← pass reference to this zone
+                qm.ShowNextQuestion(this);
         }
         else if (CompareTag("Finish"))
         {
-            QuestionManager qm = FindObjectOfType<QuestionManager>();
-            if (qm != null && !qm.AllQuestionsAnswered())
-                return;
-
+            // ← No question check, no max count — just load next scene
             StartCoroutine(ShowPanelAndLoadScene());
         }
     }
@@ -64,11 +56,10 @@ public class TriggerZone : MonoBehaviour
         }
     }
 
-    // ← Called by QuestionManager only on correct answer
     public void OnQuestionAnsweredCorrectly()
     {
-        triggerCount++;
-        Debug.Log($"{gameObject.name} triggerCount: {triggerCount}/{maxTriggerCount}");
+        // ← No triggerCount needed anymore
+        Debug.Log($"{gameObject.name} question answered correctly");
     }
 
     private IEnumerator ShowPanelAndLoadScene()
