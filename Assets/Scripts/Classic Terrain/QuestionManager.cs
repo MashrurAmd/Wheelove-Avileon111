@@ -90,7 +90,8 @@ public class QuestionManager : MonoBehaviour
     private TriggerZone currentTriggerZone;
 
 
-
+    private Coroutine speakCoroutine = null;
+    private bool answerSubmitted = false;
 
     [Header("Wrong Answer Tracking")]
     private int wrongAnswerCount = 0;
@@ -302,11 +303,11 @@ public class QuestionManager : MonoBehaviour
 
         //ui.tts.Speak(qa.questions);     // tts added here
         //AndroidTTS.instance.Speak(qa.questions);
-        StartCoroutine(SpeakQuestionAndOptions(qa));
+        //StartCoroutine(SpeakQuestionAndOptions(qa));
 
-        // Only auto-speak if TTS is enabled
-        //if (AndroidTTS.instance != null && AndroidTTS.instance.IsEnabled())
-        //    StartCoroutine(SpeakQuestionAndOptions(qa));
+        answerSubmitted = false;
+        if (speakCoroutine != null) StopCoroutine(speakCoroutine);
+        speakCoroutine = StartCoroutine(SpeakQuestionAndOptions(qa));
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
         {
@@ -440,26 +441,40 @@ public class QuestionManager : MonoBehaviour
     //}
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
-        if (AndroidTTS.instance == null)
-            yield break;
+        if (AndroidTTS.instance == null) yield break;
 
-        // Speak Question — wait based on word count
         AndroidTTS.instance.Speak(qa.questions);
-        yield return new WaitForSeconds(EstimateSpeakDuration(qa.questions));
 
-        // Small gap between question and options
+        float elapsed = 0f;
+        float duration = EstimateSpeakDuration(qa.questions);
+        while (elapsed < duration)
+        {
+            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
         yield return new WaitForSeconds(0.5f);
 
-        // Speak each option — wait based on word count
         for (int i = 0; i < qa.options.Count; i++)
         {
-            string optionText = qa.options[i];
-            AndroidTTS.instance.Speak(optionText);
-            yield return new WaitForSeconds(EstimateSpeakDuration(optionText));
+            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+            AndroidTTS.instance.Speak(qa.options[i]);
 
-            // Small gap between options
+            float optElapsed = 0f;
+            float optDuration = EstimateSpeakDuration(qa.options[i]);
+            while (optElapsed < optDuration)
+            {
+                if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
+                optElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (answerSubmitted) { AndroidTTS.instance?.Stop(); yield break; }
             yield return new WaitForSeconds(0.4f);
         }
+        speakCoroutine = null;
     }
 
     // Estimates how long a text will take to speak
@@ -505,6 +520,10 @@ public class QuestionManager : MonoBehaviour
 
     public void CheckAnswer()
     {
+
+        answerSubmitted = true;
+        if (speakCoroutine != null) { StopCoroutine(speakCoroutine); speakCoroutine = null; }
+        AndroidTTS.instance?.Stop();
 
 
         Debug.Log("=== CheckAnswer CALLED ===");
