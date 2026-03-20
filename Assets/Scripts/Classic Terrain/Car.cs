@@ -33,6 +33,26 @@ public class Car : MonoBehaviour
 
     private bool isForcedStopped = false;
 
+
+
+    [Header("Wheels")]
+    public Transform frontLeftWheel;
+    public Transform frontRightWheel;
+    public Transform rearLeftWheel;
+    public Transform rearRightWheel;
+
+    [Header("Wheel Settings")]
+    public float wheelRadius = 0.3f; // ← set to match your wheel size
+
+    private float wheelRotationX = 0f;
+
+    [Header("Wheel Steering")]
+    public float maxSteerAngle = 30f;
+    public float steerSmoothSpeed = 5f;
+
+    private float currentSteerAngle = 0f;
+    public float turnangle = 30f;
+
     // =========================
     // START
     // =========================
@@ -94,6 +114,7 @@ public class Car : MonoBehaviour
         pathPosition = Mathf.Clamp(pathPosition, 0f, roadPath.PathLength);
 
         SetCarToPathPosition();
+        RotateWheels(); // ← add this
     }
 
     // =========================
@@ -187,4 +208,48 @@ public class Car : MonoBehaviour
 
         SetCarToPathPosition();
     }
+
+    private void RotateWheels()
+    {
+        if (currentSpeed < 0.01f)
+        {
+            currentSteerAngle = Mathf.Lerp(currentSteerAngle, 0f, Time.deltaTime * steerSmoothSpeed);
+            ApplyWheelRotations();
+            return;
+        }
+
+        // ← Speed based roll
+        float degreesPerSecond = (currentSpeed / (2f * Mathf.PI * wheelRadius)) * 360f;
+        wheelRotationX += degreesPerSecond * Time.deltaTime;
+
+        // ← Detect turn from path
+        float prevPos = Mathf.Max(pathPosition - 0.5f, 0f);
+        Vector3 forwardPrev = roadPath.EvaluateTangentAtUnit(prevPos, CinemachinePathBase.PositionUnits.Distance);
+        Vector3 forwardNow = roadPath.EvaluateTangentAtUnit(pathPosition, CinemachinePathBase.PositionUnits.Distance);
+        float turnAngle = Vector3.SignedAngle(forwardPrev, forwardNow, Vector3.up);
+
+        // ← Smooth steer angle
+        float targetSteer = Mathf.Clamp(turnAngle * turnangle, -maxSteerAngle, maxSteerAngle);
+        currentSteerAngle = Mathf.Lerp(currentSteerAngle, targetSteer, Time.deltaTime * steerSmoothSpeed);
+
+        ApplyWheelRotations();
+    }
+
+    private void ApplyWheelRotations()
+    {
+        // ← Right wheels — normal
+        Quaternion rightRoll = Quaternion.Euler(wheelRotationX, 0f, 0f);
+        // ← Left wheels — 180 Y offset fix
+        Quaternion leftRoll = Quaternion.Euler(wheelRotationX, 180f, 0f);
+
+        // ← Front wheels add steering on Y
+        Quaternion frontRightSteer = Quaternion.Euler(wheelRotationX, currentSteerAngle, 0f);
+        Quaternion frontLeftSteer = Quaternion.Euler(wheelRotationX, 180f + currentSteerAngle, 0f);
+
+        if (frontLeftWheel != null) frontLeftWheel.localRotation = frontLeftSteer;
+        if (frontRightWheel != null) frontRightWheel.localRotation = frontRightSteer;
+        if (rearLeftWheel != null) rearLeftWheel.localRotation = leftRoll;
+        if (rearRightWheel != null) rearRightWheel.localRotation = rightRoll;
+    }
+
 }
