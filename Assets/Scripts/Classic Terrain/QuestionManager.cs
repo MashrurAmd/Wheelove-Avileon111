@@ -523,7 +523,7 @@ public class QuestionManager : MonoBehaviour
 
         answerSubmitted = true;
         if (speakCoroutine != null) { StopCoroutine(speakCoroutine); speakCoroutine = null; }
-        AndroidTTS.instance?.Stop();
+        //AndroidTTS.instance?.Stop();
 
 
         Debug.Log("=== CheckAnswer CALLED ===");
@@ -569,7 +569,7 @@ public class QuestionManager : MonoBehaviour
                 car.ResumeDriving();
             }
 
-            StartCoroutine(HideQuestionPanelAfterDelay());
+            //StartCoroutine(HideQuestionPanelAfterDelay());
             return;
         }
         bool isCorrect = false;
@@ -622,7 +622,7 @@ public class QuestionManager : MonoBehaviour
 
             currentQuestionIndex++;
 
-            StartCoroutine(HideQuestionPanelAfterDelay());
+            //StartCoroutine(HideQuestionPanelAfterDelay());
 
         }
         else
@@ -661,10 +661,10 @@ public class QuestionManager : MonoBehaviour
                 StartCoroutine(LoadMainMenuAfterDelay());
             }
 
-            StartCoroutine(HideQuestionPanelAfterDelay());
+            //StartCoroutine(HideQuestionPanelAfterDelay());
         }
 
-        //StartCoroutine(HideQuestionPanelAfterDelay());
+        StartCoroutine(HideQuestionPanelAfterDelay());
     }
 
     IEnumerator LoadMainMenuAfterDelay()
