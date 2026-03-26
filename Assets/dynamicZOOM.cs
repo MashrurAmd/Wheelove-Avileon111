@@ -8,40 +8,52 @@ public class CameraSwapper : MonoBehaviour
     public CinemachineVirtualCamera thirdPersonCam;
     public CinemachineVirtualCamera firstPersonCam;
 
-    [Header("Curve Detection")]
+    [Header("References")]
     public CinemachineSmoothPath path;
     public Transform car;
-    public float checkDistance = 2f;
-    public float curveThreshold = 30f;
+    public Car carController;
 
-    [Header("Camera Offset On Turns")]
-    public float turnOffsetAmount = 1.5f;
-    public float turnOffsetY = 1f;
-    public float turnOffsetZ = 0f;         // ← add this
-    public float offsetSmoothSpeed = 3f;
+    [Header("Path Settings")]
+    public float checkDistance = 2f;
+    public float curveThreshold = 5f;
+
+    [Header("Default Offset (Straight Road)")]
+    public Vector3 straightOffset = new Vector3(0f, 3f, -6f);
+
+    [Header("Turn Camera Settings")]
+    public float turnSideShift = 1.5f;
+    public float turnPullBack = 1.5f;
+    public float turnRaiseHeight = 0.8f;
+
+    [Header("Speed Effects")]
+    public float maxSpeedForEffect = 20f;
+    public float speedPullBack = 4f;
+    public float speedLowering = 0.5f;
+
+    [Header("Smoothing")]
+    public float offsetSmoothSpeed = 0.4f;
+
+    [Header("Inertia (Camera Weight)")]
+    public float inertiaAmount = 0.3f;
 
     [Header("Manual Override")]
     public bool manualOverride = false;
-    private bool isFirstPerson = true;
-
-    private CinemachineTransposer thirdPersonTransposer;
-    private Vector3 defaultOffset;
+    private bool isFirstPerson = false;
 
     [Header("Intro Zoom")]
-    public float introDuration = 2.5f;        // ← how long the zoom takes
-    public Vector3 introStartOffset = new Vector3(0, 15, -25); // ← far away start position
+    public float introDuration = 2.5f;
+    public Vector3 introStartOffset = new Vector3(0f, 15f, -25f);
     public bool playIntroOnStart = true;
 
+    private CinemachineTransposer thirdPersonTransposer;
     private bool introComplete = false;
-
-    private Vector3 currentOffsetVelocity = Vector3.zero; // ← add this field
 
     void Start()
     {
         thirdPersonTransposer = thirdPersonCam.GetCinemachineComponent<CinemachineTransposer>();
 
         if (thirdPersonTransposer != null)
-            defaultOffset = thirdPersonTransposer.m_FollowOffset;
+            thirdPersonTransposer.m_FollowOffset = straightOffset;
 
         SetThirdPerson();
 
@@ -51,122 +63,78 @@ public class CameraSwapper : MonoBehaviour
             introComplete = true;
     }
 
-
     void Update()
     {
         if (!introComplete) return;
         if (path == null || car == null) return;
+        if (isFirstPerson || thirdPersonTransposer == null) return;
 
-        // ← Only handle turn offset, NO auto camera switching
-        if (!isFirstPerson && thirdPersonTransposer != null)
+        float speed = carController != null ? carController.CurrentSpeed : 0f;
+        float speedFactor = Mathf.Clamp01(speed / maxSpeedForEffect);
+
+        // ------------------------
+        // TURN DETECTION (look ahead)
+        // ------------------------
+        float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
+
+        Vector3 forward1 = path.EvaluateTangent(nearest);
+        Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance * 2f);
+
+        float angle = Vector3.Angle(forward1, forward2);
+        Vector3 cross = Vector3.Cross(forward1.normalized, forward2.normalized);
+        float turnDirection = cross.y;
+
+        // ------------------------
+        // BASE OFFSET (speed based)
+        // ------------------------
+        Vector3 targetOffset = straightOffset;
+
+        // Speed effect (pull back + slight dip)
+        targetOffset.z -= speedPullBack * speedFactor;
+        targetOffset.y -= speedLowering * speedFactor;
+
+        // ------------------------
+        // TURN EFFECT
+        // ------------------------
+        if (angle > curveThreshold)
         {
-            float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
-            Vector3 forward1 = path.EvaluateTangent(nearest);
-            Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
-            float angle = Vector3.Angle(forward1, forward2);
+            float intensity = Mathf.Clamp01(angle / 25f);
 
-            Vector3 cross = Vector3.Cross(forward1.normalized, forward2.normalized);
-            float turnDirection = cross.y;
+            float sideShift = -turnDirection * turnSideShift * intensity;
 
-            float targetX = 0f;
-            if (angle > curveThreshold)
-            {
-                if (turnDirection > 0.01f)
-                    targetX = turnOffsetAmount;
-                else if (turnDirection < -0.01f)
-                    targetX = -turnOffsetAmount;
-            }
-
-            Vector3 targetOffset = new Vector3(
-                defaultOffset.x + targetX,
-                defaultOffset.y + (angle > curveThreshold ? turnOffsetY : 0f),
-                defaultOffset.z + (angle > curveThreshold ? turnOffsetZ : 0f)
-            );
-
-            thirdPersonTransposer.m_FollowOffset = Vector3.SmoothDamp(
-                thirdPersonTransposer.m_FollowOffset,
-                targetOffset,
-                ref currentOffsetVelocity,
-                offsetSmoothSpeed
+            targetOffset += new Vector3(
+                sideShift,
+                turnRaiseHeight * intensity,
+                -turnPullBack * intensity
             );
         }
+
+        // ------------------------
+        // SMOOTH TRANSITION
+        // ------------------------
+        thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
+            thirdPersonTransposer.m_FollowOffset,
+            targetOffset,
+            Time.deltaTime * (1f / offsetSmoothSpeed)
+        );
+
+        // ------------------------
+        // INERTIA (camera weight feel)
+        // ------------------------
+        Vector3 movementDir = (car.position - transform.position).normalized;
+        thirdPersonTransposer.m_FollowOffset += movementDir * inertiaAmount * speedFactor * Time.deltaTime;
     }
 
-    //void Update()
-    //{
-    //    //Debug.DrawLine(car.position, car.position + car.forward * 5, Color.red);
-
-    //    if (!introComplete) return; // ← wait for intro to finish
-
-    //    if (path == null || car == null) return;
-
-    //    float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
-    //    Vector3 forward1 = path.EvaluateTangent(nearest);
-    //    Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
-    //    float angle = Vector3.Angle(forward1, forward2);
-
-    //    // ← Detect turn direction using cross product
-    //    Vector3 cross = Vector3.Cross(forward1.normalized, forward2.normalized);
-    //    float turnDirection = cross.y; // positive = left turn, negative = right turn
-
-    //    if (!manualOverride)
-    //    {
-    //        if (angle > curveThreshold)
-    //            SetThirdPerson();
-    //        else
-    //            SetFirstPerson();
-    //    }
-
-    //    if (!isFirstPerson && thirdPersonTransposer != null)
-    //    {
-    //        float targetX = 0f;
-
-    //        if (angle > curveThreshold)
-    //        {
-    //            if (turnDirection > 0.01f)
-    //                targetX = turnOffsetAmount;
-    //            else if (turnDirection < -0.01f)
-    //                targetX = -turnOffsetAmount;
-    //        }
-
-    //        Vector3 targetOffset = new Vector3(
-    //            defaultOffset.x + targetX,
-    //            defaultOffset.y + (angle > curveThreshold ? turnOffsetY : 0f),
-    //            defaultOffset.z + (angle > curveThreshold ? turnOffsetZ : 0f)
-    //        );
-
-    //        // ← SmoothDamp instead of Lerp — much smoother
-    //        thirdPersonTransposer.m_FollowOffset = Vector3.SmoothDamp(
-    //            thirdPersonTransposer.m_FollowOffset,
-    //            targetOffset,
-    //            ref currentOffsetVelocity,
-    //            offsetSmoothSpeed  // ← this is now smoothTime in seconds, try 0.5 to 1.5
-    //        );
-    //    }
-    //    else if (isFirstPerson && thirdPersonTransposer != null)
-    //    {
-    //        thirdPersonTransposer.m_FollowOffset = Vector3.SmoothDamp(
-    //            thirdPersonTransposer.m_FollowOffset,
-    //            defaultOffset,
-    //            ref currentOffsetVelocity,
-    //            offsetSmoothSpeed
-    //        );
-    //    }
-
-    //}
+    // =========================
+    // CAMERA SWITCHING
+    // =========================
 
     public void ToggleCamera()
     {
-        manualOverride = true;
         if (isFirstPerson)
             SetThirdPerson();
         else
             SetFirstPerson();
-    }
-
-    public void EnableAutoSwitch()
-    {
-        manualOverride = false;
     }
 
     void SetFirstPerson()
@@ -183,12 +151,14 @@ public class CameraSwapper : MonoBehaviour
         firstPersonCam.Priority = 10;
     }
 
+    // =========================
+    // INTRO ZOOM
+    // =========================
 
     IEnumerator PlayIntroZoom()
     {
         introComplete = false;
 
-        // ← Set camera to far start position
         if (thirdPersonTransposer != null)
             thirdPersonTransposer.m_FollowOffset = introStartOffset;
 
@@ -199,13 +169,13 @@ public class CameraSwapper : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / introDuration;
 
-            // ← Smooth ease in
+            // smoothstep
             float smoothT = t * t * (3f - 2f * t);
 
             if (thirdPersonTransposer != null)
                 thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
                     introStartOffset,
-                    defaultOffset,
+                    straightOffset,
                     smoothT
                 );
 
@@ -213,9 +183,8 @@ public class CameraSwapper : MonoBehaviour
         }
 
         if (thirdPersonTransposer != null)
-            thirdPersonTransposer.m_FollowOffset = defaultOffset;
+            thirdPersonTransposer.m_FollowOffset = straightOffset;
 
         introComplete = true;
     }
-
 }
