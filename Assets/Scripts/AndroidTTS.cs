@@ -181,30 +181,26 @@ public class AndroidTTS : MonoBehaviour
         if (!isEnabled || !isReady || string.IsNullOrEmpty(text)) return;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-    SetTTSLanguage(); // ← ensure correct language
-    
-    // Check if language is available
+    SetTTSLanguage();
+
     using (AndroidJavaObject locale = new AndroidJavaObject(
         "java.util.Locale", GetLanguageCode(), GetCountryCode()))
     {
         int langAvailable = tts.Call<int>("isLanguageAvailable", locale);
-        Debug.Log($"Language available check: {langAvailable}"); 
-        // 1 = available, 0 = missing data, -1 = not supported, -2 = not set
-        
+
         if (langAvailable < 0)
         {
             Debug.LogWarning($"TTS language not available: {GetLanguageCode()} — falling back to English");
-            // ← Open language install intent on device
-            using (AndroidJavaObject intent = new AndroidJavaObject("android.content.Intent"))
+            using (AndroidJavaObject englishLocale = new AndroidJavaObject("java.util.Locale", "en", "US"))
             {
-                intent.Call<AndroidJavaObject>("setAction", "com.android.settings.TTS_SETTINGS");
-                activity.Call("startActivity", intent);
+                tts.Call<int>("setLanguage", englishLocale);
             }
-            return;
         }
     }
-    
-    tts?.Call<int>("speak", text, 0, null, null);
+
+    // ← Use QUEUE_ADD (1) instead of QUEUE_FLUSH (0) to prevent cutting
+    tts?.Call<int>("speak", text, 1, null, System.Guid.NewGuid().ToString());
+
 #elif UNITY_IOS && !UNITY_EDITOR
     _IOSSpeak(text, GetIOSLanguageCode());
 #else
@@ -216,9 +212,11 @@ public class AndroidTTS : MonoBehaviour
     public void Stop()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        tts?.Call("stop");
+    tts?.Call("stop");
+    // ← Also flush the queue so next speak starts clean
+    tts?.Call<int>("speak", "", 0, null, "flush_" + System.Guid.NewGuid().ToString());
 #elif UNITY_IOS && !UNITY_EDITOR
-        _IOSStop();
+    _IOSStop();
 #endif
     }
 
