@@ -34,6 +34,14 @@ public class SoundManager : MonoBehaviour
 
     private Coroutine playlistCoroutine;        // 3-3-26
 
+    [Header("Music Fade Settings")]
+    public float fadeDuration = 0.5f;
+
+    private float originalMusicVolume = 1f;
+    private Coroutine fadeCoroutine;
+
+
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -236,5 +244,32 @@ public class SoundManager : MonoBehaviour
     {
         sfxSource.Stop();
     }
+
+
+    public void FadeMusicOut()
+    {
+        originalMusicVolume = musicSource.volume;
+        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        fadeCoroutine = StartCoroutine(FadeMusic(musicSource.volume, 0f, fadeDuration));
+    }
+
+    public void FadeMusicIn()
+    {
+        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        fadeCoroutine = StartCoroutine(FadeMusic(musicSource.volume, originalMusicVolume, fadeDuration));
+    }
+
+    private IEnumerator FadeMusic(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            musicSource.volume = Mathf.Lerp(from, to, elapsed / duration);
+            yield return null;
+        }
+        musicSource.volume = to;
+    }
+
 
 }

@@ -257,6 +257,8 @@ public class QuestionManager : MonoBehaviour
         if (car != null)
             car.PauseCar();
 
+        SoundManager.Instance?.FadeMusicOut(); // ← fade music out when question appears
+
         GameObject panel = ui.questionPanel;
         panel.SetActive(true);
 
@@ -779,6 +781,7 @@ public class QuestionManager : MonoBehaviour
         //yield return new WaitForSeconds(0.35f);
 
         panel.SetActive(false);
+        SoundManager.Instance?.FadeMusicIn(); // ← fade music back in when panel closes
     }
 
 
