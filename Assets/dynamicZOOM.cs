@@ -13,10 +13,6 @@ public class CameraSwapper : MonoBehaviour
     public Transform car;
     public Car carController;
 
-    [Header("Path Settings")]
-    public float checkDistance = 2f;
-    public float curveThreshold = 5f;
-
     [Header("Default Offset (Straight Road)")]
     public Vector3 straightOffset = new Vector3(0f, 3f, -6f);
 
@@ -25,19 +21,21 @@ public class CameraSwapper : MonoBehaviour
     public float turnPullBack = 1.5f;
     public float turnRaiseHeight = 0.8f;
 
+    [Header("Turn Detection")]
+    public float checkDistance = 2f;
+    public float sharpTurnThreshold = 25f; // ← only very sharp turns trigger shift
+    public float turnConfirmTime = 0.8f;   // ← must be in turn for this long before camera shifts
+
     [Header("Speed Effects")]
     public float maxSpeedForEffect = 20f;
     public float speedPullBack = 4f;
     public float speedLowering = 0.5f;
 
     [Header("Smoothing")]
-    public float offsetSmoothSpeed = 0.4f;
-
-    [Header("Inertia (Camera Weight)")]
-    public float inertiaAmount = 0.3f;
+    public float offsetSmoothSpeed = 0.15f;  // ← Y and Z smooth speed
+    public float sideShiftSmoothSpeed = 0.08f; // ← X side shift very slow
 
     [Header("Manual Override")]
-    public bool manualOverride = false;
     private bool isFirstPerson = false;
 
     [Header("Intro Zoom")]
@@ -47,6 +45,11 @@ public class CameraSwapper : MonoBehaviour
 
     private CinemachineTransposer thirdPersonTransposer;
     private bool introComplete = false;
+
+    // ← Turn confirmation tracking
+    private float turnTimer = 0f;
+    private float confirmedTurnDirection = 0f; // ← only updates after turnConfirmTime
+    private float smoothedSideShift = 0f;      // ← current smooth side shift value
 
     void Start()
     {
@@ -72,69 +75,81 @@ public class CameraSwapper : MonoBehaviour
         float speed = carController != null ? carController.CurrentSpeed : 0f;
         float speedFactor = Mathf.Clamp01(speed / maxSpeedForEffect);
 
-        // ------------------------
-        // TURN DETECTION (look ahead)
-        // ------------------------
+        // ← Detect turn at car position
         float nearest = path.FindClosestPoint(car.position, 0, -1, 10);
-
         Vector3 forward1 = path.EvaluateTangent(nearest);
-        Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance * 2f);
+        Vector3 forward2 = path.EvaluateTangent(nearest + checkDistance);
 
         float angle = Vector3.Angle(forward1, forward2);
         Vector3 cross = Vector3.Cross(forward1.normalized, forward2.normalized);
-        float turnDirection = cross.y;
+        float rawTurnDirection = cross.y;
 
-        // ------------------------
-        // BASE OFFSET (speed based)
-        // ------------------------
+        // ← Only count as turn if angle is above sharp threshold
+        bool isSharpTurn = angle > sharpTurnThreshold;
+
+        if (isSharpTurn)
+        {
+            // ← Accumulate time in turn
+            turnTimer += Time.deltaTime;
+
+            // ← Only confirm turn direction after car has been turning for turnConfirmTime
+            if (turnTimer >= turnConfirmTime)
+                confirmedTurnDirection = rawTurnDirection;
+        }
+        else
+        {
+            // ← Reset — straight road
+            turnTimer = 0f;
+            confirmedTurnDirection = 0f;
+        }
+
+        // ← Calculate target side shift based on CONFIRMED turn only
+        float targetSideShift = -confirmedTurnDirection * turnSideShift;
+
+        // ← Smooth side shift very slowly
+        smoothedSideShift = Mathf.Lerp(
+            smoothedSideShift,
+            targetSideShift,
+            Time.deltaTime * sideShiftSmoothSpeed * 10f
+        );
+
+        // ← Base offset
         Vector3 targetOffset = straightOffset;
-
-        // Speed effect (pull back + slight dip)
         targetOffset.z -= speedPullBack * speedFactor;
         targetOffset.y -= speedLowering * speedFactor;
 
-        // ------------------------
-        // TURN EFFECT
-        // ------------------------
-        if (angle > curveThreshold)
-        {
-            float intensity = Mathf.Clamp01(angle / 25f);
+        // ← Apply confirmed side shift + raise/pullback only when confirmed
+        float turnIntensity = Mathf.Clamp01(turnTimer - turnConfirmTime);
+        targetOffset.x = smoothedSideShift;
+        targetOffset.y += turnRaiseHeight * Mathf.Clamp01(confirmedTurnDirection != 0 ? 1f : 0f);
+        targetOffset.z -= turnPullBack * Mathf.Clamp01(confirmedTurnDirection != 0 ? 1f : 0f);
 
-            float sideShift = -turnDirection * turnSideShift * intensity;
+        // ← Apply smooth — X very slow, Y and Z normal
+        float newX = Mathf.Lerp(
+            thirdPersonTransposer.m_FollowOffset.x,
+            targetOffset.x,
+            Time.deltaTime * sideShiftSmoothSpeed * 10f
+        );
 
-            targetOffset += new Vector3(
-                sideShift,
-                turnRaiseHeight * intensity,
-                -turnPullBack * intensity
-            );
-        }
-
-        // ------------------------
-        // SMOOTH TRANSITION
-        // ------------------------
-        thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
-            thirdPersonTransposer.m_FollowOffset,
-            targetOffset,
+        float newY = Mathf.Lerp(
+            thirdPersonTransposer.m_FollowOffset.y,
+            targetOffset.y,
             Time.deltaTime * (1f / offsetSmoothSpeed)
         );
 
-        // ------------------------
-        // INERTIA (camera weight feel)
-        // ------------------------
-        Vector3 movementDir = (car.position - transform.position).normalized;
-        thirdPersonTransposer.m_FollowOffset += movementDir * inertiaAmount * speedFactor * Time.deltaTime;
-    }
+        float newZ = Mathf.Lerp(
+            thirdPersonTransposer.m_FollowOffset.z,
+            targetOffset.z,
+            Time.deltaTime * (1f / offsetSmoothSpeed)
+        );
 
-    // =========================
-    // CAMERA SWITCHING
-    // =========================
+        thirdPersonTransposer.m_FollowOffset = new Vector3(newX, newY, newZ);
+    }
 
     public void ToggleCamera()
     {
-        if (isFirstPerson)
-            SetThirdPerson();
-        else
-            SetFirstPerson();
+        if (isFirstPerson) SetThirdPerson();
+        else SetFirstPerson();
     }
 
     void SetFirstPerson()
@@ -151,10 +166,6 @@ public class CameraSwapper : MonoBehaviour
         firstPersonCam.Priority = 10;
     }
 
-    // =========================
-    // INTRO ZOOM
-    // =========================
-
     IEnumerator PlayIntroZoom()
     {
         introComplete = false;
@@ -167,10 +178,7 @@ public class CameraSwapper : MonoBehaviour
         while (elapsed < introDuration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / introDuration;
-
-            // smoothstep
-            float smoothT = t * t * (3f - 2f * t);
+            float smoothT = Mathf.SmoothStep(0f, 1f, elapsed / introDuration);
 
             if (thirdPersonTransposer != null)
                 thirdPersonTransposer.m_FollowOffset = Vector3.Lerp(
