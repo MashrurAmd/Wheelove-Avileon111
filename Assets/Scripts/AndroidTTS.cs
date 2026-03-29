@@ -209,12 +209,20 @@ public class AndroidTTS : MonoBehaviour
 #endif
     }
 
+    //    public void Stop()
+    //    {
+    //#if UNITY_ANDROID && !UNITY_EDITOR
+    //    tts?.Call("stop");
+    //    // ← Also flush the queue so next speak starts clean
+    //    tts?.Call<int>("speak", "", 0, null, "flush_" + System.Guid.NewGuid().ToString());
+    //#elif UNITY_IOS && !UNITY_EDITOR
+    //    _IOSStop();
+    //#endif
+    //    }
     public void Stop()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-    tts?.Call("stop");
-    // ← Also flush the queue so next speak starts clean
-    tts?.Call<int>("speak", "", 0, null, "flush_" + System.Guid.NewGuid().ToString());
+    tts?.Call("stop"); // ← just this, nothing else
 #elif UNITY_IOS && !UNITY_EDITOR
     _IOSStop();
 #endif
