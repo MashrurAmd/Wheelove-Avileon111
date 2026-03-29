@@ -305,7 +305,7 @@ public class QuestionManager : MonoBehaviour
         if (speakCoroutine != null)
         {
             StopCoroutine(speakCoroutine);
-            AndroidTTS.instance?.Stop();
+            //AndroidTTS.instance?.Stop();
         }
         speakCoroutine = StartCoroutine(SpeakQuestionAndOptions(qa));
 
@@ -515,7 +515,7 @@ public class QuestionManager : MonoBehaviour
         if (speakCoroutine != null)
         {
             StopCoroutine(speakCoroutine);
-            AndroidTTS.instance?.Stop();
+            //AndroidTTS.instance?.Stop();
         }
 
         answerSubmitted = false;
