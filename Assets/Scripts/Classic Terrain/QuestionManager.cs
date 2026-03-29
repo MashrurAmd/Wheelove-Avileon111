@@ -498,7 +498,7 @@ public class QuestionManager : MonoBehaviour
         if (levelTestIndex >= quesData.tests.Count) return;
         if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
 
-        AndroidTTS.instance?.Stop();
+        //AndroidTTS.instance?.Stop();
 
         var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
         AndroidTTS.instance.Speak(qa.questions);
