@@ -151,14 +151,28 @@ public class AndroidTTS : MonoBehaviour
 #endif
     }
 
-    public bool IsEnabled() => isEnabled;
+    //public bool IsEnabled() => isEnabled;
+
+    public bool IsEnabled()
+    {
+        return isEnabled;
+    }
 
     // ← Just call these directly from button onClick in Inspector
+    //public void EnableTTS()
+    //{
+    //    isEnabled = true;
+    //    Debug.Log("TTS Enabled ✅");
+    //    StartCoroutine(SpeakAfterDelay());
+    //}
     public void EnableTTS()
     {
         isEnabled = true;
         Debug.Log("TTS Enabled ✅");
-        StartCoroutine(SpeakAfterDelay());
+
+        QuestionManager qm = FindObjectOfType<QuestionManager>();
+        if (qm != null)
+            qm.ReadCurrentQuestion();
     }
 
     public void DisableTTS()
@@ -168,13 +182,13 @@ public class AndroidTTS : MonoBehaviour
         Debug.Log("TTS Disabled 🔇");
     }
 
-    private IEnumerator SpeakAfterDelay()
-    {
-        yield return new WaitForSeconds(0.3f);
-        QuestionManager qm = FindObjectOfType<QuestionManager>();
-        if (qm != null)
-            qm.ReadCurrentQuestion();
-    }
+    //private IEnumerator SpeakAfterDelay()
+    //{
+    //    yield return new WaitForSeconds(0.3f);
+    //    QuestionManager qm = FindObjectOfType<QuestionManager>();
+    //    if (qm != null)
+    //        qm.ReadCurrentQuestion();
+    //}
 
     public void Speak(string text)
     {

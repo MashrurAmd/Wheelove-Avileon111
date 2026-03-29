@@ -22,7 +22,12 @@ public class TTSToggleButton : MonoBehaviour
         }
 
         // ← Swap icon
+        //if (buttonImage != null)
+        //    buttonImage.sprite = isTTSOn ? onSprite : offSprite;
         if (buttonImage != null)
-            buttonImage.sprite = isTTSOn ? onSprite : offSprite;
+        {
+            buttonImage.overrideSprite = isTTSOn ? onSprite : offSprite;
+            buttonImage.SetAllDirty();
+        }
     }
 }

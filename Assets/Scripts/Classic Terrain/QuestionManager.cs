@@ -30,13 +30,6 @@ public class QuestionUISet
     [Header("Legacy Fonts")]
     public Font defaultLegacyFont;          // ← normal legacy font
     public Font amharicLegacyFont;
-
-
-
-    
-
-
-
 }
 
 public class QuestionManager : MonoBehaviour
@@ -308,7 +301,12 @@ public class QuestionManager : MonoBehaviour
         //StartCoroutine(SpeakQuestionAndOptions(qa));
 
         answerSubmitted = false;
-        if (speakCoroutine != null) StopCoroutine(speakCoroutine);
+        //if (speakCoroutine != null) StopCoroutine(speakCoroutine);
+        if (speakCoroutine != null)
+        {
+            StopCoroutine(speakCoroutine);
+            AndroidTTS.instance?.Stop();
+        }
         speakCoroutine = StartCoroutine(SpeakQuestionAndOptions(qa));
 
         for (int i = 0; i < ui.optionToggles.Count; i++)
@@ -443,7 +441,8 @@ public class QuestionManager : MonoBehaviour
     //}
     IEnumerator SpeakQuestionAndOptions(QuesAnswer qa)
     {
-        if (AndroidTTS.instance == null) yield break;
+        //if (AndroidTTS.instance == null) yield break;
+        if (AndroidTTS.instance == null || !AndroidTTS.instance.IsEnabled()) yield break;
 
         AndroidTTS.instance.Speak(qa.questions);
 
@@ -493,27 +492,35 @@ public class QuestionManager : MonoBehaviour
     }
 
     // read current question using TTS (can be called from a button)
-    public void ReadCurrentQuestion()
-    {
-        if (levelTestIndex >= quesData.tests.Count) return;
-        if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
-
-        //AndroidTTS.instance?.Stop();
-
-        var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
-        AndroidTTS.instance.Speak(qa.questions);
-    }
     //public void ReadCurrentQuestion()
     //{
-    //    if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
-    //    if (currentQuestionIndex >= shuffledQuestions.Count) return;
+    //    if (levelTestIndex >= quesData.tests.Count) return;
+    //    if (currentQuestionIndex >= quesData.tests[levelTestIndex].quesAnswers.Count) return;
 
-    //    // Stop any existing speech first
-    //    AndroidTTS.instance?.Stop();
+    //    //AndroidTTS.instance?.Stop();
 
-    //    var qa = shuffledQuestions[currentQuestionIndex];
-    //    StartCoroutine(SpeakQuestionAndOptions(qa));
+    //    var qa = quesData.tests[levelTestIndex].quesAnswers[currentQuestionIndex];
+    //    AndroidTTS.instance.Speak(qa.questions);
     //}
+    public void ReadCurrentQuestion()
+    {
+        if (shuffledQuestions == null || shuffledQuestions.Count == 0) return;
+        if (currentQuestionIndex >= shuffledQuestions.Count) return;
+
+        // Stop any existing speech first
+        //AndroidTTS.instance?.Stop();
+
+        var qa = shuffledQuestions[currentQuestionIndex];
+        //StartCoroutine(SpeakQuestionAndOptions(qa));
+        if (speakCoroutine != null)
+        {
+            StopCoroutine(speakCoroutine);
+            AndroidTTS.instance?.Stop();
+        }
+
+        answerSubmitted = false;
+        speakCoroutine = StartCoroutine(SpeakQuestionAndOptions(qa));
+    }
 
 
     // ============================
