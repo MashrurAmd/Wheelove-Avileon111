@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class TTSToggleButton : MonoBehaviour
@@ -7,32 +6,35 @@ public class TTSToggleButton : MonoBehaviour
     public Sprite onSprite;
     public Sprite offSprite;
     public Image buttonImage;
-    public Button button;
 
     private bool isTTSOn = true;
 
     void Start()
     {
-        // ← Auto find if not assigned in Inspector
-        if (button == null)
-            button = GetComponent<Button>();
-
         if (buttonImage == null)
             buttonImage = GetComponent<Image>();
-
         if (buttonImage == null)
             buttonImage = GetComponentInChildren<Image>();
 
-        // ← Set correct sprite on start
+        // ← Load saved state
+        isTTSOn = PlayerPrefs.GetInt("TTSEnabled", 1) == 1;
+
+        if (AndroidTTS.instance != null)
+        {
+            if (isTTSOn) AndroidTTS.instance.EnableTTS();
+            else AndroidTTS.instance.DisableTTS();
+        }
+
         UpdateSprite();
     }
 
     public void OnButtonPressed()
     {
-        if (button != null)
-            button.interactable = false;
-
         isTTSOn = !isTTSOn;
+
+        // ← Save state
+        PlayerPrefs.SetInt("TTSEnabled", isTTSOn ? 1 : 0);
+        PlayerPrefs.Save();
 
         if (AndroidTTS.instance != null)
         {
@@ -43,7 +45,6 @@ public class TTSToggleButton : MonoBehaviour
         }
 
         UpdateSprite();
-        StartCoroutine(ReEnableButton());
     }
 
     void UpdateSprite()
@@ -51,14 +52,11 @@ public class TTSToggleButton : MonoBehaviour
         if (buttonImage == null) return;
         if (onSprite == null || offSprite == null) return;
 
-        buttonImage.overrideSprite = isTTSOn ? onSprite : offSprite;
-        buttonImage.SetAllDirty();
-    }
+        // ← Use sprite directly NOT overrideSprite
+        buttonImage.sprite = isTTSOn ? onSprite : offSprite;
 
-    private IEnumerator ReEnableButton()
-    {
-        yield return new WaitForSeconds(0.3f);
-        if (button != null)
-            button.interactable = true;
+        // ← Force Android to redraw
+        buttonImage.enabled = false;
+        buttonImage.enabled = true;
     }
 }

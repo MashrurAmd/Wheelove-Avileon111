@@ -169,7 +169,7 @@ public class AndroidTTS : MonoBehaviour
     {
         isEnabled = true;
         Debug.Log("TTS Enabled ✅");
-
+        // ← Don't auto-speak in menu scene
         QuestionManager qm = FindObjectOfType<QuestionManager>();
         if (qm != null)
             qm.ReadCurrentQuestion();
@@ -178,8 +178,25 @@ public class AndroidTTS : MonoBehaviour
     public void DisableTTS()
     {
         isEnabled = false;
-        Stop();
+        // ← Only stop TTS speech, NOT music
+        StopTTSSpeech();
         Debug.Log("TTS Disabled 🔇");
+    }
+
+    // ← Separate method — only stops TTS voice, not music
+    public void StopTTSSpeech()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+    tts?.Call("stop");
+#elif UNITY_IOS && !UNITY_EDITOR
+    _IOSStop();
+#endif
+    }
+
+    // ← Keep Stop() for coroutines to call
+    public void Stop()
+    {
+        StopTTSSpeech();
     }
 
     //private IEnumerator SpeakAfterDelay()
@@ -233,14 +250,14 @@ public class AndroidTTS : MonoBehaviour
     //    _IOSStop();
     //#endif
     //    }
-    public void Stop()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    tts?.Call("stop"); // ← just this, nothing else
-#elif UNITY_IOS && !UNITY_EDITOR
-    _IOSStop();
-#endif
-    }
+//    public void Stop()
+//    {
+//#if UNITY_ANDROID && !UNITY_EDITOR
+//    tts?.Call("stop"); // ← just this, nothing else
+//#elif UNITY_IOS && !UNITY_EDITOR
+//    _IOSStop();
+//#endif
+//    }
 
     private void SetTTSLanguage()
     {
