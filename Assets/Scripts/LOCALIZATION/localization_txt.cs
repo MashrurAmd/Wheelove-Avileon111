@@ -15,6 +15,16 @@ public class LocalizedText : MonoBehaviour
     [Header("Amharic")]
     public string amharicText;
 
+    [Header("ENG")]
+    public string engText;
+    [Header("Chineese")]
+    public string chineseText;
+    [Header("Spanish")]
+    public string spanishText;
+
+
+
+
     [Header("TMP Fonts")]
     public TMP_FontAsset amharicFont;    // ← Noto Sans Ethiopic TMP
     public TMP_FontAsset defaultFont;    // ← your normal TMP font
@@ -64,6 +74,22 @@ public class LocalizedText : MonoBehaviour
             default:
                 display = englishText;
                 break;
+
+
+            case LocalizationManager.Language.ENG:
+                display = engText;
+                break;
+
+            case LocalizationManager.Language.Chinese:
+                display = chineseText;
+                break;
+
+            case LocalizationManager.Language.Spanish:
+                display = spanishText;
+                break;
+
+
+
         }
 
         if (tmpText != null)

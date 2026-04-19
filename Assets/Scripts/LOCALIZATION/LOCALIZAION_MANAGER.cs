@@ -11,7 +11,7 @@ public class LocalizationManager : MonoBehaviour
         Amharic, // ← add this
 
         ENG,
-        Chineese,
+        Chinese,
         Spanish
 
     }
@@ -25,7 +25,7 @@ public class LocalizationManager : MonoBehaviour
     public void SetAmharic() { currentLanguage = Language.Amharic; RefreshAll(); } // ← add this
 
     public void SetEng() { currentLanguage = Language.ENG; RefreshAll(); }
-    public void SetChineese() { currentLanguage = Language.Chineese; RefreshAll(); }
+    public void SetChinese() { currentLanguage = Language.Chinese; RefreshAll(); }
     public void SetSpanish() { currentLanguage = Language.Spanish; RefreshAll(); }
 
     void RefreshAll()

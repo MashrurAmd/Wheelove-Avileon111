@@ -27,6 +27,14 @@ public class QuestionUISet
     public TMP_FontAsset amharicFont;
     public TMP_FontAsset russianFont;    // ← add this
 
+    public TMP_FontAsset chineseFont;
+    public TMP_FontAsset spanishFont; // optional
+    public TMP_FontAsset engFont;     // optional (if different)
+
+    public Font chineseLegacyFont;
+    public Font spanishLegacyFont;
+    public Font engLegacyFont;
+
     [Header("Legacy Fonts")]
     public Font defaultLegacyFont;          // ← normal legacy font
     public Font amharicLegacyFont;
@@ -40,6 +48,10 @@ public class QuestionManager : MonoBehaviour
     public QuesData russianQuesData;
     public QuesData arabicQuesData;
     public QuesData amharicQuesData;  // ← add this
+
+    public QuesData engQuesData;
+    public QuesData chineseQuesData;
+    public QuesData spanishQuesData;
 
 
     [Header("UI Sets")]
@@ -118,18 +130,34 @@ public class QuestionManager : MonoBehaviour
 
         switch (LocalizationManager.currentLanguage)
         {
+            case LocalizationManager.Language.ENG:
+                quesData = engQuesData != null ? engQuesData : englishQuesData;
+                break;
+
             case LocalizationManager.Language.Hebrew:
                 quesData = hebrewQuesData != null ? hebrewQuesData : englishQuesData;
                 break;
+
             case LocalizationManager.Language.Russian:
                 quesData = russianQuesData != null ? russianQuesData : englishQuesData;
                 break;
+
             case LocalizationManager.Language.Arabic:
                 quesData = arabicQuesData != null ? arabicQuesData : englishQuesData;
                 break;
-            case LocalizationManager.Language.Amharic:      // ← add this
+
+            case LocalizationManager.Language.Amharic:
                 quesData = amharicQuesData != null ? amharicQuesData : englishQuesData;
                 break;
+
+            case LocalizationManager.Language.Chinese:
+                quesData = chineseQuesData != null ? chineseQuesData : englishQuesData;
+                break;
+
+            case LocalizationManager.Language.Spanish:
+                quesData = spanishQuesData != null ? spanishQuesData : englishQuesData;
+                break;
+
             default:
                 quesData = englishQuesData;
                 break;
@@ -354,16 +382,33 @@ public class QuestionManager : MonoBehaviour
 
         bool isAmharic = LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic;
         bool isRussian = LocalizationManager.currentLanguage == LocalizationManager.Language.Russian;
+        bool isChinese = LocalizationManager.currentLanguage == LocalizationManager.Language.Chinese;
+        bool isSpanish = LocalizationManager.currentLanguage == LocalizationManager.Language.Spanish;
+        bool isENG = LocalizationManager.currentLanguage == LocalizationManager.Language.ENG;
+
         bool isRTL = LocalizationManager.currentLanguage == LocalizationManager.Language.Arabic ||
                      LocalizationManager.currentLanguage == LocalizationManager.Language.Hebrew;
 
-        // ← Pick correct font
         TMP_FontAsset targetTMPFont;
+
         if (isAmharic) targetTMPFont = ui.amharicFont;
         else if (isRussian && ui.russianFont != null) targetTMPFont = ui.russianFont;
+        else if (isChinese && ui.chineseFont != null) targetTMPFont = ui.chineseFont;
+        else if (isSpanish && ui.spanishFont != null) targetTMPFont = ui.spanishFont;
+        else if (isENG && ui.engFont != null) targetTMPFont = ui.engFont;
         else targetTMPFont = ui.defaultFont;
 
-        Font targetLegacyFont = isAmharic ? ui.amharicLegacyFont : ui.defaultLegacyFont;
+
+        // this might cause bug in font UTSHO
+        Font targetLegacyFont;
+
+        if (isAmharic) targetLegacyFont = ui.amharicLegacyFont;
+        else if (isChinese && ui.chineseLegacyFont != null) targetLegacyFont = ui.chineseLegacyFont;
+        else if (isSpanish && ui.spanishLegacyFont != null) targetLegacyFont = ui.spanishLegacyFont;
+        else if (isENG && ui.engLegacyFont != null) targetLegacyFont = ui.engLegacyFont;
+        else targetLegacyFont = ui.defaultLegacyFont;
+
+
 
 
         // ← TMP texts
