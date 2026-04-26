@@ -26,11 +26,14 @@ public class LocalizedText : MonoBehaviour
 
 
     [Header("TMP Fonts")]
-    public TMP_FontAsset amharicFont;    // ← Noto Sans Ethiopic TMP
-    public TMP_FontAsset defaultFont;    // ← your normal TMP font
+    public TMP_FontAsset amharicFont;
+    public TMP_FontAsset chineseFont;   // ← add this
+    public TMP_FontAsset defaultFont;
+
 
     [Header("Legacy Fonts")]
     public Font amharicLegacyFont;       // ← Noto Sans Ethiopic legacy .ttf
+    public Font chineseLegacyFont;      // ← add this
     public Font defaultLegacyFont;       // ← your normal legacy font
 
     private TMP_Text tmpText;
@@ -53,6 +56,7 @@ public class LocalizedText : MonoBehaviour
         string display = englishText;
         bool isRTL = false;
         bool isAmharic = LocalizationManager.currentLanguage == LocalizationManager.Language.Amharic;
+        bool isChinese = LocalizationManager.currentLanguage == LocalizationManager.Language.Chinese;
 
         switch (LocalizationManager.currentLanguage)
         {
@@ -70,34 +74,29 @@ public class LocalizedText : MonoBehaviour
             case LocalizationManager.Language.Amharic:
                 display = amharicText;
                 break;
+            case LocalizationManager.Language.Chinese:
+                display = chineseText;
+                break;
+            case LocalizationManager.Language.Spanish:
+                display = spanishText;
+                break;
+            case LocalizationManager.Language.ENG:
+                display = engText;
+                break;
             case LocalizationManager.Language.English:
             default:
                 display = englishText;
                 break;
-
-
-            case LocalizationManager.Language.ENG:
-                display = engText;
-                break;
-
-            case LocalizationManager.Language.Chinese:
-                display = chineseText;
-                break;
-
-            case LocalizationManager.Language.Spanish:
-                display = spanishText;
-                break;
-
-
-
         }
 
         if (tmpText != null)
         {
-            // ← Swap TMP font
+            // ← Pick correct TMP font
             if (isAmharic && amharicFont != null)
                 tmpText.font = amharicFont;
-            else if (!isAmharic && defaultFont != null)
+            else if (isChinese && chineseFont != null)
+                tmpText.font = chineseFont;
+            else if (defaultFont != null)
                 tmpText.font = defaultFont;
 
             tmpText.text = display;
@@ -105,10 +104,12 @@ public class LocalizedText : MonoBehaviour
         }
         else if (uiText != null)
         {
-            // ← Swap legacy font
+            // ← Pick correct legacy font
             if (isAmharic && amharicLegacyFont != null)
                 uiText.font = amharicLegacyFont;
-            else if (!isAmharic && defaultLegacyFont != null)
+            else if (isChinese && chineseLegacyFont != null)
+                uiText.font = chineseLegacyFont;
+            else if (defaultLegacyFont != null)
                 uiText.font = defaultLegacyFont;
 
             uiText.text = display;

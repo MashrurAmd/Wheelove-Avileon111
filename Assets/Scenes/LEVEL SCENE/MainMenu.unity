@@ -311,12 +311,14 @@ MonoBehaviour:
   russianText: "\u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u0436\u0438\u043C"
   arabicText: "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0648\u0636\u0639"
   amharicText: "\u1201\u1290\u1273\u1295 \u1218\u1240\u12E8\u122D"
-  engText: 
-  chineseText: 
+  engText: CHANGE MODE
+  chineseText: "\u6539\u53D8\u6A21\u5F0F "
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &45643890
 MonoBehaviour:
@@ -663,7 +665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &214664432
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2473,7 +2475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &549758459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3001,12 +3003,14 @@ MonoBehaviour:
   russianText: "\u041A\u043B\u0430\u0441\u0441\u0438\u0447\u0435\u0441\u043A\u0438\u0439"
   arabicText: "\u0643\u0644\u0627\u0633\u064A\u0643\u064A"
   amharicText: 
-  engText: 
-  chineseText: 
+  engText: Classic
+  chineseText: "\u7ECF\u5178\u7684 "
   spanishText: 
   amharicFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!1 &697095725
 GameObject:
@@ -4059,7 +4063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &808110024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4267,7 +4271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &828675835
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4397,8 +4401,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 12800000, guid: 94538daaa54c51c4e81af004bbe5f0c0, type: 3}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 12800000, guid: 249445261b6c401438d2bf6d7c207747, type: 3}
 --- !u!222 &828675838
 CanvasRenderer:
@@ -4607,12 +4613,14 @@ MonoBehaviour:
   russianText: "\u0438\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0440\u0435\u0433\u0438\u043E\u043D"
   arabicText: "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0645\u0646\u0637\u0642\u0629"
   amharicText: "\u12AD\u120D\u120D \u1208\u12CD\u1325"
-  engText: 
-  chineseText: 
+  engText: Change Region
+  chineseText: "\u6539\u53D8\u533A\u57DF "
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &834256994
 MonoBehaviour:
@@ -4883,7 +4891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &890319048
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5241,12 +5249,14 @@ MonoBehaviour:
   russianText: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0440\u0435\u0436\u0438\u043C:"
   arabicText: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0648\u0636\u0639 :"
   amharicText: 
-  engText: 
-  chineseText: 
+  engText: 'Choose a mode : '
+  chineseText: "\u9009\u62E9\u6A21\u5F0F\uFF1A"
   spanishText: 
   amharicFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!1 &906138680
 GameObject:
@@ -6370,7 +6380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 189, y: -703}
+  m_AnchoredPosition: {x: 189, y: -243.00006}
   m_SizeDelta: {x: 298.6151, y: 87.5331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1187318694
@@ -6664,12 +6674,14 @@ MonoBehaviour:
   russianText: "\u0441\u0438\u043D\u0438\u0439"
   arabicText: "\u0623\u0632\u0631\u0642"
   amharicText: " \u1230\u121B\u12EB\u12CA"
-  engText: 
-  chineseText: 
+  engText: Blue Car
+  chineseText: "\u84DD\u8272\u7684 "
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &1239590684
 MonoBehaviour:
@@ -7062,7 +7074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1280771988
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7420,12 +7432,14 @@ MonoBehaviour:
   russianText: "\u043C\u0430\u0433\u0438\u044F"
   arabicText: "\u0633\u062D\u0631"
   amharicText: 
-  engText: 
-  chineseText: 
-  spanishText: 
-  amharicFont: {fileID: 0}
+  engText: 'Magic '
+  chineseText: "\u9B54\u6CD5 "
+  spanishText: magia
+  amharicFont: {fileID: 11400000, guid: 49763601b67b54f4e9923f6f4c9b0f44, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!1 &1362613275
 GameObject:
@@ -7490,12 +7504,14 @@ MonoBehaviour:
   russianText: "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u044F\u0437\u044B\u043A"
   arabicText: "\u0627\u062E\u062A\u0631 \u0627\u0644\u0644\u063A\u0629"
   amharicText: "\u124B\u1295\u124B\u12CD\u1295 \u12ED\u121D\u1228\u1321"
-  engText: 
-  chineseText: 
+  engText: Choose the Language
+  chineseText: "\u9009\u62E9\u8BED\u8A00"
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 12800000, guid: 94538daaa54c51c4e81af004bbe5f0c0, type: 3}
+  chineseLegacyFont: {fileID: 12800000, guid: b44d578eebf05bf4ab2b119386546949, type: 3}
   defaultLegacyFont: {fileID: 12800000, guid: 249445261b6c401438d2bf6d7c207747, type: 3}
 --- !u!114 &1362613281
 MonoBehaviour:
@@ -7841,8 +7857,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 12800000, guid: 94538daaa54c51c4e81af004bbe5f0c0, type: 3}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 12800000, guid: 249445261b6c401438d2bf6d7c207747, type: 3}
 --- !u!1 &1461221877
 GameObject:
@@ -7985,7 +8003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -152.63895, y: -703}
+  m_AnchoredPosition: {x: -152.63895, y: -243}
   m_SizeDelta: {x: 298.6151, y: 87.5331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1485410604
@@ -8145,12 +8163,14 @@ MonoBehaviour:
   russianText: "\u0440\u043E\u0437\u043E\u0432\u044B\u0439"
   arabicText: "\u0644\u0648\u0646 \u0627\u0644\u0642\u0631\u0646\u0641\u0644"
   amharicText: " \u122E\u12DD"
-  engText: 
-  chineseText: 
+  engText: Pink Car
+  chineseText: "\u7C89\u8272\u7684 "
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &1505132093
 MonoBehaviour:
@@ -8259,7 +8279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1531015729
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8944,7 +8964,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27, y: -595}
+  m_AnchoredPosition: {x: 27, y: -135.00006}
   m_SizeDelta: {x: 298.6151, y: 87.5331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1722751190
@@ -9430,8 +9450,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 0}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!1 &1848288247
 GameObject:
@@ -10132,12 +10154,14 @@ MonoBehaviour:
   russianText: "\u0438\u0433\u0440\u0430\u0442\u044C"
   arabicText: "\u064A\u0644\u0639\u0628"
   amharicText: "\u1270\u132B\u12C8\u1275"
-  engText: 
-  chineseText: 
+  engText: Play
+  chineseText: "\u73A9"
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &1923832930
 MonoBehaviour:
@@ -10291,12 +10315,14 @@ MonoBehaviour:
   russianText: "\u0412\u044B\u0445\u043E\u0434"
   arabicText: "\u0645\u062E\u0631\u062C"
   amharicText: " \u1218\u12CD\u1323\u1275"
-  engText: 
-  chineseText: 
+  engText: Exit
+  chineseText: "\u51FA\u53E3"
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &1968050122
 MonoBehaviour:
@@ -10504,7 +10530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1995636248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11291,12 +11317,14 @@ MonoBehaviour:
   russianText: "\u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
   arabicText: "\u062C\u0644\u0633\u0629"
   amharicText: "\u1245\u1295\u1265\u122D"
-  engText: 
-  chineseText: 
+  engText: SETTING
+  chineseText: "\u73AF\u5883 "
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &2072638156
 MonoBehaviour:
@@ -13276,8 +13304,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!222 &4328852260993952139
 CanvasRenderer:
@@ -13576,8 +13606,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!224 &5005955307800903701
 RectTransform:
@@ -14239,8 +14271,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!114 &7269984506900296184
 MonoBehaviour:
@@ -14595,8 +14629,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 0}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!23 &8347539337201183935
 MeshRenderer:
@@ -14811,8 +14847,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 0}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 0}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!4 &8982799163893019858
 Transform:
@@ -14873,8 +14911,10 @@ MonoBehaviour:
   chineseText: 
   spanishText: 
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
+  chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
