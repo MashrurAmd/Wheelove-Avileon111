@@ -1598,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &430180792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2739,7 +2739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &594664008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13300,9 +13300,9 @@ MonoBehaviour:
   russianText: "\u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
   arabicText: "\u062C\u0644\u0633\u0629"
   amharicText: " \u1260\u121B\u1240\u1293\u1260\u122D \u120B\u12ED"
-  engText: 
-  chineseText: 
-  spanishText: 
+  engText: Setting
+  chineseText: "\u73AF\u5883"
+  spanishText: "configuraci\xF3n"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -13602,9 +13602,9 @@ MonoBehaviour:
   russianText: "\u0437\u0432\u0443\u043A"
   arabicText: "\u0635\u0648\u062A"
   amharicText: " \u12F5\u121D\u1345"
-  engText: 
-  chineseText: 
-  spanishText: 
+  engText: Sound
+  chineseText: "\u58F0\u97F3"
+  spanishText: sonido
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -14267,9 +14267,9 @@ MonoBehaviour:
   russianText: "\u043E\u0431\u044A\u0435\u043C"
   arabicText: "\u0645\u0642\u062F\u0627\u0631"
   amharicText: " \u12E8\u12F5\u121D\u133D \u1218\u1320\u1295"
-  engText: 
-  chineseText: 
-  spanishText: 
+  engText: Volume
+  chineseText: "\u4F53\u79EF"
+  spanishText: volumen
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -14907,9 +14907,9 @@ MonoBehaviour:
   russianText: "\u043C\u0443\u0437\u044B\u043A\u0430"
   arabicText: "\u0645\u0648\u0633\u064A\u0642\u0649"
   amharicText: " \u1219\u12DA\u1243"
-  engText: 
-  chineseText: 
-  spanishText: 
+  engText: Music
+  chineseText: "\u97F3\u4E50"
+  spanishText: "m\xFAsica"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 0}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
