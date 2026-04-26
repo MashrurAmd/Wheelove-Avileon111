@@ -313,7 +313,7 @@ MonoBehaviour:
   amharicText: "\u1201\u1290\u1273\u1295 \u1218\u1240\u12E8\u122D"
   engText: CHANGE MODE
   chineseText: "\u6539\u53D8\u6A21\u5F0F "
-  spanishText: 
+  spanishText: CAMBIAR MODO
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -2739,7 +2739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &594664008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3005,7 +3005,7 @@ MonoBehaviour:
   amharicText: 
   engText: Classic
   chineseText: "\u7ECF\u5178\u7684 "
-  spanishText: 
+  spanishText: "CL\xC1SICA"
   amharicFont: {fileID: 0}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
@@ -4615,7 +4615,7 @@ MonoBehaviour:
   amharicText: "\u12AD\u120D\u120D \u1208\u12CD\u1325"
   engText: Change Region
   chineseText: "\u6539\u53D8\u533A\u57DF "
-  spanishText: 
+  spanishText: "CAMBIAR DE REGI\xD3N"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -5251,7 +5251,7 @@ MonoBehaviour:
   amharicText: 
   engText: 'Choose a mode : '
   chineseText: "\u9009\u62E9\u6A21\u5F0F\uFF1A"
-  spanishText: 
+  spanishText: 'ELIGE EL MODO '
   amharicFont: {fileID: 0}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
@@ -6676,7 +6676,7 @@ MonoBehaviour:
   amharicText: " \u1230\u121B\u12EB\u12CA"
   engText: Blue Car
   chineseText: "\u84DD\u8272\u7684 "
-  spanishText: 
+  spanishText: AZUL
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -7434,7 +7434,7 @@ MonoBehaviour:
   amharicText: 
   engText: 'Magic '
   chineseText: "\u9B54\u6CD5 "
-  spanishText: magia
+  spanishText: MAGIA
   amharicFont: {fileID: 11400000, guid: 49763601b67b54f4e9923f6f4c9b0f44, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 0}
@@ -8165,7 +8165,7 @@ MonoBehaviour:
   amharicText: " \u122E\u12DD"
   engText: Pink Car
   chineseText: "\u7C89\u8272\u7684 "
-  spanishText: 
+  spanishText: ROSA
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -10156,7 +10156,7 @@ MonoBehaviour:
   amharicText: "\u1270\u132B\u12C8\u1275"
   engText: Play
   chineseText: "\u73A9"
-  spanishText: 
+  spanishText: JUGAR
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -10317,7 +10317,7 @@ MonoBehaviour:
   amharicText: " \u1218\u12CD\u1323\u1275"
   engText: Exit
   chineseText: "\u51FA\u53E3"
-  spanishText: 
+  spanishText: 'SALIDA '
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -11319,7 +11319,7 @@ MonoBehaviour:
   amharicText: "\u1245\u1295\u1265\u122D"
   engText: SETTING
   chineseText: "\u73AF\u5883 "
-  spanishText: 
+  spanishText: "CONFIGURACI\xD3N"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
