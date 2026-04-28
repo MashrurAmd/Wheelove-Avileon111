@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3d248093690d5fd4da114b564b5aac63, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ebdc0269546b7b54b9114fb98573509b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4235,7 +4235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f2943b67d9ffb5499f366fc691650e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ebdc0269546b7b54b9114fb98573509b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5079,7 +5079,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f2943b67d9ffb5499f366fc691650e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ebdc0269546b7b54b9114fb98573509b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5566,7 +5566,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f2943b67d9ffb5499f366fc691650e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ebdc0269546b7b54b9114fb98573509b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6335,7 +6335,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ENG
+  m_Text: English
 --- !u!222 &1182685324
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6380,8 +6380,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 189, y: -243.00006}
-  m_SizeDelta: {x: 298.6151, y: 87.5331}
+  m_AnchoredPosition: {x: 0, y: -90}
+  m_SizeDelta: {x: 358.03, y: 114.7723}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1187318694
 MonoBehaviour:
@@ -7093,8 +7093,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -8, y: -238}
-  m_SizeDelta: {x: 275.8641, y: 79.2491}
+  m_AnchoredPosition: {x: 0.00024692, y: -191}
+  m_SizeDelta: {x: 358.03, y: 112.2727}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1280771989
 MonoBehaviour:
@@ -7476,7 +7476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -5, y: -230}
+  m_AnchoredPosition: {x: -5, y: -84}
   m_SizeDelta: {x: 598.6183, y: 79.531}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1362613279
@@ -7560,8 +7560,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -8003,8 +8003,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -152.63895, y: -243}
-  m_SizeDelta: {x: 298.6151, y: 87.5331}
+  m_AnchoredPosition: {x: 0, y: 54}
+  m_SizeDelta: {x: 358.03, y: 109.3103}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1485410604
 MonoBehaviour:
@@ -8964,8 +8964,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27, y: -135.00006}
-  m_SizeDelta: {x: 298.6151, y: 87.5331}
+  m_AnchoredPosition: {x: 0, y: -230}
+  m_SizeDelta: {x: 358.03, y: 117.506}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1722751190
 MonoBehaviour:
@@ -10077,7 +10077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1902776384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12051,7 +12051,7 @@ RectTransform:
   m_Father: {fileID: 4729643592271506539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13304,7 +13304,7 @@ MonoBehaviour:
   chineseText: "\u73AF\u5883"
   spanishText: "configuraci\xF3n"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
-  chineseFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
@@ -13606,7 +13606,7 @@ MonoBehaviour:
   chineseText: "\u58F0\u97F3"
   spanishText: sonido
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
-  chineseFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
@@ -13863,7 +13863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &5747980232354448527
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14037,7 +14037,7 @@ RectTransform:
   m_Father: {fileID: 2711311928551803915}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -31.402, y: -1.0164032}
   m_SizeDelta: {x: 73.1534, y: 28.583}
   m_Pivot: {x: 0, y: 0.5}
@@ -14271,7 +14271,7 @@ MonoBehaviour:
   chineseText: "\u4F53\u79EF"
   spanishText: volumen
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
-  chineseFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
@@ -14624,13 +14624,13 @@ MonoBehaviour:
   hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
   russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
   arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
-  amharicText: 
-  engText: 
-  chineseText: 
-  spanishText: 
-  amharicFont: {fileID: 0}
-  chineseFont: {fileID: 0}
-  defaultFont: {fileID: 0}
+  amharicText: "\u12A0\u1265\u122B/\u12A0\u1325\u134B "
+  engText: ON/OFF
+  chineseText: "\u5F00/\u5173 "
+  spanishText: ' ENCENDIDO/APAGADO'
+  amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
+  defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
@@ -14842,13 +14842,13 @@ MonoBehaviour:
   hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
   russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
   arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
-  amharicText: 
-  engText: 
-  chineseText: 
-  spanishText: 
-  amharicFont: {fileID: 0}
-  chineseFont: {fileID: 0}
-  defaultFont: {fileID: 0}
+  amharicText: "\u12A0\u1265\u122B/\u12A0\u1325\u134B "
+  engText: ON/OFF
+  chineseText: "\u5F00/\u5173 "
+  spanishText: ' ENCENDIDO/APAGADO'
+  amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
+  defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
   defaultLegacyFont: {fileID: 0}
@@ -14911,7 +14911,7 @@ MonoBehaviour:
   chineseText: "\u97F3\u4E50"
   spanishText: "m\xFAsica"
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
-  chineseFont: {fileID: 0}
+  chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   amharicLegacyFont: {fileID: 0}
   chineseLegacyFont: {fileID: 0}
