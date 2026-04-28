@@ -1598,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &430180792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7074,7 +7074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1280771988
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7506,7 +7506,7 @@ MonoBehaviour:
   amharicText: "\u124B\u1295\u124B\u12CD\u1295 \u12ED\u121D\u1228\u1321"
   engText: Choose the Language
   chineseText: "\u9009\u62E9\u8BED\u8A00"
-  spanishText: 
+  spanishText: elige el idioma
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -10077,7 +10077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1902776384
 RectTransform:
   m_ObjectHideFlags: 0

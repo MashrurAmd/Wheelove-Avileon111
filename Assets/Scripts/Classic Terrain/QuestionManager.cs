@@ -616,12 +616,12 @@ public class QuestionManager : MonoBehaviour
             //ui.answerText.text = "No option selected!";
             ShowAnswerPopup("No option selected!", Color.yellow);
 
-            if (car != null)
-            {
-                //car.MoveBackByWaypoints(3);
-                car.MoveBackByWaypoints(1);
-                car.ResumeDriving();
-            }
+            //if (car != null)
+            //{
+            //    //car.MoveBackByWaypoints(3);
+            //    car.MoveBackByWaypoints(1);
+            //    car.ResumeDriving();
+            //}
 
             //StartCoroutine(HideQuestionPanelAfterDelay());
             return;
