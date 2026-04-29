@@ -1598,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &430180792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11911,9 +11911,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 697095727}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: ToggleSfx
+      - m_Target: {fileID: 7363076452285673816}
+        m_TargetAssemblyTypeName: SoundSettingsUI, Assembly-CSharp
+        m_MethodName: ToggleSFX
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13092,8 +13092,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 697095727}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
+      - m_Target: {fileID: 7363076452285673816}
+        m_TargetAssemblyTypeName: SoundSettingsUI, Assembly-CSharp
         m_MethodName: ToggleMusic
         m_Mode: 1
         m_Arguments:
@@ -13119,7 +13119,7 @@ RectTransform:
   m_Father: {fileID: 3903838616454156361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -31.402, y: -1.0164032}
   m_SizeDelta: {x: 73.1534, y: 28.583}
   m_Pivot: {x: 0, y: 0.5}
@@ -13603,7 +13603,7 @@ RectTransform:
   m_Father: {fileID: 6459604968885684684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14124,13 +14124,33 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5809134465894729072}
+  - component: {fileID: 7363076452285673816}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!114 &7363076452285673816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363076452285673815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb102fe25d223c6459de771f84b425a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 7773672293436669297}
+  musicOnIcon: {fileID: 7800349628306040034}
+  musicOffIcon: {fileID: 773705094958945440}
+  sfxOnIcon: {fileID: 2174754546037698197}
+  sfxOffIcon: {fileID: 2437761021104085620}
+  musicButtonText: {fileID: 611637462524471675}
+  sfxButtonText: {fileID: 1399619804681959760}
 --- !u!1 &7390475787169914589
 GameObject:
   m_ObjectHideFlags: 0
