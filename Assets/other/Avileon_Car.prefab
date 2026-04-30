@@ -294,6 +294,16 @@ MonoBehaviour:
   deceleration: 5
   currentSpeed: 0
   startWaypointIndex: 0
+  autoDriveLevel5: 0
+  autoDriveSpeed: 20
+  frontLeftWheel: {fileID: 0}
+  frontRightWheel: {fileID: 0}
+  rearLeftWheel: {fileID: 0}
+  rearRightWheel: {fileID: 0}
+  wheelRadius: 0.3
+  maxSteerAngle: 30
+  steerSmoothSpeed: 5
+  turnangle: 30
 --- !u!114 &231940348782597858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMaterial: {fileID: 2100000, guid: 7ccd71a80fa4d30468dcf9f7ea967578, type: 2}
   lightBlueColor: {r: 0.4, g: 0.8, b: 1, a: 1}
-  pinkColor: {r: 1, g: 0.901, b: 0.984, a: 1}
+  pinkColor: {r: 0.9150943, g: 0.62588996, b: 0.86908454, a: 1}
 --- !u!1 &1419324693464510797
 GameObject:
   m_ObjectHideFlags: 0
