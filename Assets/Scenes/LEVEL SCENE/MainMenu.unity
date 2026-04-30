@@ -1598,7 +1598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &430180792
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4454,7 +4454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68fb7d5180291c42b76914dbde65464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  englishText: Change Language
+  englishText: CHANGE LANGUAGE
   hebrewText: "\u05E9\u05E0\u05D4 \u05E9\u05E4\u05D4"
   russianText: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u044F\u0437\u044B\u043A"
   arabicText: "\u062A\u063A\u064A\u064A\u0631 \u0627\u0644\u0644\u063A\u0629"
@@ -9848,7 +9848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1902776384
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9920,7 +9920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68fb7d5180291c42b76914dbde65464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  englishText: Play
+  englishText: PLAY
   hebrewText: "\u05D4\u05EA\u05D7\u05DC"
   russianText: "\u0438\u0433\u0440\u0430\u0442\u044C"
   arabicText: "\u064A\u0644\u0639\u0628"
@@ -10301,7 +10301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1995636248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10319,7 +10319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 165, y: -99}
+  m_AnchoredPosition: {x: 165, y: -560}
   m_SizeDelta: {x: 298.6151, y: 87.5331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1995636249
@@ -12417,7 +12417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   englishText: Volume
-  hebrewText: "\u05E2\u05B8\u05E6\u05DE\u05B8\u05D4"
+  hebrewText: "\u05E2\u05D5\u05E6\u05DE\u05D4"
   russianText: "\u043E\u0431\u044A\u0435\u043C"
   arabicText: "\u0645\u0642\u062F\u0627\u0631"
   amharicText: " \u12E8\u12F5\u121D\u133D \u1218\u1320\u1295"
@@ -13119,7 +13119,7 @@ RectTransform:
   m_Father: {fileID: 3903838616454156361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -31.402, y: -1.0164032}
   m_SizeDelta: {x: 73.1534, y: 28.583}
   m_Pivot: {x: 0, y: 0.5}
@@ -13603,7 +13603,7 @@ RectTransform:
   m_Father: {fileID: 6459604968885684684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14131,7 +14131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &7363076452285673816
 MonoBehaviour:
   m_ObjectHideFlags: 0
