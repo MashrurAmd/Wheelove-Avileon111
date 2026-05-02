@@ -7,7 +7,12 @@ public class CubeMover : MonoBehaviour
     public float moveSpeed = 2f;
 
     [Header("Rotation")]
-    public float rotationSpeed = 5f; // ← how fast it rotates, 0 = instant
+    public float rotationSpeed = 5f;
+
+    [Header("Animation")]
+    public Animator animator;
+    public string walkParameter = "isWalking";  // ← bool parameter name in Animator
+    public string idleParameter = "isIdle";     // ← optional
 
     private bool isRedLight = false;
     private int currentPointIndex = 0;
@@ -21,10 +26,17 @@ public class CubeMover : MonoBehaviour
             transform.position = points[0].position;
             targetRotation = transform.rotation;
         }
+
+        if (animator == null)
+            animator = GetComponent<Animator>();
     }
 
     void Update()
     {
+        // ← Set animation state
+        if (animator != null)
+            animator.SetBool(walkParameter, isRedLight);
+
         if (!isRedLight) return;
         if (points == null || points.Length == 0) return;
 
@@ -47,19 +59,17 @@ public class CubeMover : MonoBehaviour
         {
             currentPointIndex += direction;
 
-            // ← Reached end — reverse and rotate 180
             if (currentPointIndex >= points.Length)
             {
                 currentPointIndex = points.Length - 2;
                 direction = -1;
-                targetRotation *= Quaternion.Euler(0f, 180f, 0f); // ← flip
+                targetRotation *= Quaternion.Euler(0f, 180f, 0f);
             }
-            // ← Reached start — go forward and rotate 180
             else if (currentPointIndex < 0)
             {
                 currentPointIndex = 1;
                 direction = 1;
-                targetRotation *= Quaternion.Euler(0f, 180f, 0f); // ← flip
+                targetRotation *= Quaternion.Euler(0f, 180f, 0f);
             }
         }
     }

@@ -12,8 +12,9 @@ namespace HealthbarGames
         public float yellowDuration = 2f;
         public float greenDuration = 5f;
 
-        [Header("Cube")]
+        [Header("Movers")]
         public CubeMover cubeMover;
+        public CubeMover cubeMover2; // ← same script, no need for CubeMover2
 
         void Start()
         {
@@ -24,24 +25,28 @@ namespace HealthbarGames
         {
             while (true)
             {
-                // RED ← cube moves
+                // RED ← both move
                 trafficLight.OnLightStateChanged(true, false, false);
                 if (cubeMover != null) cubeMover.SetRedLight(true);
+                if (cubeMover2 != null) cubeMover2.SetRedLight(true);
                 yield return new WaitForSeconds(redDuration);
 
-                // YELLOW ← cube stops
+                // YELLOW ← both stop
                 trafficLight.OnLightStateChanged(false, true, false);
                 if (cubeMover != null) cubeMover.SetRedLight(false);
+                if (cubeMover2 != null) cubeMover2.SetRedLight(false);
                 yield return new WaitForSeconds(yellowDuration);
 
-                // GREEN ← cube stops
+                // GREEN ← both stop
                 trafficLight.OnLightStateChanged(false, false, true);
                 if (cubeMover != null) cubeMover.SetRedLight(false);
+                if (cubeMover2 != null) cubeMover2.SetRedLight(false);
                 yield return new WaitForSeconds(greenDuration);
 
-                // YELLOW ← cube stops
+                // YELLOW ← both stop
                 trafficLight.OnLightStateChanged(false, true, false);
                 if (cubeMover != null) cubeMover.SetRedLight(false);
+                if (cubeMover2 != null) cubeMover2.SetRedLight(false);
                 yield return new WaitForSeconds(yellowDuration);
             }
         }
