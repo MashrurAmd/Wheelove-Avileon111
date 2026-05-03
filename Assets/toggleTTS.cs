@@ -1,38 +1,86 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
+//using UnityEngine.UI;
+
+//public class TTSToggleButton : MonoBehaviour
+//{
+//    [Header("Sprites")]
+//    public Sprite onSprite;   // ← assign TTS ON sprite
+//    public Sprite offSprite;  // ← assign TTS OFF sprite
+
+//    [Header("Image")]
+//    public Image targetImage; // ← assign the button Image component
+
+//    private bool isTTSOn = true;
+
+//    void Start()
+//    {
+//        // Load saved state
+//        isTTSOn = PlayerPrefs.GetInt("TTSEnabled", 1) == 1;
+
+//        // Just set state, don't speak yet
+//        if (AndroidTTS.instance != null)
+//            AndroidTTS.instance.SetEnabled(isTTSOn);
+
+//        UpdateSprite();
+//    }
+
+//    public void OnButtonPressed()
+//    {
+//        isTTSOn = !isTTSOn;
+
+//        PlayerPrefs.SetInt("TTSEnabled", isTTSOn ? 1 : 0);
+//        PlayerPrefs.Save();
+
+//        if (AndroidTTS.instance != null)
+//        {
+//            if (isTTSOn)
+//                AndroidTTS.instance.EnableTTS();
+//            else
+//                AndroidTTS.instance.DisableTTS();
+//        }
+
+//        UpdateSprite();
+//    }
+
+//    void UpdateSprite()
+//    {
+//        if (targetImage == null) return;
+//        if (onSprite == null || offSprite == null) return;
+
+//        targetImage.sprite = isTTSOn ? onSprite : offSprite;
+//        targetImage.enabled = false;
+//        targetImage.enabled = true;
+//    }
+//}
+
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TTSToggleButton : MonoBehaviour
 {
-    public Sprite onSprite;
-    public Sprite offSprite;
-    public Image buttonImage;
-
     private bool isTTSOn = true;
+    private ImageSwapper imageSwapper;
 
     void Start()
     {
-        if (buttonImage == null)
-            buttonImage = GetComponent<Image>();
-        if (buttonImage == null)
-            buttonImage = GetComponentInChildren<Image>();
+        imageSwapper = GetComponent<ImageSwapper>();
 
-        // ← Load saved state
+        // Load saved state
         isTTSOn = PlayerPrefs.GetInt("TTSEnabled", 1) == 1;
 
-        if (AndroidTTS.instance != null)
-        {
-            if (isTTSOn) AndroidTTS.instance.EnableTTS();
-            else AndroidTTS.instance.DisableTTS();
-        }
+        // Sync ImageSwapper to match saved state
+        if (imageSwapper != null)
+            imageSwapper.SetState(isTTSOn);
 
-        UpdateSprite();
+        // Just set TTS state, don't speak yet
+        if (AndroidTTS.instance != null)
+            AndroidTTS.instance.SetEnabled(isTTSOn);
     }
 
     public void OnButtonPressed()
     {
         isTTSOn = !isTTSOn;
 
-        // ← Save state
         PlayerPrefs.SetInt("TTSEnabled", isTTSOn ? 1 : 0);
         PlayerPrefs.Save();
 
@@ -43,20 +91,5 @@ public class TTSToggleButton : MonoBehaviour
             else
                 AndroidTTS.instance.DisableTTS();
         }
-
-        UpdateSprite();
-    }
-
-    void UpdateSprite()
-    {
-        if (buttonImage == null) return;
-        if (onSprite == null || offSprite == null) return;
-
-        // ← Use sprite directly NOT overrideSprite
-        buttonImage.sprite = isTTSOn ? onSprite : offSprite;
-
-        // ← Force Android to redraw
-        buttonImage.enabled = false;
-        buttonImage.enabled = true;
     }
 }

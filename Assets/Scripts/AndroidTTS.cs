@@ -55,6 +55,13 @@ public class AndroidTTS : MonoBehaviour
         InitTTS();
     }
 
+    public void SetEnabled(bool enabled)
+    {
+        isEnabled = enabled;
+        if (!enabled) StopTTSSpeech();
+        Debug.Log($"TTS state set to: {enabled}");
+    }
+
     private void InitTTS()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -169,11 +176,26 @@ public class AndroidTTS : MonoBehaviour
     {
         isEnabled = true;
         Debug.Log("TTS Enabled ✅");
-        // ← Don't auto-speak in menu scene
+        StartCoroutine(SpeakAfterDelay()); // ← use coroutine with delay
+    }
+
+    private IEnumerator SpeakAfterDelay()
+    {
+        StopTTSSpeech(); // ← clear any leftover queue first
+        yield return new WaitForSeconds(0.3f); // ← wait for queue to clear
         QuestionManager qm = FindObjectOfType<QuestionManager>();
         if (qm != null)
             qm.ReadCurrentQuestion();
     }
+    //public void EnableTTS()
+    //{
+    //    isEnabled = true;
+    //    Debug.Log("TTS Enabled ✅");
+    //    // ← Don't auto-speak in menu scene
+    //    QuestionManager qm = FindObjectOfType<QuestionManager>();
+    //    if (qm != null)
+    //        qm.ReadCurrentQuestion();
+    //}
 
     public void DisableTTS()
     {
@@ -352,3 +374,4 @@ public class AndroidTTS : MonoBehaviour
     }
 #endif
 }
+

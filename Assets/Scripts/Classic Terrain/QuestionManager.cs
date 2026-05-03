@@ -723,7 +723,8 @@ public class QuestionManager : MonoBehaviour
 
     IEnumerator LoadMainMenuAfterDelay()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        SoundManager.returnedFromGameOver = true;
         SceneManager.LoadScene("MainMenu"); // ← make sure this matches your main menu scene name exactly
     }
 
@@ -843,6 +844,7 @@ public class QuestionManager : MonoBehaviour
     IEnumerator RestartAfterDelay()
     {
         yield return new WaitForSeconds(1f);
+        //SoundManager.returnedFromGameOver = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

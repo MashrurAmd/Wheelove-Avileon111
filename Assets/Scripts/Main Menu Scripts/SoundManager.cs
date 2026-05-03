@@ -9,6 +9,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+    // ← Add this static flag
+    public static bool returnedFromGameOver = false;
     [Header("Audio Data")]
     public TestMusicData testMusicData;
 
@@ -39,6 +41,8 @@ public class SoundManager : MonoBehaviour
 
     private float originalMusicVolume = 1f;
     private Coroutine fadeCoroutine;
+
+    
 
 
 
@@ -108,10 +112,31 @@ public class SoundManager : MonoBehaviour
         PlayCurrentTrack();
     }
 
-    private IEnumerator PlayPlaylistRoutine(List<AudioClip> playlist)
+    //private IEnumerator PlayPlaylistRoutine(List<AudioClip> playlist)
+    //{
+    //    currentPlaylist = playlist;
+    //    currentTrackIndex = 0;
+
+    //    while (true)
+    //    {
+    //        if (currentPlaylist == null || currentPlaylist.Count == 0)
+    //            yield break;
+
+    //        musicSource.clip = currentPlaylist[currentTrackIndex];
+    //        musicSource.loop = false;
+    //        musicSource.Play();
+
+    //        yield return new WaitForSeconds(musicSource.clip.length);
+
+    //        currentTrackIndex++;
+    //        if (currentTrackIndex >= currentPlaylist.Count)
+    //            currentTrackIndex = 0;
+    //    }
+    //}
+    private IEnumerator PlayPlaylistRoutine(List<AudioClip> playlist, int startIndex = 0)
     {
         currentPlaylist = playlist;
-        currentTrackIndex = 0;
+        currentTrackIndex = startIndex; // ← starts from given index
 
         while (true)
         {
@@ -129,23 +154,53 @@ public class SoundManager : MonoBehaviour
                 currentTrackIndex = 0;
         }
     }
-   
+
     // 3-3-26
+    //public void PlaySceneMusic()
+    //{
+    //    if (sceneMusicDatabase == null)
+    //        return;
+
+    //    string currentScene = UnityEngine.SceneManagement.SceneManager
+    //        .GetActiveScene().name;
+
+    //    SceneMusicData sceneData = sceneMusicDatabase.scenes
+    //        .Find(x => x.sceneName == currentScene);
+
+    //    if (sceneData != null && sceneData.playlist.Count > 0)
+    //    {
+    //        PlayMusicPlaylist(sceneData.playlist);
+    //    }
+    //}
     public void PlaySceneMusic()
     {
-        if (sceneMusicDatabase == null)
-            return;
+        if (sceneMusicDatabase == null) return;
 
-        string currentScene = UnityEngine.SceneManagement.SceneManager
-            .GetActiveScene().name;
+        string currentScene = SceneManager.GetActiveScene().name;
 
         SceneMusicData sceneData = sceneMusicDatabase.scenes
             .Find(x => x.sceneName == currentScene);
 
         if (sceneData != null && sceneData.playlist.Count > 0)
         {
-            PlayMusicPlaylist(sceneData.playlist);
+            // ← If returned from game over AND there's a second track, start from index 1
+            if (returnedFromGameOver && currentScene == "MainMenu" && sceneData.playlist.Count > 1)
+            {
+                returnedFromGameOver = false; // reset flag
+                PlayMusicPlaylistFromIndex(sceneData.playlist, 1); // ← play element 1
+            }
+            else
+            {
+                PlayMusicPlaylist(sceneData.playlist); // ← play normally from element 0
+            }
         }
+    }
+    public void PlayMusicPlaylistFromIndex(List<AudioClip> playlist, int startIndex)
+    {
+        if (playlistCoroutine != null)
+            StopCoroutine(playlistCoroutine);
+
+        playlistCoroutine = StartCoroutine(PlayPlaylistRoutine(playlist, startIndex));
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

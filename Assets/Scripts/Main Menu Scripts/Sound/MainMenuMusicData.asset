@@ -15,3 +15,4 @@ MonoBehaviour:
   sceneName: MainMenu
   playlist:
   - {fileID: 8300000, guid: bf22321f3453de145aba1d8fe7cbeb4d, type: 3}
+  - {fileID: 8300000, guid: 5791f094a1f45e042bd5f78e90e95c89, type: 3}
