@@ -176,17 +176,17 @@ public class AndroidTTS : MonoBehaviour
     {
         isEnabled = true;
         Debug.Log("TTS Enabled ✅");
-        StartCoroutine(SpeakAfterDelay()); // ← use coroutine with delay
+        //StartCoroutine(SpeakAfterDelay()); // ← use coroutine with delay
     }
 
-    private IEnumerator SpeakAfterDelay()
-    {
-        StopTTSSpeech(); // ← clear any leftover queue first
-        yield return new WaitForSeconds(0.3f); // ← wait for queue to clear
-        QuestionManager qm = FindObjectOfType<QuestionManager>();
-        if (qm != null)
-            qm.ReadCurrentQuestion();
-    }
+    // private IEnumerator SpeakAfterDelay()
+    // {
+    //     StopTTSSpeech(); // ← clear any leftover queue first
+    //     yield return new WaitForSeconds(0.3f); // ← wait for queue to clear
+    //     QuestionManager qm = FindObjectOfType<QuestionManager>();
+    //     if (qm != null)
+    //         qm.ReadCurrentQuestion();
+    // }
     //public void EnableTTS()
     //{
     //    isEnabled = true;
