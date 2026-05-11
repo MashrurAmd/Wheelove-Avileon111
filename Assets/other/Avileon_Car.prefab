@@ -318,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carMaterial: {fileID: 2100000, guid: 7ccd71a80fa4d30468dcf9f7ea967578, type: 2}
   lightBlueColor: {r: 0.4, g: 0.8, b: 1, a: 1}
-  pinkColor: {r: 0.8490566, g: 0.38047346, b: 0.7599438, a: 1}
+  pinkColor: {r: 0.85882354, g: 0.45882353, b: 0.78431374, a: 1}
 --- !u!1 &1419324693464510797
 GameObject:
   m_ObjectHideFlags: 0
