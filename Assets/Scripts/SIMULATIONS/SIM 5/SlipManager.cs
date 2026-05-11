@@ -3,8 +3,13 @@
 public class SlipperyRoadManager : MonoBehaviour
 {
     [Header("References")]
-    public TriggerZoneSpriteHandler slipperyZone; // your existing zone
+    public TriggerZoneSpriteHandler slipperyZone;
     public Car car;
+    public Renderer roadRenderer; // Drag your 3D road object here
+
+    [Header("Materials")]
+    public Material failMaterial;    // Default / failure material
+    public Material successMaterial; // Material to apply on success
 
     [Header("Rules")]
     public float maxAllowedSpeed = 10f;
@@ -12,6 +17,13 @@ public class SlipperyRoadManager : MonoBehaviour
 
     private bool carInside = false;
     private bool speedWasValid = true;
+
+    void Start()
+    {
+        // Make sure road starts with the fail/default material
+        if (roadRenderer != null && failMaterial != null)
+            roadRenderer.material = failMaterial;
+    }
 
     void Update()
     {
@@ -21,31 +33,22 @@ public class SlipperyRoadManager : MonoBehaviour
         bool isTriggered = slipperyZone.GetComponent<Collider>().bounds
             .Contains(car.transform.position);
 
-        // 🚗 ENTER zone
         if (isTriggered && !carInside)
-        {
             OnCarEntered();
-        }
-        // 🚗 EXIT zone
         else if (!isTriggered && carInside)
-        {
             OnCarExited();
-        }
 
-        // 🚗 While inside → monitor speed
         if (carInside)
         {
             if (car.CurrentSpeed > maxAllowedSpeed)
-            {
                 speedWasValid = false;
-            }
         }
     }
 
     void OnCarEntered()
     {
         carInside = true;
-        speedWasValid = true; // reset check
+        speedWasValid = true;
     }
 
     void OnCarExited()
@@ -55,15 +58,17 @@ public class SlipperyRoadManager : MonoBehaviour
         if (speedWasValid)
         {
             Debug.Log("✅ Slippery Road Passed Successfully");
+
+            // ✅ Swap to success material
+            if (roadRenderer != null && successMaterial != null)
+                roadRenderer.material = successMaterial;
         }
         else
         {
             Debug.Log("❌ Slippery Road Failed — Speed too high");
-
             car.PauseCar();
             car.MoveBackByWaypoints(penaltyWaypoints);
             car.ResumeDriving();
         }
     }
 }
-

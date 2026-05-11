@@ -11732,7 +11732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ON/OFF
+  m_text: ON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   m_sharedMaterial: {fileID: 21623836076631360, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -12083,7 +12083,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ON/OFF
+  m_text: ON
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
   m_sharedMaterial: {fileID: 21623836076631360, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -12711,7 +12711,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4150915219748510633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13387,14 +13387,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68fb7d5180291c42b76914dbde65464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  englishText: ON/OFF
-  hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
-  russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
-  arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
-  amharicText: "\u12A0\u1265\u122B/\u12A0\u1325\u134B "
-  engText: ON/OFF
-  chineseText: "\u5F00/\u5173 "
-  spanishText: ' ENCENDIDO/APAGADO'
+  englishText: ON
+  hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4"
+  russianText: "\u0432\u043A\u043B"
+  arabicText: "\u062A\u0634\u063A\u064A\u0644"
+  amharicText: "\u12A0\u1265\u122B"
+  engText: ON
+  chineseText: "\u5F00"
+  spanishText: ' ENCENDIDO'
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -13413,14 +13413,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68fb7d5180291c42b76914dbde65464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  englishText: ON/OFF
-  hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4/\u05DB\u05D9\u05D1\u05D5\u05D9"
-  russianText: "\u0432\u043A\u043B/\u0432\u044B\u043A\u043B"
-  arabicText: "\u062A\u0634\u063A\u064A\u0644/\u0625\u064A\u0642\u0627\u0641"
-  amharicText: "\u12A0\u1265\u122B/\u12A0\u1325\u134B "
-  engText: ON/OFF
-  chineseText: "\u5F00/\u5173 "
-  spanishText: ' ENCENDIDO/APAGADO'
+  englishText: ON
+  hebrewText: "\u05D4\u05E4\u05E2\u05DC\u05D4"
+  russianText: "\u0432\u043A\u043B"
+  arabicText: "\u062A\u0634\u063A\u064A\u0644"
+  amharicText: "\u12A0\u1265\u122B"
+  engText: ON
+  chineseText: "\u5F00"
+  spanishText: ' ENCENDIDO'
   amharicFont: {fileID: 11400000, guid: d3e74f89c634f734dbf8d8be8049f8da, type: 2}
   chineseFont: {fileID: 11400000, guid: 37d12b06574f8ce4ea55ee6593f793c0, type: 2}
   defaultFont: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
@@ -14142,7 +14142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8625722828803998994
 RectTransform:
   m_ObjectHideFlags: 0
