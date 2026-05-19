@@ -82,7 +82,7 @@ public class QuestionManager : MonoBehaviour
 
     [Header("Game Data")]
     public int score = 0;
-    public int life = 3;
+    public int life = 3000;
 
     bool lastLandscape;
 
@@ -702,7 +702,8 @@ public class QuestionManager : MonoBehaviour
                 }
                 else
                 {
-                    car.RespawnAtStart();
+                    //car.RespawnAtStart();
+                    car.MoveBackByWaypoints(5);
                 }
 
                 car.ResumeDriving();
@@ -710,7 +711,7 @@ public class QuestionManager : MonoBehaviour
 
             if (life <= 0)
             {
-                life = 3; // ← reset for next game
+                life = 3000; // ← reset for next game
                 //GameManager.globalLife = 3;
                 StartCoroutine(LoadMainMenuAfterDelay());
             }
@@ -721,11 +722,11 @@ public class QuestionManager : MonoBehaviour
         StartCoroutine(HideQuestionPanelAfterDelay());
     }
 
-    IEnumerator LoadMainMenuAfterDelay()
+    public IEnumerator LoadMainMenuAfterDelay()
     {
         yield return new WaitForSeconds(1f);
         SoundManager.returnedFromGameOver = true;
-        SceneManager.LoadScene("MainMenu"); // ← make sure this matches your main menu scene name exactly
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void ShowAnswerPopup(string message, Color color)

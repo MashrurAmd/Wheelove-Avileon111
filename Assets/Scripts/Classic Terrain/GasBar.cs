@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class GasBar : MonoBehaviour
 {
@@ -16,9 +17,15 @@ public class GasBar : MonoBehaviour
 
     public float gasFillAmount;
 
+    private QuestionManager questionManager;
+
+
     void Start()
     {
         car = FindObjectOfType<Car>();
+
+        questionManager = FindObjectOfType<QuestionManager>();
+
         gasBarImage.fillAmount = currentGas;
         UpdateGasText();
     }
@@ -35,7 +42,8 @@ public class GasBar : MonoBehaviour
 
             if (currentGas <= 0f)
             {
-                RespawnCar();
+                //RespawnCar();
+                questionManager.StartCoroutine(questionManager.LoadMainMenuAfterDelay());
             }
         }
     }
@@ -75,7 +83,3 @@ public class GasBar : MonoBehaviour
         }
     }
 }
-
-
-
-
