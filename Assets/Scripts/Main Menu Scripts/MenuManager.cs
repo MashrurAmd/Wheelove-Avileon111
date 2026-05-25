@@ -29,18 +29,23 @@ public class MenuManager : MonoBehaviour
     private int currentRegionIndex = -1;
     private bool comingFromMainMenu = false;
 
+    private static bool hasOpenedOnce = false;
+
     private void Start()
     {
-        Screen.orientation = ScreenOrientation.Portrait;    // Lock to portrait for mobile
+        Screen.orientation = ScreenOrientation.Portrait;
 
-        if (PlayerSettingsManager.Instance.IsFirstLaunch())
-        {
-            ShowChooseRegion(false); // first launch, no back button
-        }
-        else
+        // If returning from another scene
+        if (hasOpenedOnce)
         {
             ShowMainMenu();
+            return;
         }
+
+        // First app open
+        hasOpenedOnce = true;
+
+        ShowChooseRegion(false);
     }
 
     // REGION + LANGUAGE
@@ -114,10 +119,17 @@ public class MenuManager : MonoBehaviour
     public void ConfirmRegionAndLanguage()
     {
         PlayerSettingsManager.Instance.Save();
-        if (comingFromMainMenu)
+
+        // If player already selected a mode before
+        if (!string.IsNullOrEmpty(PlayerSettingsManager.Instance.selectedMode))
+        {
             ShowMainMenu();
+        }
         else
+        {
+            // First time only
             ShowChooseMode(false);
+        }
     }
 
     // MODE
